@@ -1,15 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>JS FE</title> 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-</head>
-<body>
+  <head>
+    <title>JS FE</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+  </head>
+  <body>
+    <script>
+      // 2 Напишіть програму, яка перевіряє, чи задане число є додатнім або від'ємним, використовуючи умову if-else.
+      let x = +prompt("Please type a number");
+      if (x > 0) {
+        alert("це додатнє число");
+        if (x <= 0) {
+          alert("це від'ємне число");
+        }
+      } else {
+        alert("Помилка вводу");
+      }
 
+      //3 )Напишіть програму, яка перевіряє,
+      //чи введене число належить до діапазону від 1 до 10, використовуючи оператор switch case.
+      let number = +prompt("Please type any number");
+      switch (number) {
+        case 1:
+          alert("Condition works");
+          break;
+        case 2:
+          alert("Condition works");
+          break;
+        case 3:
+          alert("Condition works");
+          break;
+        case 4:
+          alert("Condition works");
+          break;
+        case 5:
+          alert("Condition works");
+          break;
+        case 6:
+          alert("Condition works");
+          break;
+        case 7:
+          alert("Condition works");
+          break;
+        case 8:
+          alert("Condition works");
+          break;
+        case 9:
+          alert("Condition works");
+          break;
+        case 10:
+          alert("Condition works");
+          break;
+        default:
+          alert("This number isn`t from 1 to 10");
+          break;
+      }
 
-<script>
+      // Напишіть програму, яка визначає, чи є задана літера голосною чи приголосною, використовуючи оператор switch case.
+      let letter = prompt("Please type a letter");
+      switch (letter) {
+        case A:
+          alert("this letter is vowel ");
+          break;
+        case E:
+          alert("this letter is vowel ");
+          break;
+        case I:
+          alert("this letter is vowel ");
+          break;
+        case O:
+          alert("this letter is vowel ");
+          break;
+        case Y:
+          alert("this letter is vowel ");
+          break;
+        case U:
+          alert("this letter is vowel ");
+          break;
+        default:
+          alert("This letter is consonantal");
+          break;
+      }
 
-</script>
-</body>
+      //Напишіть програму, яка виводить на екран всі числа від 1 до 20, використовуючи цикл for.
+
+      for (let i = 0; i <= 20; i++) {
+        console.log(`i = ${i}`);
+      }
+    </script>
+  </body>
 </html>

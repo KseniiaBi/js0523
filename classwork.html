@@ -6,9 +6,61 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body>
-
+	
+	<h1>YRYNAVNUKOVA</h1>
 
 <script>
+// 1)Напишіть програму, яка перевіряє, чи є задане число парним, використовуючи тернарний оператор.
+let f=-8;
+if(f % 2 == 0){
+	console.log(`парне`);
+}
+else{
+	console.log(`непарне`);
+}
+ //2)Напишіть програму, яка перевіряє, чи задане число є додатнім або від'ємним, використовуючи умову if-else.
+let number1 = prompt (`задайте число, щоб зрозуміти воно є додатнім або від'ємним`, '');
+	if (number1 >= 0){
+	alert(`так! це число є додатнім`);
+	}
+	else{
+		alert(`це число є від'ємним`);
+	}
+
+// 3)Напишіть програму, яка перевіряє, чи введене число належить до діапазону від 1 до 10, використовуючи оператор switch case.
+
+// 4)Напишіть програму, яка визначає, чи є задана літера голосною чи приголосною, використовуючи оператор switch case.
+let letter = 'а';
+switch (letter){
+	case 'а': console.log('голосна'); break;
+	case 'е': console.log('голосна'); break;
+	case 'є': console.log('голосна'); break;
+	case 'и': console.log('голосна'); break;
+	case 'і': console.log('голосна'); break;
+	case 'ї': console.log('голосна'); break;
+	case 'о': console.log('голосна'); break;
+	case 'у': console.log('голосна'); break;
+	case 'ю': console.log('голосна'); break;
+	case 'я': console.log('голосна'); break;
+	default :console.log('не голосна');
+}
+// 5)Напишіть програму, яка виводить на екран всі числа від 1 до 20, використовуючи цикл for.
+for ( let p=1; p<=20; p++){
+	console.log(`p=${p}`);
+}
+// 6)Напишіть програму, яка виводить на екран суму всіх чисел від 1 до заданого числа, використовуючи цикл while.
+let number = 10;
+let result = 0;
+while (number > 0){
+	result += number;
+	number--;
+}
+console.log(`${result}`);
+// 7) Напишіть програму, яка виводить на екран таблицю множення для числа 5, використовуючи цикл for.
+
+for(let y=1; y<10; y++){
+	console.log(`5*${y}=${5*y}`);
+}
 
 </script>
 </body>

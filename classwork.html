@@ -10,6 +10,74 @@
 
 <script>
 
+// 1)Напишіть програму, яка перевіряє, чи є задане число парним, використовуючи тернарний оператор.
+	let num = +prompt('Type any num');
+	let res = num % 2 === 0 ? console.log('Number is even') : console.log('Number is odd');
+
+// 2)Напишіть програму, яка перевіряє, чи задане число є додатнім або від'ємним, використовуючи умову if-else.
+	let a = +prompt('Type any number');
+	if(a >= 0){
+		console.log('Number is positive');
+	}
+	else{
+		console.log('Number is negative');
+	}
+
+// 3)Напишіть програму, яка перевіряє, чи введене число належить до діапазону від 1 до 10, використовуючи оператор switch case.
+let b = +prompt('Type any number');
+
+switch(b){
+	case 1: 
+	case 2: 
+	case 3:
+	case 4:
+	case 5: 
+	case 6: 
+	case 7:
+	case 8:
+	case 9:
+	case 10: console.log('Number belongs to 1-10');
+			break;
+	default: console.log('Number does not belong to 1-10');
+			break;
+}
+
+// 4)Напишіть програму, яка визначає, чи є задана літера голосною чи приголосною, використовуючи оператор switch case.
+ // same as 3
+
+// 5)Напишіть програму, яка виводить на екран всі числа від 1 до 20, використовуючи цикл for.
+
+for(let i = 1; i <= 20; i++){
+	console.warn(i);
+}
+
+// 6)Напишіть програму, яка виводить на екран суму всіх чисел від 1 до заданого числа, використовуючи цикл while.
+
+let c = +prompt('Type any num');
+let current = 1;
+let result = 0;
+while(current <= c){
+	result += current;
+	current++;
+}
+console.log(`Sum from 1 to ${c} = ${result}`);
+
 </script>
 </body>
 </html>
+
+
+<!-- 
+
+	Literature
+
+	https://www.w3schools.com/jsref/default.asp
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+	Придбати Виразний Javascript - Marijn Haverbeke
+	https://uk.javascript.info/
+
+	Practice
+	https://www.codewars.com/
+	https://codecombat.com/play
+
+ -->

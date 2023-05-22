@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>JS FE</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+	
+	<h1>home work 2</h1>
+
+<script>
+//1) задача про мудрого старого та шахи 
+//2) розрахувати і вивести за допомогою циклу 11-те число Фібоначчі, ряд починати з 0
+//3) відсортувати масив за допомогою бульбашкового способу [5,1,9,4,2,7,3,8,6]
+//4) Дано число n=1000. Діліть його на 2 стільки разів, поки результат ділення не стане менше 50. Яке число вийде? Порахуйте кількість ітерацій, необхідних для цього і запишіть їі в змінну num.
+//5) Якщо задано число n, вивести кількість парних чисел більше 0 та менше n
+//6) Компанія по транспортуванню меблів заносить будь-які меблі на 1-й поверх безкоштовно, з 2-го по 4-й включно - по 20грн., з 5-го по 7-й включно - по 30грн., а з 8-го и вище - по 40грн. Спитайте у користувача, на який поверх треба занести меблі, и розрахуйте вартість заносу.
+//7) за допомогою циклу розрахувати факторіал числа 5
+//****) зробити з зірочок ромб
+
+
+// 3) відсортувати масив за допомогою бульбашкового способу [5,1,9,4,2,7,3,8,6]
+const Array=[1,4,2,5,3,7,6,8,9]; 
+for(let n=0; n<Array.length; n++){  
+	for( let i=0; i<Array.length -1-n; i++){
+		if(Array[i] > Array [i+1]) {
+		const buff = Array[i]
+		Array [i] = Array[i+1]
+		Array[i+1]=buff
+		}
+	}
+}	
+console.log(Array)
+
+
+
+
+
+
+
+for(let num=1; num<=5; num++){
+	console.log(num);
+}
+first:for(let k=0; k<2; k++){
+	for(s=0; s=3; s++){
+		if(s==1){
+			break first;
+		}
+		console.log(s);
+	}
+}
+let arrey = [9,8,7,6,5,4,3,2,1];
+console.log(arrey.reverse);
+
+let users = ['vanj','inw'];
+users.push('olj');
+console.log(users);
+
+let users2 =['vanj','inw'];
+users2[1]='pet'
+console.log(users2);
+
+let users3 =['vanj','inw'];
+users3.shift();
+console.log(users3);
+
+let users4 =['vanj','inw'];
+users4.unshift('mash','pet',);
+console.log(users4);
+
+let arr=['van','ist','ol',];
+arr.splice(1,1);
+console.log(arr);
+
+let arr1=['van','ist','ol',];
+let rem=arr.splice(1,1);
+console.log(arr1);
+
+
+
+
+</script>
+</body>
+</html>

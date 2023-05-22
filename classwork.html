@@ -9,208 +9,122 @@
 
 
 <script>
-
-// functions
-
-//  function declaration
-function sayHello(){
-	console.log('Hello!');
-}
-sayHello();
-
-
-// sayBye(); // sayBye is not a function
-//sayBye(); // if let/const fn name Cannot access 'sayBye' before initialization
-
-// function expression 
-var sayBye = function(){
-	console.log('Bye!');
-}
-sayBye();
-
-// arrow function
-const printMessage = () => console.warn('System message');
-printMessage();
-
-
-// callback functions 
-setTimeout(()=>console.log('Hello from timeout'), 500);
-
-
-// self-calling anonymous functions 
-
-(function(){
-	console.warn('I am anonymous');
-})();
-
-
-// var - область видимості - функція, спливає
-// let/const - область видимості - блок з фігурними дужками, не спливають
-console.log(user);
-var user = 'Admin';
-console.log(user);
-
-// console.log(student); // Cannot access 'student' before initialization
-let student = 'No name';
-
-
-let a = 3;
-if(5){
-	let a = 10;
-}
-console.log(a);
-
-
-if (true){
-	var b = 4;
-}
-console.log(b);
-
-
-{
-	let b = 6;
-	console.log(b); // 6
-}
-console.log(b); // 4
-
-
-for(let i = 0; i < 5; i++){
-}
-// console.log(i);
-
-
-// arguments
-
-function greeting(name = 'Stranger'){
-	console.log(`Hello, ${name}`);
-}
-
-greeting(); // Hello, undefined if no pre-defied value or pre-defined value 'Stranger'
-greeting('Student');
-greeting('Student', 1, 2, 3);
-
-
-function sum(a,b){
-	console.log(a+b);
-}
-
-sum(2,3);
-
-function extendedSum(){
-	let result = 0;
-	for(let i = 0; i < arguments.length; i++){
-		result += arguments[i];
+// 1) Дано масив з числами. Числа можуть бути більше чи менше нуля Знайдіть суму додатніх елементів масиву.
+let a1 = [-11, 55,2,-5,7,-12,43,-6];
+function arrSum(arr){
+	let sum = 0;
+	for(let num of arr){
+		// if(num > 0){
+		// 	sum += num;
+		// }
+		sum += (num > 0) ? num : 0;
 	}
-	console.log(result);
+	return sum;
 }
+console.log(arrSum(a1));
 
-extendedSum(1,2,3,4,5);
-extendedSum(1,2,3,4,5,5,6,7,8,9);
+// 2) Дано масив  з числами, наприклад: [10, 20, 30, 50, 235, 3000]. Виведіть на екран тільки ті числа , котрі починаються на  1, 2 чи 5.
+let a2 = [10, 20, 30, 50, 235, 3000];
 
-
-function multiply(a,b){
-	return a*b;
-	console.error('error!'); // no message in console because return initiates exit from function
-}
-
-let x = multiply(2,3);
-
-console.log(multiply(2,5));
-console.log(sum(2,5));
-
-
-// arr => els between 3 and 10
-
-let array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-
-function printNumsFromArray(a){
-	for(let i = 0; i  < a.length; i++){
-		if(a[i] >= 3 && a[i] <= 10){
-			console.warn(a[i]);
-		}
-	}
-}
-
-printNumsFromArray(array);
-printNumsFromArray([5,8,2,1,12,6,32,-5,6]);
-
-
-// num -> array of dividsors
-
-function getDivisors(n){
-	let arr = [];
-	let index = 0;
-	for(let i = n; i >= 1; i--){
-		if(n%i == 0){
-			arr[index] = i;
-			index++;
-		}
-	}
-	console.log(arr);
-}
-
-getDivisors(30);
-// (arr, num) => bool
-
-const findInArray = (arr, num) => {
-	let numWasFound = false;
+function printArrNums(arr){
 	for(let item of arr){
-		if(item == num){
-			numWasFound = true;
+		if(item.toString()[0] === '1' || item.toString()[0] === '2' || item.toString()[0] === '5'){
+			console.warn(`found item ${item}`);
 		}
 	}
-	console.log(`num ${num} is in array ${arr}: ${numWasFound}`);
 }
-findInArray([1,2,3,4], 2);
+printArrNums(a2);
 
+// 3) Дано масив чисел. Напишіть стрілкову функцію, котра повертає середнє арифметичне його елементів
 
-// recusive function
+let a3 = [1,2,3,4,5,6,7,8,9];
+const median = arr => arrSum(arr)/arr.length;
 
-function factorial(n){
-	if(n > 1){
-		return n * factorial(n-1); // 5 * 4 * 3 * 2 * 1 ---->>>>> 173 line
-	}
-	return n;
-}
+console.log(`med value of array ${a3} is ${median(a3)}`);
 
-console.log(factorial(5));
+// 4) Дано масив з числами. Перевірте чи є в ньому два однакових значення поспіль. Виведіть "так" чи "ні"
+let a4 = [1,2,3,4,5,5,6];
+let a42 = [1,2,3,4,5,6];
 
-
-let multiarray = [1,[2,[3,4,[5,[6,7,[8,9]]]]], 10,[11,[12,13,[14,15, 16]]]];
-// sum
-
-function sumArr(arr){
-	let result = 0;
-	for(let i = 0; i < arr.length; i++){
-		if(arr[i].length > 0 && typeof arr[i] != 'number'){ // якщо це масив - якщо елемент має довжину
-			result += sumArr(arr[i]);
-		}
-		else{
-			result += arr[i];
+function findDuplicates(arr){
+	let found = false;
+	for(let i = 0; i < arr.length - 1; i++){
+		if(arr[i] === arr[i+1]){
+			found = true;
 		}
 	}
-	return result;
+	console.log(found ? "так" : "ні");
 }
 
-console.log(sumArr(multiarray));
+findDuplicates(a4);
+findDuplicates(a42);
+
+// 5) Скільки цілих чисел з діапазону 1-1000 містять цифру 3?  PS: 33 - одне число 
+	function countThrees(){
+		let counter = 0;
+		for(let i = 1; i <1000; i++){
+			let str = '' + i;
+			let found = false;
+			for(let j = 0; j < str.length; j++){
+				if(str[j] === '3'){
+					found = true; // found = !found;
+				}
+			}
+			counter += found ? 1 : 0;		
+		}
+		console.log(counter);
+	}
+
+	countThrees();
 
 
-// string length and indexes
+// 6)  Напишіть стрілкову функцію isEven() яка параметром отримує ціле число и перевіряє: парне воно чи ні, повертає true або false. 
 
-let msg = 'Hello World';
-console.log(`msg length = ${msg.length}`);
+const isEven = (num) => num % 2 === 0;
 
-for(let i = 0; i < msg.length; i++){
-	console.warn(`msg[${i}] : ${msg[i]}`);
+console.log(isEven(4));
+console.log(isEven(43));
+console.log(isEven(48));
+
+// 7) Рекурсією порахувати 11те число Фібоначчі
+function fib(a,b,iter){
+	if(iter < 11){
+		return fib(b, b+a, ++iter)
+	}
+	else{
+		return b
+	}
 }
 
-for(letter of msg){
-	console.log(letter);
+console.log(fib(0,1,2));
+
+// 8) Дано масив чисел. Виведіть послідовно його елементи, використовуючи рекурсію замість циклу
+function printNumFromArr(arr, iter = 0){
+	if(iter < arr.length){
+		console.log(arr[iter]);
+		printNumFromArr(arr, ++iter);
+	}
+}
+printNumFromArr([1,2,3,4,5]);
+
+// 9) Напишіть рекурсивну функцію getDigitsSum (digit - цифра), яка параметром приймає ціле число и повертає суму его цифр. Якщо вийшло число більше 9, знову рахувати суму 
+// (9385756493 -> 59 -> 14 -> 5 )
+
+function getDigitsSum(num){
+	let str = String(num);
+	let res = 0;
+	for(let item of str){
+		res += +item;
+	}
+	if( res > 9){
+		getDigitsSum(res);
+	}
+	else{
+		console.warn(res);
+	}
 }
 
-// Strings are IMMUTABLE!
-
-
+getDigitsSum(9385756493);
 
 </script>
 </body>

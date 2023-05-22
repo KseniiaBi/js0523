@@ -10,74 +10,208 @@
 
 <script>
 
-// 1)Напишіть програму, яка перевіряє, чи є задане число парним, використовуючи тернарний оператор.
-	let num = +prompt('Type any num');
-	let res = num % 2 === 0 ? console.log('Number is even') : console.log('Number is odd');
+// functions
 
-// 2)Напишіть програму, яка перевіряє, чи задане число є додатнім або від'ємним, використовуючи умову if-else.
-	let a = +prompt('Type any number');
-	if(a >= 0){
-		console.log('Number is positive');
+//  function declaration
+function sayHello(){
+	console.log('Hello!');
+}
+sayHello();
+
+
+// sayBye(); // sayBye is not a function
+//sayBye(); // if let/const fn name Cannot access 'sayBye' before initialization
+
+// function expression 
+var sayBye = function(){
+	console.log('Bye!');
+}
+sayBye();
+
+// arrow function
+const printMessage = () => console.warn('System message');
+printMessage();
+
+
+// callback functions 
+setTimeout(()=>console.log('Hello from timeout'), 500);
+
+
+// self-calling anonymous functions 
+
+(function(){
+	console.warn('I am anonymous');
+})();
+
+
+// var - область видимості - функція, спливає
+// let/const - область видимості - блок з фігурними дужками, не спливають
+console.log(user);
+var user = 'Admin';
+console.log(user);
+
+// console.log(student); // Cannot access 'student' before initialization
+let student = 'No name';
+
+
+let a = 3;
+if(5){
+	let a = 10;
+}
+console.log(a);
+
+
+if (true){
+	var b = 4;
+}
+console.log(b);
+
+
+{
+	let b = 6;
+	console.log(b); // 6
+}
+console.log(b); // 4
+
+
+for(let i = 0; i < 5; i++){
+}
+// console.log(i);
+
+
+// arguments
+
+function greeting(name = 'Stranger'){
+	console.log(`Hello, ${name}`);
+}
+
+greeting(); // Hello, undefined if no pre-defied value or pre-defined value 'Stranger'
+greeting('Student');
+greeting('Student', 1, 2, 3);
+
+
+function sum(a,b){
+	console.log(a+b);
+}
+
+sum(2,3);
+
+function extendedSum(){
+	let result = 0;
+	for(let i = 0; i < arguments.length; i++){
+		result += arguments[i];
 	}
-	else{
-		console.log('Number is negative');
+	console.log(result);
+}
+
+extendedSum(1,2,3,4,5);
+extendedSum(1,2,3,4,5,5,6,7,8,9);
+
+
+function multiply(a,b){
+	return a*b;
+	console.error('error!'); // no message in console because return initiates exit from function
+}
+
+let x = multiply(2,3);
+
+console.log(multiply(2,5));
+console.log(sum(2,5));
+
+
+// arr => els between 3 and 10
+
+let array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+
+function printNumsFromArray(a){
+	for(let i = 0; i  < a.length; i++){
+		if(a[i] >= 3 && a[i] <= 10){
+			console.warn(a[i]);
+		}
 	}
-
-// 3)Напишіть програму, яка перевіряє, чи введене число належить до діапазону від 1 до 10, використовуючи оператор switch case.
-let b = +prompt('Type any number');
-
-switch(b){
-	case 1: 
-	case 2: 
-	case 3:
-	case 4:
-	case 5: 
-	case 6: 
-	case 7:
-	case 8:
-	case 9:
-	case 10: console.log('Number belongs to 1-10');
-			break;
-	default: console.log('Number does not belong to 1-10');
-			break;
 }
 
-// 4)Напишіть програму, яка визначає, чи є задана літера голосною чи приголосною, використовуючи оператор switch case.
- // same as 3
+printNumsFromArray(array);
+printNumsFromArray([5,8,2,1,12,6,32,-5,6]);
 
-// 5)Напишіть програму, яка виводить на екран всі числа від 1 до 20, використовуючи цикл for.
 
-for(let i = 1; i <= 20; i++){
-	console.warn(i);
+// num -> array of dividsors
+
+function getDivisors(n){
+	let arr = [];
+	let index = 0;
+	for(let i = n; i >= 1; i--){
+		if(n%i == 0){
+			arr[index] = i;
+			index++;
+		}
+	}
+	console.log(arr);
 }
 
-// 6)Напишіть програму, яка виводить на екран суму всіх чисел від 1 до заданого числа, використовуючи цикл while.
+getDivisors(30);
+// (arr, num) => bool
 
-let c = +prompt('Type any num');
-let current = 1;
-let result = 0;
-while(current <= c){
-	result += current;
-	current++;
+const findInArray = (arr, num) => {
+	let numWasFound = false;
+	for(let item of arr){
+		if(item == num){
+			numWasFound = true;
+		}
+	}
+	console.log(`num ${num} is in array ${arr}: ${numWasFound}`);
 }
-console.log(`Sum from 1 to ${c} = ${result}`);
+findInArray([1,2,3,4], 2);
+
+
+// recusive function
+
+function factorial(n){
+	if(n > 1){
+		return n * factorial(n-1); // 5 * 4 * 3 * 2 * 1 ---->>>>> 173 line
+	}
+	return n;
+}
+
+console.log(factorial(5));
+
+
+let multiarray = [1,[2,[3,4,[5,[6,7,[8,9]]]]], 10,[11,[12,13,[14,15, 16]]]];
+// sum
+
+function sumArr(arr){
+	let result = 0;
+	for(let i = 0; i < arr.length; i++){
+		if(arr[i].length > 0 && typeof arr[i] != 'number'){ // якщо це масив - якщо елемент має довжину
+			result += sumArr(arr[i]);
+		}
+		else{
+			result += arr[i];
+		}
+	}
+	return result;
+}
+
+console.log(sumArr(multiarray));
+
+
+// string length and indexes
+
+let msg = 'Hello World';
+console.log(`msg length = ${msg.length}`);
+
+for(let i = 0; i < msg.length; i++){
+	console.warn(`msg[${i}] : ${msg[i]}`);
+}
+
+for(letter of msg){
+	console.log(letter);
+}
+
+// Strings are IMMUTABLE!
+
+
 
 </script>
 </body>
 </html>
-
-
-<!-- 
-
-	Literature
-
-	https://www.w3schools.com/jsref/default.asp
-	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
-	Придбати Виразний Javascript - Marijn Haverbeke
-	https://uk.javascript.info/
-
-	Practice
-	https://www.codewars.com/
-	https://codecombat.com/play
-
- -->

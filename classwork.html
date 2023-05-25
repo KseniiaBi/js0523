@@ -217,17 +217,15 @@ console.log(listToArray(list));
 
 console.error(list.rest.rest.value); // 3
 
-function arrayToList(ar, i = 0, list = {}, current){
-	current = current != undefined ? list.rest : list; // list.rest.rest.....
-	current.value = ar[i];
-	debugger;
-	if(i < ar.length - 1){
-		current.rest = {};
-		return arrayToList(ar, ++i, list, current);
+function arrayToList(ar, i = 0){
+	if (i < ar.length) {
+		return {
+			value: ar[i],
+			rest: arrayToList(ar, i + 1)
+		}
 	}
 	else{
-		list.rest = null;
-		return list;
+		return null
 	}
 }
 

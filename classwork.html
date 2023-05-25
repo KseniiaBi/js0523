@@ -9,122 +9,65 @@
 
 
 <script>
-// 1) Дано масив з числами. Числа можуть бути більше чи менше нуля Знайдіть суму додатніх елементів масиву.
-let a1 = [-11, 55,2,-5,7,-12,43,-6];
-function arrSum(arr){
-	let sum = 0;
-	for(let num of arr){
-		// if(num > 0){
-		// 	sum += num;
-		// }
-		sum += (num > 0) ? num : 0;
-	}
-	return sum;
-}
-console.log(arrSum(a1));
+// functions
+// 1) Дано масив  colors = ['magenta', 'cyan', 'firebrick', 'springgreen', ‘skyblue'] виведіть кольори з нього кожен виклик функції
+const colors = ['magenta', 'cyan', 'firebrick', 'springgreen','skyblue'];
 
-// 2) Дано масив  з числами, наприклад: [10, 20, 30, 50, 235, 3000]. Виведіть на екран тільки ті числа , котрі починаються на  1, 2 чи 5.
-let a2 = [10, 20, 30, 50, 235, 3000];
+function showColor() {
+	let index = 0;
 
-function printArrNums(arr){
-	for(let item of arr){
-		if(item.toString()[0] === '1' || item.toString()[0] === '2' || item.toString()[0] === '5'){
-			console.warn(`found item ${item}`);
-		}
+	return function(){
+		console.log(colors[index]);
+		index = index < colors.length -1 ? ++index : 0;
 	}
 }
-printArrNums(a2);
 
-// 3) Дано масив чисел. Напишіть стрілкову функцію, котра повертає середнє арифметичне його елементів
+let col = showColor();
 
-let a3 = [1,2,3,4,5,6,7,8,9];
-const median = arr => arrSum(arr)/arr.length;
+col();
+col();
+col();
+col();
+col();
+col();
 
-console.log(`med value of array ${a3} is ${median(a3)}`);
+// 2) Написати функцію, що сумує будь-яку кількість аргументів, що виглядатиме наступним чином  (2)(3)() => 5 (2)(3)(5)() => 10
 
-// 4) Дано масив з числами. Перевірте чи є в ньому два однакових значення поспіль. Виведіть "так" чи "ні"
-let a4 = [1,2,3,4,5,5,6];
-let a42 = [1,2,3,4,5,6];
 
-function findDuplicates(arr){
-	let found = false;
-	for(let i = 0; i < arr.length - 1; i++){
-		if(arr[i] === arr[i+1]){
-			found = true;
+// stage 1
+// function add(a){
+// 	return function sum(b){
+// 		return a+b;
+// 	}
+// }
+
+// console.log(add(2)(3)); 
+
+// stage 2
+function add(a){ // always has param
+	return function (b){ // closure
+		if(b){
+			return add(a+b);
 		}
+		return a;
 	}
-	console.log(found ? "так" : "ні");
 }
 
-findDuplicates(a4);
-findDuplicates(a42);
-
-// 5) Скільки цілих чисел з діапазону 1-1000 містять цифру 3?  PS: 33 - одне число 
-	function countThrees(){
-		let counter = 0;
-		for(let i = 1; i <1000; i++){
-			let str = '' + i;
-			let found = false;
-			for(let j = 0; j < str.length; j++){
-				if(str[j] === '3'){
-					found = true; // found = !found;
-				}
-			}
-			counter += found ? 1 : 0;		
-		}
-		console.log(counter);
-	}
-
-	countThrees();
+console.warn(add(2)(3)(5)(10)()); // 20 
 
 
-// 6)  Напишіть стрілкову функцію isEven() яка параметром отримує ціле число и перевіряє: парне воно чи ні, повертає true або false. 
+// 3) Написати рекурсивну функцію, яка при кожному виклику генерує наступне число Фібоначчі. 
 
-const isEven = (num) => num % 2 === 0;
-
-console.log(isEven(4));
-console.log(isEven(43));
-console.log(isEven(48));
-
-// 7) Рекурсією порахувати 11те число Фібоначчі
-function fib(a,b,iter){
-	if(iter < 11){
-		return fib(b, b+a, ++iter)
+function fib(num, a = 0, b = 1){
+	if(num > 3){
+		return fib(num-1, b, a+b);
 	}
 	else{
-		return b
+		return a+b;
 	}
 }
 
-console.log(fib(0,1,2));
-
-// 8) Дано масив чисел. Виведіть послідовно його елементи, використовуючи рекурсію замість циклу
-function printNumFromArr(arr, iter = 0){
-	if(iter < arr.length){
-		console.log(arr[iter]);
-		printNumFromArr(arr, ++iter);
-	}
-}
-printNumFromArr([1,2,3,4,5]);
-
-// 9) Напишіть рекурсивну функцію getDigitsSum (digit - цифра), яка параметром приймає ціле число и повертає суму его цифр. Якщо вийшло число більше 9, знову рахувати суму 
-// (9385756493 -> 59 -> 14 -> 5 )
-
-function getDigitsSum(num){
-	let str = String(num);
-	let res = 0;
-	for(let item of str){
-		res += +item;
-	}
-	if( res > 9){
-		getDigitsSum(res);
-	}
-	else{
-		console.warn(res);
-	}
-}
-
-getDigitsSum(9385756493);
+console.log(fib(11));
 
 </script>
 </body>

@@ -9,65 +9,232 @@
 
 
 <script>
-// functions
-// 1) Дано масив  colors = ['magenta', 'cyan', 'firebrick', 'springgreen', ‘skyblue'] виведіть кольори з нього кожен виклик функції
-const colors = ['magenta', 'cyan', 'firebrick', 'springgreen','skyblue'];
+// objects
 
-function showColor() {
-	let index = 0;
+// object are mutable 
+// const in arr or object means we can change inner content, but can not link to another obj/arr/primitive
+const obj = {
+	a: 3 
+};
 
-	return function(){
-		console.log(colors[index]);
-		index = index < colors.length -1 ? ++index : 0;
-	}
+obj.a = 5;
+
+console.log(obj['a']);
+
+obj.b = 10;
+obj['c'] = 15;
+
+delete obj['b'];
+
+// iterate over object
+for (let key in obj){
+	console.log(`${key}: ${obj[key]}`);
 }
 
-let col = showColor();
+// find in object
 
-col();
-col();
-col();
-col();
-col();
-col();
+console.log('b' in obj);
+console.log('c' in obj);
 
-// 2) Написати функцію, що сумує будь-яку кількість аргументів, що виглядатиме наступним чином  (2)(3)() => 5 (2)(3)(5)() => 10
+console.log(obj.b);
+
+obj.d = undefined;
+
+console.log('d' in obj);
+console.log(obj.d);
 
 
-// stage 1
-// function add(a){
-// 	return function sum(b){
-// 		return a+b;
-// 	}
+let a = {
+	a: 5,
+	c: 15,
+	d: undefined
+}
+
+console.log(obj === a);//  objects are equal by links, not by values
+
+let b = a;
+
+console.log(a === b);
+
+a = 12;
+b = 14;
+
+// lang en ua [days]
+// const days = {
+// 	en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+// 	ua: ['Пон', 'Вівт', 'Сер', 'Чет', 'Пʼят', 'Суб', 'Нед']
 // }
 
-// console.log(add(2)(3)); 
+// let lang = confirm('Choose ua as default lang') ? 'ua' : 'en';
+// let day = +prompt('Type a number 1-7');
 
-// stage 2
-function add(a){ // always has param
-	return function (b){ // closure
-		if(b){
-			return add(a+b);
-		}
-		return a;
+// if(day >= 1 && day <= 7){
+// 	console.log(`Current day is ${days[lang][day-1]}`);
+// }
+// else{
+// 	console.error('Not a day!');
+// }
+
+
+// methods
+
+let admin = {
+	name: 'Admin',
+	administrate: function(){
+		console.warn('Danger! Admin is administrating');
+	},
+	greet(){
+		console.log('Hi! I am admin');
 	}
 }
 
-console.warn(add(2)(3)(5)(10)()); // 20 
+admin.greet();
+admin.administrate();
 
 
-// 3) Написати рекурсивну функцію, яка при кожному виклику генерує наступне число Фібоначчі. 
+// 
 
-function fib(num, a = 0, b = 1){
-	if(num > 3){
-		return fib(num-1, b, a+b);
+function findInObject(o, prop){
+	console.log(prop in o); // better than  if(o[prop] !== undefined)
+}
+
+findInObject({a:3,b:4, c: undefined}, 'c');
+
+
+// [{},{}], prop name -> [val,val...]
+
+
+let arr = [
+	{
+		name: 'Julius',
+		lastname: 'Caesar'
+	},
+	{
+		name: 'John',
+		lastname: 'Doe'
+	},
+	{
+		name: 'Jack'
+	},
+	{
+		name: 'Jeanne',
+		lastname: 'D`Arc'
+	}
+];
+
+function pluck(array, propname){
+	let values = [];
+	for(let i = 0; i < array.length; i++){
+		if(propname in array[i]){
+			values[i] = array[i][propname];
+		}
+	}
+	console.log(values);
+}
+
+pluck(arr, 'name');
+pluck(arr, 'lastname');
+
+
+/// 
+
+let range = {
+	start: 1,
+	end: 12
+}
+
+function sumOfRange(obj){
+	let res = 0;
+	if('start' in obj && 'end' in obj){
+		for(let i = obj.start; i <= obj.end; i++){
+			res += i;
+		}
 	}
 	else{
-		return a+b;
+		return 'Can not count, range is not complete';
+	}
+	
+	return res;
+}
+
+console.log(sumOfRange(range));
+console.log(sumOfRange({start: 10}));
+console.log(sumOfRange({end: 10}));
+
+
+// function which checks if objects have equal props with equal values
+
+function isEqual(o1, o2){
+	if(objLength(o1) != objLength(o2)){
+		return false;
+	}
+	for(let key in o1){
+		if(o1[key] != o2[key]){
+			return false;
+		}
+	}
+	return true;
+}
+
+function objLength(o){
+	let count = 0;
+	for(let prop in o){
+		count++;
+	}
+	return count;
+}
+console.log(isEqual({a:1}, {a:1})); // true
+console.log(isEqual({a:1}, {b:1})); // false
+console.log(isEqual({a:1}, {a:1,b:1})); // false
+
+
+// 
+
+let list = {
+	value: 1, 
+	rest: {
+		value: 2,
+		rest: {
+			value: 3,
+			rest: null
+		}
 	}
 }
 
-console.log(fib(11));
+// listToArray && arrayToList
+
+function listToArray(l, i = 0, arr = []){
+	arr[i] = l['value'];
+	if(l.rest != null){
+		return listToArray(l['rest'], ++i, arr);
+	}
+	else{
+		return arr;
+	}
+}
+
+console.log(listToArray(list));
+
+console.error(list.rest.rest.value); // 3
+
+function arrayToList(ar, i = 0, list = {}, current){
+	current = current != undefined ? list.rest : list; // list.rest.rest.....
+	current.value = ar[i];
+	debugger;
+	if(i < ar.length - 1){
+		current.rest = {};
+		return arrayToList(ar, ++i, list, current);
+	}
+	else{
+		list.rest = null;
+		return list;
+	}
+}
+
+
+// list.rest.rest.rest.rest.rest => 5
+
+console.log(arrayToList([1,2,3,4,5]));
 
 </script>
 </body>

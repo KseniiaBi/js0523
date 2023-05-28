@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>JS FE</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+	
+	<h1>home work 26.05.23</h1>
+
+<script>
+
+ // 1.Створіть об'єкт, що представляє студента, з властивостями, 
+        //такими як ім'я, вік, курс і середній бал. Виведіть інформацію 
+        //про студентів, чий середній бал вище певного значення.
+        class student{
+            constructor(name, age, course, avgmark){
+                this.name = name;
+                this.age = age;
+                this.course = course;
+                this.avgmark = avgmark;
+            }
+            Print(){
+                console.log(this.name + " " + this.age + " " + this.course + " " + this.avgmark);
+            }
+        }
+        let student1 = new student("name1", 19, 1, 10);
+        let student2 = new student("name2", 20, 2, 7);
+        let student3 = new student("name3", 21, 3, 8);
+        let student4 = new student("name4", 22, 4, 11);
+        let student5 = new student("name5", 23, 5, 5);
+        let group = [student1, student2, student3, student4, student5];
+
+        let mark = 9;
+        for(let i = 0; i < group.length; i++){
+            if(group[i].avgmark > mark){
+                group[i].Print();
+            }
+        }
+
+        //2) Створіть об'єкт, що представляє товар у магазині, з властивостями,
+         //      такими як назва, ціна і кількість. Створіть кілька таких об'єктів і
+         //      виведіть інформацію про товари з заданою ціною.
+        
+        class product{
+            constructor(name, price, number){
+                this.name = name;
+                this.price = price;
+                this.number = number;
+            }
+            Print(){
+                console.log(this.name + " " + this.price + " " + this.number);
+            }
+        }
+        let product1 = new product("name1", 333, 22);
+        let product2 = new product("name2", 256, 2);
+        let product3 = new product("name3", 56, 120);
+        let product4 = new product("name4", 1560, 256);
+        let product5 = new product("name5", 3323, 2112);
+
+        let cost = 1560;
+        let products = [product1, product2, product3, product4, product5];
+        for (let i = 0; i < products.length; i++){
+            if(products[i].price == cost){
+                products[i].Print();
+            }
+        }
+        
+    // 3) Створіть об'єкт, що представляє книгу, з властивостями, такими як назва,
+                // автор і рік видання. Створіть масив таких об'єктів і відсортуйте його за роком видання.
+    class book{
+        constructor(name, author, year){
+            this.name = name;
+            this.author = author;
+            this.year = year;
+        }
+        Print(){
+            console.log(this.name + " " +this.author + " " + this.year);
+        }
+    }
+    let book1 = new book("name", " author", 1990);
+    let book2 = new book("name", " author", 2023);
+    let book3 = new book("name", " author", 1963);
+    let book4 = new book("name", " author", 1957);
+    let book5 = new book("name", " author", 1925);
+    let book6 = new book("name", " author", 2003);
+
+    let books=[book1.year, book2.year, book3.year, book4.year, book5.year, book6.year];
+    console.log(books.sort());
+
+
+</script>
+</body>
+</html>

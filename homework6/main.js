@@ -70,9 +70,9 @@ array6.forEach((elem) => {
 console.log(newArray6.sort().reverse());
 
 //7) Дано масив чисел. Вивести суму всіх чисел, які є квадратами інших чисел у масиві.
-let array7 = [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16, 4, 2, 16, 1];
-let newArr7 = [];
-array7.forEach((elem) =>
-  array7.includes(elem ** 2) ? newArr7.push(elem ** 2) : false
+let array7 = [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16, 4, 2, 1, 16];
+let newArr7 = array7.reduce(
+  (total, elem) => total + (array7.includes(Math.sqrt(elem)) ? elem : 0),
+  0
 );
-console.log(newArr7.reduce((total, val) => total + val));
+console.log(newArr7);

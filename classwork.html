@@ -9,226 +9,94 @@
 
 
 <script>
-// array methods
 
-let arr = [1,2,3,4,5,6];
+// 1) Напишіть функцію map(fn, array), котра приймає на вході функцію та масив,  обробляє кожний елемент масиву цією функцією та повертає новий масив. 
 
-// at(index) same as [index]
-console.log(`Method at with arr ${arr} and index 3 gives result ${arr.at(3)}`);
+let arr = [2,4,5,8,9];
 
-// concat(a,b,...z) RETURNS NEW ARRAY
-let a = [7,8,9];
-let numbers = arr.concat(a);
-console.log(`Method concat with arr ${arr} and ${a} gives result ${numbers}`);
+const addTwo = (num) => num*2;
 
-
-// copyWithin(target,start, end[not included])
-let b = [1,2,3,4,5];
-b.copyWithin(2,0);
-console.log(`Method copyWithin with arr ${b} and parameters (2,0) gives result ${b}`);
-
-// entries() 
-console.log('Entries method example');
-let a1 = a.entries();
-
-for(let entry of a1){
-	console.warn(entry);
-}
-
-// every - returns true/false 
-
-let c = [-1,1,-2,2,-3,3,-4,4,-5,5];
-
-const isEven = (num) => num % 2 === 0;
-console.log(`Method every with arr ${c} and fn isEven gives result ${c.every(isEven)}`);
-
-let arePositive = c.every((num)=> num > 0);
-console.log(`Method every with arr ${c} and fn (num)=> num > 0 gives result ${arePositive}`);
-
-// fill(value, start, end)
-
-console.log(`Method fill() with arr ${c} and paremeters (null, 3,6) gives result ${c.fill(null,6)}`);
-
-
-// filter RETURN NEW ARRAY
-
-let evenNums = c.filter(isEven);
-console.log(`Method filter() with arr ${c} and paremeters (isEven) gives result ${evenNums}`);
-
-
-// find(check fn) returns VALUE or undefined if not found
-console.log(`Method find() with arr ${arr} and paremeters (>=5) gives result ${arr.find((num)=>num >= 5)}`);
-
-// findIndex(fn(value,index,arr), this) return index or -1
-
-let isFour = arr.findIndex(num => num===4);
-console.log(`Method findIndex() with arr ${arr} and paremeters (num===4) gives result ${isFour}`);
-console.log(`Method findIndex() with arr ${c} and paremeters (num===4) gives result ${c.findIndex(num => num===4)}`);
-
-// flat()
-
-let matrix = [1,2,[3,4,[5,6, [7, 8,[9]]]]];
-let m1 = matrix.flat();
-let m2 = matrix.flat(3);
-let m3 = matrix.flat(Infinity);
-console.log(`Method flat() with arr ${matrix} and no paremeters gives result [1, 2, 3, 4, Array(3)]`);
-
-// flatMap(fn(val, *index, *arr) ,*this => ) returns NEW ARRAY
-
-let mul2 = matrix.flatMap(num=>num*2);
-console.log(`Method flatMap() with arr ${matrix} and no paremeters gives result ${mul2}`);
-
-/// better solution => mul2 = matrix.flat(Infinity).map(num=>num*2);
-
-
-// forEach(item, index, arr) !!! DOES NOT CHANGE ARRAY
-
-a.forEach(item=> console.warn(item*2));
-
-
-// Array.from(obj with length, *mapFn)
-
-console.log(`Method Array.from() with 'Hello World'  gives result ${Array.from('Hello World')}`);
-
-
-// includes(val, start) -> true/false
-
-// console.log(`Method .includes() with 3  gives result ${arr.includes(3)}`); // true
-console.log(`Method .includes() with 3  gives result ${arr.includes(3, 5)}`); // false
-
-// Arr.isArray() true/false
-console.log(`Method Array.isArray with 3  gives result ${Array.isArray('12345')}`); // false
-console.log(`Method Array.isArray with 3  gives result ${Array.isArray({a:1})}`); // false
-console.log(`Method Array.isArray with 3  gives result ${Array.isArray([1,2,3])}`); // true
-
-
-// join(arr) -> 'formatted' string
-
-console.warn(arr.join());
-console.warn(arr.join('-'));
-let y = new Array(10);
-console.warn(y.join());
-console.warn(y.join('wat'));
-
-// indexOf returns index of some search or -1
-console.log(`Method arr.indexOf with 3  gives result ${arr.indexOf(3)}`);
-
-// map(item, *index, *arr) RETURNS NEW ARRAY
-
-console.log(arr.map(item => item+ '!'));
-
-
-// push adds el to the end of arr and RETURN NEW LENGTH of array
-// pop removes from the end of array and RETURNS DELETED ELEMENT
-// unshift adds el to the start of arr and RETURN NEW LENGTH of array
-// shift removes from the start of array and RETURNS DELETED ELEMENT
-
-/// these methods CHANGE original array
-
-console.log(a.push(10)); // 4 - new length of array
-console.log(a.shift()); // 7 - deleted element
-
-// reduce and reduceRight RETURNS RESULT of reduce fn
-
-let d = a.reduce((total, num) => total + num);
-console.log(`Method a.reduce with (total, num) => total + num  gives result ${d}`);
-
-let e = a.reduceRight((total, num) => total - num);
-console.log(`Method a.reduce with (total, num) => total - num  gives result ${e}`);
-
-
-// reverse() - changes existing array to reversed version
-
-console.log(`Method a.reverse with  gives result ${a.reverse()}`);
-
-// slice(*start, *end)
-console.log(`Method a.slice with () gives result ${a.slice()}`);
-console.log(`Method a.slice with (1) gives result ${a.slice(1)}`); // copy fom second el
-console.log(`Method arr.slice with (2,5) gives result ${arr.slice(2,5)}`);
-
-// some(fn)
-
-console.log(`Method arr.some with (n >=2) gives result ${arr.some(num => num >= 2)}`);
-
-
-// sort() overwrites original array !
-
-let f = [5,3,2,7,1,9,8,6];
-console.log(`Method f.sort with () gives result ${f.sort()}`);
-console.log(`Method f.sort with () gives result ${f.sort(function(a, b){return b-a})}`);
-console.log(`Method f.sort with () gives result ${['Orange', 'Kiwi', 'Mango', 'Banana', 'Apple'].sort()}`);
-console.log(`Method f.sort with () gives result ${['Orange', 'Kiwi', 'Mango', 'Banana', 'Apple'].sort(function(a, b){return b-a})}`);
-
-// splice changes ORIGINAL ARRAY and returns something if we delete it
-
-
-console.warn(a);
-console.log(`Method a.splice with (1,1,99,100) gives result ${a.splice(1,1,99,100)}`);
-console.warn(a);
-console.log(`Method a.splice with (0,0,-2,-3) gives result ${a.splice(0,0,-2,-3)}`);
-console.warn(a);
-console.log(`Method a.splice with (0,0,-2,-3) gives result ${a.splice(a.length,0,2,3)}`); // same result will produce a.push(2,3)
-console.warn(a);
-
-console.log('');
-console.log('.');
-console.log();
-
-/// PRACTICE
-
-
-// [1,2,3,4,5,6,7,8,9] - > [3,4,5]
-
-let t = [1,2,3,4,5,6,7,8,9];
-
-// console.log(t.splice(2,3)); // changes original arrray
-// console.log(t); // [1, 2, 6, 7, 8, 9]
-
-console.log(t.slice().splice(2,3)); // changes original arrray
-console.log(t); // [1, 2,3,4,5, 6, 7, 8, 9]
-
-console.log(t.slice(2,5)); //  t did not change
-
-
-
-// print recursively array from start to end
-
-function printArr(arr){
-	if(arr.length > 0){
-	console.log(arr.shift());
-		printArr(arr);
+function map(fn, array){
+	const a = [];
+	for(let item of array){
+		a.push(fn(item));
 	}
+	return a;
 }
 
-printArr(t.slice());
+console.log(map(addTwo, arr));
 
+// 2) Напишіть функцію, яка замінює метод масиву some
+const isEven = num => num%2 === 0;
 
-// **** may be used at interviews
-
-// [1-100].length = 99 find number was passed
-
-function createArray(){
-	let arr = [];
-	let sum = 0;
-	while(arr.length < 99){
-		let num = Math.ceil(Math.random() * 100);
-		if(!arr.includes(num)){
-			arr.push(num);
-			sum += num;
+function some(fn, array){
+	for(let i = 0; i < array.length; i++){
+		if(fn(array[i])){
+			return true;
 		}
 	}
-	console.log(arr.sort());
-
-	let total = 0;
-	for(let i = 1; i <= 100; i++){
-		total += i;
-	}
-
-	let missed = total - sum;
-	console.log(`missed num was ${missed}`);
+	return false;
 }
 
-createArray();
+console.log(some(isEven, arr));
+
+// 3) Напишіть функцію, яка замінює метод масиву every
+
+function every(fn, array){
+	for(let i = 0; i < arr.length; i++){
+		if(!fn(array[i])){
+			return false;
+		}
+	}
+	return true;
+}
+console.log(every(isEven, arr));
+
+// 4) Використовуючи методи concat + reduce  і не використовуючи flat розрахуйте суму елементів багатовимірного масиву
+
+let matrix = [[1,2,3], [4,5,6], [7,8,9], 10];
+// 1
+// function sumArr(array){
+// 	let a = array.reduce((total, num) =>{
+// 		return total.concat(num);
+// 	});
+// 	let sum = 0;
+// 	 a.forEach(item => sum += item);
+// 	return sum;
+// }
+
+// 2
+function sumArr(array){
+	let a = array.reduce((total, num) => total.concat(num));
+	return a.reduce((total, num) => total + num);
+}
+
+console.log(sumArr(matrix));
+
+// 5) Дано масив рядків. Знайти кількість рядків, які мають довжину більше 5 символів, і вивести їх в алфавітному порядку.
+let strings = ['Aaaaaaa', 'Xxxxxx', '222', 'yyyyyy', 'jjj', 'l', 'qasdfg', 5, 3, 2];
+
+function fiteredStrings(array){
+	let filtered = array.filter(item => item.length > 5).sort();
+	console.log(`Number of strings with 5+ letters: ${filtered.length}. Result: ${filtered}`);
+}
+fiteredStrings(strings);
+
+// 6) Дано масив чисел. Створити новий масив, який містить лише унікальні числа (без повторень), та відсортувати його в порядку спадання.
+
+const nums = [1,2,3,2, 4,8,5,6, 9, 4,3, 7,5];
+
+const sortWithoutDuplicates = (array) => array.filter((item, index) => array.indexOf(item) === index).sort((a,b) => b-a);
+
+console.log(sortWithoutDuplicates(nums));
+
+// 7) Дано масив чисел. Вивести суму всіх чисел, які є квадратами інших чисел у масиві.
+
+let ns = [2,3,4,5,6,9,16,25,36];
+
+const sumOfSquares = (array) => array.filter(item => array.includes(Math.sqrt(item))).reduce((sum,n) => sum + n);
+
+console.log(sumOfSquares(ns));
 
 </script>
 </body>

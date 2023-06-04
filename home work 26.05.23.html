@@ -89,7 +89,26 @@
     let books=[book1.year, book2.year, book3.year, book4.year, book5.year, book6.year];
     console.log(books.sort());
 
+    //6) Дано масив чисел. Створити новий масив, 
+    //який містить лише унікальні числа (без повторень),
+    // та відсортувати його в порядку спадання.
 
+    let arr = [12, 55, 103, -89, 20, 12, 103, 59, 55];
+    let resultArr = [];
+    for(i=0; i<arr.length; i++){
+        let isFound = false;
+        for(let j = 0; j < resultArr.length; j++){
+            if(resultArr[j] == arr[i]){
+                isFound = true;
+            }
+        }
+        if(isFound == false){
+            resultArr[resultArr.length] = arr[i];
+        }
+    }
+    for(let j = 0; j < resultArr.length; j++){
+        console.log(resultArr[j]);   
+    }
 </script>
 </body>
 </html>

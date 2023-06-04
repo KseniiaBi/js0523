@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>JS FE</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+	
+	<h1>home work 29.05.23</h1>
+
+<script>
+    //1) Напишіть функцію map(fn, array), котра приймає на вході функцію та масив,  обробляє кожний елемент масиву цією функцією та повертає новий масив. 
+    //2) Напишіть функцію, яка замінює метод масиву some
+    //3) Напишіть функцію, яка замінює метод масиву every
+    //4) Використовуючи методи concat + reduce  і не використовуючи flat розрахуйте суму елементів багатовимірного масиву
+    //5) Дано масив рядків. Знайти кількість рядків, які мають довжину більше 5 символів, і вивести їх в алфавітному порядку.
+
+
+    //6) Дано масив чисел. Створити новий масив, 
+    //який містить лише унікальні числа (без повторень),
+    // та відсортувати його в порядку спадання.
+
+    let arr = [12, 55, 103, -89, 20, 12, 103, 59, 55];
+    let resultArr = [];
+    for(i=0; i<arr.length; i++){
+        let isFound = false;
+        for(let j = 0; j < resultArr.length; j++){
+            if(resultArr[j] == arr[i]){
+                isFound = true;
+            }
+        }
+        if(isFound == false){
+            resultArr[resultArr.length] = arr[i];
+        }
+    }
+    for(let j = 0; j < resultArr.length; j++){
+        console.log(resultArr[j]);   
+    }
+
+    //7) Дано масив чисел. Вивести суму всіх чисел, які є квадратами інших чисел у масиві.
+
+   
+  
+
+</script>
+</body>
+</html>

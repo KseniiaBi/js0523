@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>JS FE</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+	
+	<h1>home work 01.06.23</h1>
+
+<script>
+//1) написати власну реалізацію функції endsWith(str, ending)
+
+let text1 = 'Hello !' ;
+if(text1.endsWith('!')){
+    console.log("Ok");
+}
+else{
+    console.log("No, ok");
+}
+
+
+//2) Дано рядок, що містить 6 цифр. Перевірити, що сума перших трьох дорівнює сумі останніх трьох
+
+let str = "66,8,5,90,68,78";
+let numList = str.split(",");
+if(Number(numList[0]) + Number(numList[1]) + Number(numList[2]) == Number(numList[3]) + Number(numList[4]) + Number(numList[5])){
+    console.log("Ok!");
+}
+else{
+    console.log("No, ok");
+}
+
+//3) Написати функцію toCamelCase, яка приймає рядок в форматі border-left-color
+            // і повертає у форматі borderLeftColor. Спробуйте знайти два рішення   
+   
+//вариант 1            
+function toCamelCase (str){
+    let resultStr = "";
+    let strList = str.split("-");
+    resultStr = strList[0];
+    resultStr += strList[1].substring(0, 1).toUpperCase();
+    resultStr += strList[1].substring(1);
+    resultStr += strList[2].substring(0, 1).toUpperCase();
+    resultStr += strList[2].substring(1);
+    return resultStr;
+}
+console.log(toCamelCase("border-left-color"));
+</script>
+</body>
+</html>

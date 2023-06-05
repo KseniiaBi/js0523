@@ -32,15 +32,32 @@ console.log(checkSumDigits);
 //3) Написати функцію toCamelCase, яка приймає рядок в форматі
 //border - left - color і повертає у форматі borderLeftColor.
 //Спробуйте знайти два рішення
-let string = 'border-left-color';
-let arrayString = string.split('-');
-console.log(arrayString);
-let CamelCase =
-  arrayString[0].charAt(0).toUpperCase() +
-  arrayString[0].slice(1) +
-  arrayString[1].charAt(0).toUpperCase() +
-  arrayString[1].slice(1) +
-  arrayString[2].charAt(0).toUpperCase() +
-  arrayString[2].slice(1);
+// let string = 'border-left-color';
+// let arrayString = string.split('-');
+// console.log(arrayString);
+// let CamelCase =
+//   arrayString[0].charAt(0).toUpperCase() +
+//   arrayString[0].slice(1) +
+//   arrayString[1].charAt(0).toUpperCase() +
+//   arrayString[1].slice(1) +
+//   arrayString[2].charAt(0).toUpperCase() +
+//   arrayString[2].slice(1);
 
-console.log(CamelCase);
+// console.log(CamelCase);
+
+//--------------------------2nd option of task 3--------------------------------
+function toCamelCase(str) {
+  let arrayString = str.split(' - ');
+  let result = '';
+
+  console.log(arrayString); // ['border', 'left', 'color']
+
+  for (let i = 0; i < arrayString.length; i++) {
+    result +=
+      arrayString[i].charAt(0).toUpperCase() + arrayString[i].slice(1).trim();
+  }
+  return result;
+}
+
+let string = 'border - left - color';
+console.log(toCamelCase(string));

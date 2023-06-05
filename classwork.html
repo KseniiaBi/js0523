@@ -10,48 +10,203 @@
 
 <script>
 
-// 1) написати власну реалізацію функції endsWith(str, ending)
+// ?. опціональний ланцюжок - optional chaining
 
-function endsWith(str, ending){
-	if(str.length < ending.length){
-		return false;
+let admin = {};
+//console.log(admin.personal.hobbys); // TypeError: Cannot read properties of undefined (reading 'hobbys')
+console.log(admin.personal ? admin.personal.hobbys : undefined);
+console.log(admin?.personal?.hobbys); // returns value or undefined if no
+
+// this
+
+let user = {
+	name: 'John',
+	sayHi(){
+		console.log(`Hi! My name is ${this.name}`);
 	}
-	let endOfStr = str.slice(str.length - ending.length);
-	return endOfStr === ending;
 }
 
-console.log(endsWith('Hello World', 'rld'));
+user.sayHi(); // Hi! My name is John
 
-// 2) Дано рядок, що містить 6 цифр. Перевірити, що сума перших трьох дорівнює сумі останніх трьох
+admin = user;
+admin.sayHi(); // Hi! My name is John
 
-function checkStringSum(str){
-	let s1 = str.slice(0,3).split('').reduce((total,num)=> +total + Number(num));
-	let s2 = str.slice(3).split('').reduce((total,num)=> +total + Number(num));
-	return s1 === s2;
-}
-console.log(checkStringSum('123456'));
+user = null;
+admin.sayHi(); // Hi! My name is John or in case of user.name instead of this.name:  Cannot read properties of null (reading 'name')
 
-// 3) Написати функцію toCamelCase, яка приймає рядок в форматі border-left-color і повертає у форматі borderLeftColor. Спробуйте знайти два рішення
-
-// 1
-// function toCamelCase(str){
-// 	let arr = str.split('-');
-// 	let s = arr[0];
-// 	for(let i = 1; i < arr.length; i++){
-// 		s += arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-// 	}
-// 	return s;
-// }
-
-function toCamelCase(str){
-	return str.replace(/-[a-z]/gi, function(match,position){
-		return str.charAt(position+1).toUpperCase();
-	})
+function greet(){
+	console.warn(this.name);
 }
 
-console.log(toCamelCase('border-left-color'));
+user = {
+	name: 'Jane'
+}
+
+user.g = greet;
+admin.g = greet;
+
+user.g();
+admin.g();
+
+function foo(){
+	console.log(this);
+}
+foo();
+
+//  call/apply - переадресація та привʼязка контексту bind
+
+// lost context example
+setTimeout(admin.sayHi, 500);
+
+// hotfix або милиці
+setTimeout(() => admin.sayHi(), 500);
+
+// bind()
+setTimeout(admin.sayHi.bind(admin), 800);
+
+let hiAdmin = admin.sayHi.bind(admin);
+setTimeout(hiAdmin, 1000);
+
+function getInfo(phrase){
+	console.log(`${phrase} My name is ${this.name}`);
+}
+
+const userGreet = getInfo.bind(user);
+userGreet('Good evening!'); // Good evening! My name is Jane
+// userGreet();//undefined My name is Jane
+
+let adminInfo = getInfo.bind(admin);
 
 
+// call(context, arg1,arg2...argN)
+
+function sum(){
+	let arr = [].slice.call(arguments);
+	let sum = arr.reduce((s, num) => s+ num);
+	console.log(sum);
+}
+sum(1,2,3,4,5,6);
+
+let student = {
+	name: 'Student'
+}
+getInfo.call(student, 'Howdy!');
+
+// apply(context, [arg1,arg2...argN])
+let arr = [232,4,64,2312,543,6,22];
+let maxNum = Math.max.apply(null, arr);
+console.log(maxNum);
+
+
+let fruits = ['Apple', 'Lime', 'Avocado', 'Mango', 'Kiwi'];
+
+function sortStrings(){
+	let array = [];
+	for(let i = 0; i < arguments.length; i++){
+		array.push(arguments[i]);
+	}
+	array.sort();
+	console.log(array);
+}
+
+sortStrings('Ball', 'Art', 'Hobby', 'Cinema');
+
+sortStrings.apply(null, fruits);
+
+
+
+// flags and descriptors
+
+// flags: writable, enumerable, configurable
+
+console.log(Object.getOwnPropertyDescriptor(admin, 'name'));
+console.warn(Object.getOwnPropertyDescriptors(admin));
+
+Object.defineProperty(student, 'pass', {
+	value: 'Tydfkm_4#423',
+	writable: false,
+	enumerable: false,
+	configurable: false
+});
+
+student.pass = '123' // no result
+delete student.pass; // no result
+
+for(let key in student){
+	console.log(`${key}: ${student[key]}`); // ONLY name: Student
+}
+
+Object.defineProperties(student, {
+	lastname: {value: 'Anonymous', writable: true, enumerable: true},
+	payMethod: {value: 'Card **** 3454', writable: true, enumerable: false}
+});
+
+// global freeze
+
+Object.preventExtensions(user); // removes possibility to add new properties
+Object.seal(user); // removes possibility to add and remove  new properties + configurable: false for all existing
+Object.freeze(user); // removes possibility to add/remove/change  new props + configurable: false, writable: false for all existing
+
+
+console.log(`user isExtensible ${Object.isExtensible(user)}`);
+console.log(`user isSealed ${Object.isSealed(user)}`);
+console.log(`user isFrozen ${Object.isFrozen(user)}`);
+
+
+// get, set
+
+let worker = {
+	name: 'James',
+	lastname: 'Doe',
+	get fullName(){
+		return `${this.name} ${this.lastname}`;
+	},
+	set fullName(newname){
+		// will be good to have any check for valid newname
+		let n = newname.split(' ');
+		this.name = n[0];
+		this.lastname = n[1];
+	}
+}
+
+console.log(worker.fullName);
+worker.fullName = 'Mary';
+
+
+// accessors descriptors
+
+Object.defineProperty(student, 'fullname', {
+	get(){
+		return`${this.name} ${this.lastname}`;
+	},
+	set(newname){
+		[this.name, this.lastname] = newname.split(' ');
+	},
+	enumerable: true,
+	configurable: false
+	// have no value (because it gets value from another property) and no writable flag
+});
+
+console.error(student.fullname);
+student.fullname = 'Max Farseer';
+console.error(student.fullname);	
+
+for(let prop in student){
+	console.log(`${prop}: ${student[prop]}`);
+}
+
+
+// destructuring
+
+//let [name, age] = ['Ann', 20];
+//let [name, lastname, , ...hobbys] = ['Ann', 'Zoe', 20, 'Art', 'Sport', 'Cooking'];
+
+let {name, lastname, ...fullname} = student;
+
+let x = [23, 43, 232,64, 5342,53,76,8]
+console.log(Math.max(...x));
+
+let y = [...x, 999, 1000];
 
 </script>
 </body>

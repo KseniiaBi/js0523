@@ -10,160 +10,46 @@
 
 <script>
 
-// String methods 
-let text = 'Hello World!';
+// 1) написати власну реалізацію функції endsWith(str, ending)
 
-// charAt
-console.log(text.charAt(0)); // H
-
-// charCodeAt
-console.log(text.charCodeAt(0));
-
-////// age: 8-10 1-3 3-5 =>  8 - 10
-
-// concat
-// `` = > 'Hello ' + name + '!'
-const a = 'Good';
-const b = 'evening';
-
-const c = a.concat(' ', b, '!');
-console.warn(c);
-
-// endsWith => true / false
-
-const checkImageType = (filename) => filename.endsWith('.png') || filename.endsWith('.jpg');
-
-console.log(checkImageType('myphoto.jpg'));
-console.log(checkImageType('myphoto.png'));
-console.log(checkImageType('myphoto.heic'));
-console.log(checkImageType('myphoto.pdf'));
-
-// startsWith() => true / false
-
-function checkHost(url){
-	if(!url.startsWith('https')){
-		console.error('Ваш сертифікат безпеки недійсний. Сайт не працюватиме належним чином');
-	}
-}
-
-checkHost('http://mysite.com');
-checkHost('https://mysecuresite.com');
-
-// fromCharCode 
-
-console.log(String.fromCharCode(72)); // H
-console.log(String.fromCharCode(1110)); // і
-
-
-// includes() => true/false
-
-console.log(text.includes('l'));
-console.log(text.includes('e', 4 ));
-
-// indexOf() => index or -1
-
-console.warn(text.indexOf('ll'));
-console.warn(text.indexOf('e', 4));
-
-// lastIndexOf() index or -1
-
-console.warn(text.lastIndexOf('ll')); // 2
-console.warn(text.lastIndexOf('l')); // 9
-
-// match(string || regexp)
-
-console.log(text.match(/l/gi));
-
-// repeat()
-
-console.log(text.repeat(5));
-
-// replace(string || regexp, string) RETURNS NEW STRING
-console.log(text.replace('Hello', 'Good night'));
-
-// search(string || regexp)
-
-console.log(text.search(/l/gi));
-
-// slice(start, *end) can accept negative numbers
-
-console.log(text.slice(7));
-
-
-// substr(start, *length)
-console.log(text.substr(2,3));
-
-
-// substring
-console.log(text.substring(2,8));
-
-// split
-
-console.log('rain stays mainly'.split(' '));
-console.log('border-left-color'.split('-'));
-
-// toLowerCase()
-console.log('Hello my name is Kseniia'.toLowerCase());
-
-// toUpperCase()
-console.log('Hello my name is Kseniia'.toUpperCase());
-
-// trim()
-let longstr =  `	   	nnnnnnn  flkf;fkdsl;dfk sdfknds	sdkfsd
-						ksdnfskdfj     					`;
-console.log(longstr.trim());
-
-
-/// fn (str, letter) => count of letter
-
-// loops
-//function countLetterInstances(str, letter){
-// 	let count = 0;
-// 	for(let char of str){
-// 		if(char.toLowerCase() === letter.toLowerCase()){
-// 			count++;
-// 		}
-// 	}
-// 	console.log(`Count of letter ${letter} in string ${str} is ${count}`);
-// }
-
-function countLetterInstances(str, letter){
-	let regexp = new RegExp(letter, 'gi');
-	let count = str.match(regexp) != null ? str.match(regexp).length : 0;
-	console.log(`Count of letter ${letter} in string ${str} is ${count}`);
-}
-
-countLetterInstances('Bubble', 'b');
-countLetterInstances('Happy hacking', 'h');
-countLetterInstances('Happy hacking', 'x');
-
-
-//  isAnagram
-
-function isAnagram(str1, str2){
-	if(str1.length != str2.length){
+function endsWith(str, ending){
+	if(str.length < ending.length){
 		return false;
 	}
-	// let arr1 = str1.split('');
-	// let arr2 = str2.split('');
-
-	// arr1.sort();
-	// arr2.sort();
-	
-	// let s1 = arr1.join('');
-	// let s2 = arr2.join('');
-
-	let s1 = str1.split('').sort().join('');
-	let s2 = str2.split('').sort().join('');
-
-	return s2 == s1;
+	let endOfStr = str.slice(str.length - ending.length);
+	return endOfStr === ending;
 }
 
-console.log(isAnagram('камыш', 'мышка'));
-console.log(isAnagram('mama', 'lama'));
- 
+console.log(endsWith('Hello World', 'rld'));
 
+// 2) Дано рядок, що містить 6 цифр. Перевірити, що сума перших трьох дорівнює сумі останніх трьох
 
+function checkStringSum(str){
+	let s1 = str.slice(0,3).split('').reduce((total,num)=> +total + Number(num));
+	let s2 = str.slice(3).split('').reduce((total,num)=> +total + Number(num));
+	return s1 === s2;
+}
+console.log(checkStringSum('123456'));
+
+// 3) Написати функцію toCamelCase, яка приймає рядок в форматі border-left-color і повертає у форматі borderLeftColor. Спробуйте знайти два рішення
+
+// 1
+// function toCamelCase(str){
+// 	let arr = str.split('-');
+// 	let s = arr[0];
+// 	for(let i = 1; i < arr.length; i++){
+// 		s += arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+// 	}
+// 	return s;
+// }
+
+function toCamelCase(str){
+	return str.replace(/-[a-z]/gi, function(match,position){
+		return str.charAt(position+1).toUpperCase();
+	})
+}
+
+console.log(toCamelCase('border-left-color'));
 
 
 

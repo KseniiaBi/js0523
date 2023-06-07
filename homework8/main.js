@@ -44,3 +44,7 @@ let text = "'I have great news! We got the promotion we've been working so hard 
 console.log(text);
 let newText = text.replace(/(?<!\w)'(?=\w)|(?<!\w)'(?!\w)/gi, '"');
 console.log(newText);
+
+//ще як варіант може бути 
+let newText2 = text.replace(/\B'\b|\B'\B/gi, '"');
+console.log(newText2);

@@ -10,65 +10,169 @@
 
 <script>
 
-// 1) Напишіть функцію, яка повертає двумірний масив з обʼєкту:  [[key, value], [key, value]].   ({ a: 1, b: 2 }) => [['a', 1], ['b', 2]]
+// OOP 
 
-// function objectToArray(o){
-// 	return Object.entries(o);
-// }
+// OOP Principles: Наслідування Інкапсуляція Поліморфізм Абстракція
 
-function objectToArray(o){
-	let arr = [];
-	for(let prop in o){
-		arr.push([prop, o[prop]]);
+let animal = {
+	name: 'Some random animal',
+	paws: 4,
+	move(){
+		console.log(`${this.name} is moving`);
 	}
-	return arr;
 }
 
-console.log(objectToArray({ a: 1, b: 2 }));
-
-// 2) Вкоротіть рядок str, якщо його довжина більша за параметр num. Додайте в кінці рядка "...", якщо str більше за num. Три крапки мають враховуватись при перевірці довжини str.
-
-function cutString(str, num){
-	if(num < 4){
-		console.error('Too short num parameter');
+let dog = {
+	name: 'Dog',
+	bark(){
+		console.log(`${this.name}: Woof! Woof!`);
 	}
-	return str <= num ? str : `${str.slice(0, num - 3)}...`;
 }
 
-let msg = 'Long story short';
+dog.__proto__ = animal; // тепер собака має доступ до методів та властивостей тварини
 
-console.log(cutString(msg, 9));
+for(let prop in dog){
+	// console.log(prop); // виведе всі методи та властивості включно з батьківськими
+	if(dog.hasOwnProperty(prop)){ // фільтрує лише ті властивості та методи, які описані саме для цього обʼєкта
+		console.log(prop);
+	}
+}	
 
-// 3) Знайти найдовше слово в реченні. Результатом виконання функції має бути довжина цього слова
-let message = 'Some long text which was not easy to produce';
+let husky = {
+	eyes: 'blue',
+	hobbys: ['run', 'snow', 'howl'],
+	__proto__: dog
+}
 
-function getLongestWord(str){
-	let arr = str.split(' ');
-	arr.sort((a,b) =>{
-		if(a.length > b.length){
-			return -1;
-		}
-		else if(a.length < b.length){
-			return 1;
+//animal.__proto__ = husky // Cyclic __proto__ value
+
+
+// OOP in finctional style
+
+function Device(name, power, type){
+	this.name = name; // public property
+	this.type = type;
+	this.enabled = false;
+	const pow = power; // private property
+	console.log(`Was created new ${this.type} ${this.name} with ${pow}Wt`);
+
+	this.enable = function(){
+		this.enabled = true;
+		console.log(`${this.type} ${this.name} was enabled`);
+	}
+	this.disable = () =>{
+		this.enabled = false;
+		console.log(`${this.type} ${this.name} was disabled`);
+	}
+}
+
+let fridge = new Device('Samsung', 750, 'fridge');
+fridge.enable(); // fridge Samsung was enabled
+
+
+function CoffeeMachine(name, power, type='Coffeemachine'){
+	Device.call(this, name, power, type);
+
+	this.waterTank = 1200; // l
+	this._waterAmount = 0; // protected variable
+	this._coffeeAmount = 0;
+	const minCoffee = 20;
+	const minWater = 150;
+	let waterTemp = 20;
+	this.isReady = false;
+
+	let parentEnable = this.enable.bind(this); // ми зберігаємо в окрему змінну той функціонал,
+	// котрий ми успадкували від базового класу та привʼязуємо контекст визову цієї функції до нашої кавомашини
+	
+	this.enable = () => {
+		parentEnable();
+		if(this.waterAmount < minWater){
+			console.error('No water! Fill in');
 		}
 		else{
-			return 0;
+			setTimeout(()=> {
+				this.isReady = true;
+				waterTemp = 98;
+				console.warn(`${this.name} is ready`);
+			}, 2000);
 		}
-	});
-	console.log(arr[0].length);
+	}
+
+	this.getWaterAmount = () => this._waterAmount;
+
+	this.setWaterAmount = (amount) => {
+		if(amount < 0 || amount + this._waterAmount > this.waterTank || typeof amount != 'number'){
+			console.error('Error! Incorrect input in water tank!');
+		}
+		else{
+			this._waterAmount += amount;
+			console.log(`Added ${amount}ml of water`);
+		}
+	}
+
+	this.getCoffeeAmount = () => this._coffeeAmount;
+
+	this.setCoffeeAmount = (amount) => {
+		if(amount < 0 || typeof amount != 'number'){
+			console.error('Error! Incorrect input in coffee tank!');
+		}
+		else{
+			this._coffeeAmount += amount;
+			console.log(`Added ${amount}g coffee`);
+		}
+	}
+	
+	this.brew = (drink) => {
+		if(!this.enabled){
+			console.error('Turn on device');
+			return false;
+		}
+		if(this._waterAmount < minWater ){
+			console.error('Not enough water!');
+			return false;
+		}
+		if(this._coffeeAmount < minCoffee){
+			console.error('Not enough coffee!');
+			return false;
+		}
+		if(!this.isReady){
+			console.error('Not ready!');
+			return false;
+		}
+		let time = 0;
+		switch(drink){
+			case 'espresso': this._waterAmount -= 30;
+							 this._coffeeAmount -= 8;
+							 time = 500;
+							 break;
+			case 'doppio': this._waterAmount -= 60;
+							 this._coffeeAmount -= 16;
+							 time = 700;
+							 break;
+			case 'americano': this._waterAmount -= 120;
+							 this._coffeeAmount -= 8;
+							 time = 900;
+							 break;
+			case 'ristretto': this._waterAmount -= 15;
+							 this._coffeeAmount -= 8;
+							 time = 300;
+							 break;
+		}
+		setTimeout(()=> console.log(`${drink} is ready!`), time);
+	}
 }
 
-getLongestWord(message);
+let saeco = new CoffeeMachine('Saeco', 900);
 
-// 4) Припустимо, ви написали твір і в ньому для позначення діалогів використовували одинарні лапки. Тепер ви хочете замінити лапки на подвійні, а одинарні залишити лише для скорочення слів типу aren’t. Придумайте шаблон, який буде розрізняти ці два види використання лапок і використайте його у методі replace
+console.log(saeco.getWaterAmount());
+saeco.setWaterAmount(3000);
+saeco.setWaterAmount(800);
+saeco.enable();
+saeco.setCoffeeAmount(100);
+saeco.brew('espresso');
 
-let text = `'Hello, Jane' - smiled Ann. 'Howdy. Aren't they ok?'`;
 
-function replaceBackticks(t){
-	return t.replace(/(^|\s|\n)'|'($|\s|\n)/gim, '"'); // \B'\b|\B'\B
-}
 
-console.log(replaceBackticks(text));
 
 
 </script>

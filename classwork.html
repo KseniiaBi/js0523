@@ -10,203 +10,66 @@
 
 <script>
 
-// ?. опціональний ланцюжок - optional chaining
+// 1) Напишіть функцію, яка повертає двумірний масив з обʼєкту:  [[key, value], [key, value]].   ({ a: 1, b: 2 }) => [['a', 1], ['b', 2]]
 
-let admin = {};
-//console.log(admin.personal.hobbys); // TypeError: Cannot read properties of undefined (reading 'hobbys')
-console.log(admin.personal ? admin.personal.hobbys : undefined);
-console.log(admin?.personal?.hobbys); // returns value or undefined if no
+// function objectToArray(o){
+// 	return Object.entries(o);
+// }
 
-// this
-
-let user = {
-	name: 'John',
-	sayHi(){
-		console.log(`Hi! My name is ${this.name}`);
+function objectToArray(o){
+	let arr = [];
+	for(let prop in o){
+		arr.push([prop, o[prop]]);
 	}
+	return arr;
 }
 
-user.sayHi(); // Hi! My name is John
+console.log(objectToArray({ a: 1, b: 2 }));
 
-admin = user;
-admin.sayHi(); // Hi! My name is John
+// 2) Вкоротіть рядок str, якщо його довжина більша за параметр num. Додайте в кінці рядка "...", якщо str більше за num. Три крапки мають враховуватись при перевірці довжини str.
 
-user = null;
-admin.sayHi(); // Hi! My name is John or in case of user.name instead of this.name:  Cannot read properties of null (reading 'name')
-
-function greet(){
-	console.warn(this.name);
-}
-
-user = {
-	name: 'Jane'
-}
-
-user.g = greet;
-admin.g = greet;
-
-user.g();
-admin.g();
-
-function foo(){
-	console.log(this);
-}
-foo();
-
-//  call/apply - переадресація та привʼязка контексту bind
-
-// lost context example
-setTimeout(admin.sayHi, 500);
-
-// hotfix або милиці
-setTimeout(() => admin.sayHi(), 500);
-
-// bind()
-setTimeout(admin.sayHi.bind(admin), 800);
-
-let hiAdmin = admin.sayHi.bind(admin);
-setTimeout(hiAdmin, 1000);
-
-function getInfo(phrase){
-	console.log(`${phrase} My name is ${this.name}`);
-}
-
-const userGreet = getInfo.bind(user);
-userGreet('Good evening!'); // Good evening! My name is Jane
-// userGreet();//undefined My name is Jane
-
-let adminInfo = getInfo.bind(admin);
-
-
-// call(context, arg1,arg2...argN)
-
-function sum(){
-	let arr = [].slice.call(arguments);
-	let sum = arr.reduce((s, num) => s+ num);
-	console.log(sum);
-}
-sum(1,2,3,4,5,6);
-
-let student = {
-	name: 'Student'
-}
-getInfo.call(student, 'Howdy!');
-
-// apply(context, [arg1,arg2...argN])
-let arr = [232,4,64,2312,543,6,22];
-let maxNum = Math.max.apply(null, arr);
-console.log(maxNum);
-
-
-let fruits = ['Apple', 'Lime', 'Avocado', 'Mango', 'Kiwi'];
-
-function sortStrings(){
-	let array = [];
-	for(let i = 0; i < arguments.length; i++){
-		array.push(arguments[i]);
+function cutString(str, num){
+	if(num < 4){
+		console.error('Too short num parameter');
 	}
-	array.sort();
-	console.log(array);
+	return str <= num ? str : `${str.slice(0, num - 3)}...`;
 }
 
-sortStrings('Ball', 'Art', 'Hobby', 'Cinema');
+let msg = 'Long story short';
 
-sortStrings.apply(null, fruits);
+console.log(cutString(msg, 9));
 
+// 3) Знайти найдовше слово в реченні. Результатом виконання функції має бути довжина цього слова
+let message = 'Some long text which was not easy to produce';
 
-
-// flags and descriptors
-
-// flags: writable, enumerable, configurable
-
-console.log(Object.getOwnPropertyDescriptor(admin, 'name'));
-console.warn(Object.getOwnPropertyDescriptors(admin));
-
-Object.defineProperty(student, 'pass', {
-	value: 'Tydfkm_4#423',
-	writable: false,
-	enumerable: false,
-	configurable: false
-});
-
-student.pass = '123' // no result
-delete student.pass; // no result
-
-for(let key in student){
-	console.log(`${key}: ${student[key]}`); // ONLY name: Student
+function getLongestWord(str){
+	let arr = str.split(' ');
+	arr.sort((a,b) =>{
+		if(a.length > b.length){
+			return -1;
+		}
+		else if(a.length < b.length){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	});
+	console.log(arr[0].length);
 }
 
-Object.defineProperties(student, {
-	lastname: {value: 'Anonymous', writable: true, enumerable: true},
-	payMethod: {value: 'Card **** 3454', writable: true, enumerable: false}
-});
+getLongestWord(message);
 
-// global freeze
+// 4) Припустимо, ви написали твір і в ньому для позначення діалогів використовували одинарні лапки. Тепер ви хочете замінити лапки на подвійні, а одинарні залишити лише для скорочення слів типу aren’t. Придумайте шаблон, який буде розрізняти ці два види використання лапок і використайте його у методі replace
 
-Object.preventExtensions(user); // removes possibility to add new properties
-Object.seal(user); // removes possibility to add and remove  new properties + configurable: false for all existing
-Object.freeze(user); // removes possibility to add/remove/change  new props + configurable: false, writable: false for all existing
+let text = `'Hello, Jane' - smiled Ann. 'Howdy. Aren't they ok?'`;
 
-
-console.log(`user isExtensible ${Object.isExtensible(user)}`);
-console.log(`user isSealed ${Object.isSealed(user)}`);
-console.log(`user isFrozen ${Object.isFrozen(user)}`);
-
-
-// get, set
-
-let worker = {
-	name: 'James',
-	lastname: 'Doe',
-	get fullName(){
-		return `${this.name} ${this.lastname}`;
-	},
-	set fullName(newname){
-		// will be good to have any check for valid newname
-		let n = newname.split(' ');
-		this.name = n[0];
-		this.lastname = n[1];
-	}
+function replaceBackticks(t){
+	return t.replace(/(^|\s|\n)'|'($|\s|\n)/gim, '"'); // \B'\b|\B'\B
 }
 
-console.log(worker.fullName);
-worker.fullName = 'Mary';
+console.log(replaceBackticks(text));
 
-
-// accessors descriptors
-
-Object.defineProperty(student, 'fullname', {
-	get(){
-		return`${this.name} ${this.lastname}`;
-	},
-	set(newname){
-		[this.name, this.lastname] = newname.split(' ');
-	},
-	enumerable: true,
-	configurable: false
-	// have no value (because it gets value from another property) and no writable flag
-});
-
-console.error(student.fullname);
-student.fullname = 'Max Farseer';
-console.error(student.fullname);	
-
-for(let prop in student){
-	console.log(`${prop}: ${student[prop]}`);
-}
-
-
-// destructuring
-
-//let [name, age] = ['Ann', 20];
-//let [name, lastname, , ...hobbys] = ['Ann', 'Zoe', 20, 'Art', 'Sport', 'Cooking'];
-
-let {name, lastname, ...fullname} = student;
-
-let x = [23, 43, 232,64, 5342,53,76,8]
-console.log(Math.max(...x));
-
-let y = [...x, 999, 1000];
 
 </script>
 </body>

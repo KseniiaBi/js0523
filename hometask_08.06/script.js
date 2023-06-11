@@ -49,14 +49,3 @@ for (let prop in productDetails2) {
     console.log(prop);
   }
 }
-
-function Order(user, products) {
-  this.user = user;
-  this.products = products;
-  this.status = 'В очікуванні';
-}
-
-// Створення нового об'єкту "Замовлення"
-var user = new User('John Doe', 'john@example.com', 'password123');
-var products = [product1, product2];
-var order = new Order(user, products);

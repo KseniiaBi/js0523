@@ -16,7 +16,7 @@ let strForTest = "Ukrainians are the most powerful nation in the world";
 let numForTest = 14;
 
 function shortStr(str, num) {
-  return str.length > num ? `${str.slice(0, num)} ...` : str;
+  return str.length > num ? `${str.slice(0, num - 3)} ...` : str;
 }
 
 console.log(shortStr(strForTest, numForTest));
@@ -42,6 +42,12 @@ function biggestWord2(string) {
 }
 
 console.log(biggestWord2(strForTest));
+
+function biggestWord3(string) {
+  return Math.max(...string.split(" ").map((i) => i.length));
+}
+
+console.log(biggestWord3(strForTest));
 
 // 4) Припустимо, ви написали твір і в ньому для позначення діалогів використовували одинарні лапки.
 // Тепер ви хочете замінити лапки на подвійні, а одинарні залишити лише для скорочення слів типу aren't.

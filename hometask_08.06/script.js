@@ -49,3 +49,31 @@ for (let prop in productDetails2) {
     console.log(prop);
   }
 }
+
+// функції
+
+function Calculator(pdv, sum) {
+  this.pdv = pdv;
+  this.sum = sum;
+
+  if (this.pdv === 20 || this.pdv === 14 || this.pdv === 7) {
+    this.sumPdv = function () {
+      const result = (this.pdv / 100) * this.sum;
+      console.log(`Сума пдв: ${result} грн.`);
+      return result;
+    };
+
+    this.sumZPdv = function () {
+      const result = (this.pdv / 100) * this.sum + this.sum;
+      console.log(`Сума з пдв: ${result} грн.`);
+      return result;
+    };
+  } else {
+    console.error('Ви ввели не вірний відсоток');
+  }
+}
+
+const calc = new Calculator(20, 1000);
+const calc1 = new Calculator(18, 1000);
+calc.sumPdv();
+calc.sumZPdv();

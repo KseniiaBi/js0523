@@ -12,164 +12,250 @@
 
 // OOP 
 
-// OOP Principles: Наслідування Інкапсуляція Поліморфізм Абстракція
+// fn Constructor + Prototype.method()
+
+function Cat(name, breed){
+	this.name = name;
+	this.breed = breed;
+	let age = 0;
+	setTimeout(()=>age++,2000);
+}
+
+Cat.prototype.greet = function(){
+	console.log(`Meow! I am ${this.name} the ${this.breed}`);
+}
+
+
+
+let murko = new Cat('Murko', 'Sphynx');
+
+Cat.prorotype; // {constructor: Cat} 
+// Cat.prototype.constructor == Cat // true
+murko.constructor; // link to fn Cat ///// murko.constructor == Cat
+murko instanceof Cat; // true 
+
+// Object.getPrototype
+// Object.setPrototype
 
 let animal = {
-	name: 'Some random animal',
-	paws: 4,
-	move(){
-		console.log(`${this.name} is moving`);
-	}
+	eat: true,
+	sleep: true
 }
 
-let dog = {
-	name: 'Dog',
+// Cat.prototype = animal; 
+
+
+///****
+
+let o = {}; // has toString()
+
+let obj = Object.create(null); // obj.toString is not a function
+
+
+// classes
+
+// class Declaration
+
+class Dog {
+	// has inner 'use strict' mode
+	constructor(name, breed){
+		this.name = name;
+		this.breed = breed;
+	}
+
 	bark(){
-		console.log(`${this.name}: Woof! Woof!`);
+		console.log('Woof!');
+	}
+	greet(){
+		console.log(`Hi! I am ${this.name} the ${this.breed}`);
 	}
 }
 
-dog.__proto__ = animal; // тепер собака має доступ до методів та властивостей тварини
+const dog = new Dog('Tail', 'Shepard');
+dog.bark();
+dog.greet();
 
-for(let prop in dog){
-	// console.log(prop); // виведе всі методи та властивості включно з батьківськими
-	if(dog.hasOwnProperty(prop)){ // фільтрує лише ті властивості та методи, які описані саме для цього обʼєкта
-		console.log(prop);
+typeof Dog; // function
+
+console.log(Dog.prototype.bark); // bark() code
+console.log(Object.getOwnPropertyNames(Dog.prototype)); // ['constructor', 'bark', 'greet']
+// methods have enumerable: false
+
+
+// class Expression
+
+const Vehicle = class{
+	fuel = 'LPG'; // class field
+	constructor(name, year){
+		this.name = name;
+		this.year = year; // uses get/set
+		this.speed = 0;
 	}
-}	
-
-let husky = {
-	eyes: 'blue',
-	hobbys: ['run', 'snow', 'howl'],
-	__proto__: dog
-}
-
-//animal.__proto__ = husky // Cyclic __proto__ value
-
-
-// OOP in finctional style
-
-function Device(name, power, type){
-	this.name = name; // public property
-	this.type = type;
-	this.enabled = false;
-	const pow = power; // private property
-	console.log(`Was created new ${this.type} ${this.name} with ${pow}Wt`);
-
-	this.enable = function(){
-		this.enabled = true;
-		console.log(`${this.type} ${this.name} was enabled`);
+	drive(speed){
+		this.speed = speed;
+		console.log(`Car ${this.name} is driving with speed ${this.speed} km/h`);
 	}
-	this.disable = () =>{
-		this.enabled = false;
-		console.log(`${this.type} ${this.name} was disabled`);
+	stop(){
+		this.speed = 0;
+		console.log(`Car ${this.name} stopped, speed is ${this.speed} km/h`);
 	}
-}
-
-let fridge = new Device('Samsung', 750, 'fridge');
-fridge.enable(); // fridge Samsung was enabled
-
-
-function CoffeeMachine(name, power, type='Coffeemachine'){
-	Device.call(this, name, power, type);
-
-	this.waterTank = 1200; // l
-	this._waterAmount = 0; // protected variable
-	this._coffeeAmount = 0;
-	const minCoffee = 20;
-	const minWater = 150;
-	let waterTemp = 20;
-	this.isReady = false;
-
-	let parentEnable = this.enable.bind(this); // ми зберігаємо в окрему змінну той функціонал,
-	// котрий ми успадкували від базового класу та привʼязуємо контекст визову цієї функції до нашої кавомашини
-	
-	this.enable = () => {
-		parentEnable();
-		if(this.waterAmount < minWater){
-			console.error('No water! Fill in');
+	get year(){
+		return this._year;
+	}
+	set year(y){
+		if(y < this._year ){
+			console.error('Incorrect year input');
 		}
 		else{
-			setTimeout(()=> {
-				this.isReady = true;
-				waterTemp = 98;
-				console.warn(`${this.name} is ready`);
-			}, 2000);
+			this._year = y;
 		}
-	}
-
-	this.getWaterAmount = () => this._waterAmount;
-
-	this.setWaterAmount = (amount) => {
-		if(amount < 0 || amount + this._waterAmount > this.waterTank || typeof amount != 'number'){
-			console.error('Error! Incorrect input in water tank!');
-		}
-		else{
-			this._waterAmount += amount;
-			console.log(`Added ${amount}ml of water`);
-		}
-	}
-
-	this.getCoffeeAmount = () => this._coffeeAmount;
-
-	this.setCoffeeAmount = (amount) => {
-		if(amount < 0 || typeof amount != 'number'){
-			console.error('Error! Incorrect input in coffee tank!');
-		}
-		else{
-			this._coffeeAmount += amount;
-			console.log(`Added ${amount}g coffee`);
-		}
-	}
-	
-	this.brew = (drink) => {
-		if(!this.enabled){
-			console.error('Turn on device');
-			return false;
-		}
-		if(this._waterAmount < minWater ){
-			console.error('Not enough water!');
-			return false;
-		}
-		if(this._coffeeAmount < minCoffee){
-			console.error('Not enough coffee!');
-			return false;
-		}
-		if(!this.isReady){
-			console.error('Not ready!');
-			return false;
-		}
-		let time = 0;
-		switch(drink){
-			case 'espresso': this._waterAmount -= 30;
-							 this._coffeeAmount -= 8;
-							 time = 500;
-							 break;
-			case 'doppio': this._waterAmount -= 60;
-							 this._coffeeAmount -= 16;
-							 time = 700;
-							 break;
-			case 'americano': this._waterAmount -= 120;
-							 this._coffeeAmount -= 8;
-							 time = 900;
-							 break;
-			case 'ristretto': this._waterAmount -= 15;
-							 this._coffeeAmount -= 8;
-							 time = 300;
-							 break;
-		}
-		setTimeout(()=> console.log(`${drink} is ready!`), time);
 	}
 }
 
-let saeco = new CoffeeMachine('Saeco', 900);
+let beatle = new Vehicle('VW', 2022);
+beatle.drive(50);
+beatle.stop();
 
-console.log(saeco.getWaterAmount());
-saeco.setWaterAmount(3000);
-saeco.setWaterAmount(800);
-saeco.enable();
-saeco.setCoffeeAmount(100);
-saeco.brew('espresso');
+console.log(beatle.year);
+beatle.year = 2021;
+beatle.year = 2023;
+console.log(beatle.year);
+
+console.log(beatle.fuel); // 'LPG'
+//console.log(Vehicle.prototype.fuel); // undefined
+
+
+class Truck extends Vehicle {
+	constructor(name, year, weight){
+		super(name, year); // parent constructor
+		this.weight = weight;
+	}
+
+	getInfo(){
+		console.log(Object.getOwnPropertyNames(this.constructor.prototype));
+	}
+
+	stop(){
+		console.log('Sloooooooowlyyyyyyy stoooooppppiiiiing');
+		super.stop();
+	}
+}
+
+let daf = new Truck('DAF', 2005, 9000);
+
+daf.drive(40);
+daf.stop();
+console.log(daf.year);
+daf.getInfo();
+
+
+// static properties and methods 
+
+class Book{
+	static count = 0; // static
+	constructor(name, author){
+		this.name = name;
+		this.author = author;
+		Book.count += 1; // кожного разу, коли викликається конструктор (new) 
+	}
+
+	static compare(book1, book2){
+		if(book1.name > book2.name){
+			return 1;
+		}
+		else if(book1.name < book2.name){
+			return -1;
+		}
+		else{
+			return 0;
+		}
+	}
+}
+
+const hp = new Book('Harry Potter', 'J. Rowling');
+const css = new Book('Ideal solutions for everyday tasks', 'Lea Verou');
+const hobbit = new Book('Hobbit', 'J. Tolkien');
+console.log(Book.count);
+
+const books = [hp, css, hobbit];
+books.sort(Book.compare);
+
+
+// private and protected props and methods
+
+class Laptop{
+	_currentTemp = 20;
+	constructor(model, manufacturer, processor){
+		this.model = model;
+		this.manufacturer = manufacturer;
+		this._processor = processor; // protected property
+	}
+	get processor(){ // getter has same name as it will be public
+		console.log(`${this.model} has processor ${this._processor}`);
+	}
+
+	getCurrentTemp(){
+		console.log(`Current temperature of ${this.model} is ${this._currentTemp} C`);
+	} 
+}
+
+const mac = new Laptop('MacBook Air 13', 'Apple', 'M1');
+mac.processor;
+mac.getCurrentTemp();
+
+
+// private
+
+class Fridge {
+	#food = [];
+	#foodLimit = 10;
+	constructor(name){
+		this.name = name;
+	}
+
+	getCurrentFood(){
+		console.log(this.#food);
+	}
+
+	addFood(dish){
+		if(this.#food.length < this.#foodLimit){
+			this.#food.push(dish);
+		}
+		else{
+			console.error('Not enough place, eat something!');
+		}
+	}
+	#changeFoodLimit(newLimit){
+		this.#foodLimit = newLimit;
+	}
+	setNewCapacity(val){
+		this.#changeFoodLimit(val);
+	}
+}
+
+let fr = new Fridge('Samsung');
+console.log(fr);
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+// fr.#food //  SyntaxError: Private field '#food' must be declared in an enclosing class
+fr.getCurrentFood();
+fr.setNewCapacity(16);
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+fr.addFood('Varenyky');
+fr.addFood('Borsch');
+fr.addFood('Borsch');
+fr.getCurrentFood();
 
 
 

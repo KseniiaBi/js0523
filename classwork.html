@@ -10,253 +10,76 @@
 
 <script>
 
-// OOP 
+// OOP patterns [designs patterns]
 
-// fn Constructor + Prototype.method()
-
-function Cat(name, breed){
-	this.name = name;
-	this.breed = breed;
-	let age = 0;
-	setTimeout(()=>age++,2000);
-}
-
-Cat.prototype.greet = function(){
-	console.log(`Meow! I am ${this.name} the ${this.breed}`);
-}
+// Creational: Factory, Singletone, * Structural: Decorator, Façade, Behavioral: Observer, Mediator, Command
 
 
+// Singleton - creates only one instance of current class
 
-let murko = new Cat('Murko', 'Sphynx');
-
-Cat.prorotype; // {constructor: Cat} 
-// Cat.prototype.constructor == Cat // true
-murko.constructor; // link to fn Cat ///// murko.constructor == Cat
-murko instanceof Cat; // true 
-
-// Object.getPrototype
-// Object.setPrototype
-
-let animal = {
-	eat: true,
-	sleep: true
-}
-
-// Cat.prototype = animal; 
-
-
-///****
-
-let o = {}; // has toString()
-
-let obj = Object.create(null); // obj.toString is not a function
-
-
-// classes
-
-// class Declaration
-
-class Dog {
-	// has inner 'use strict' mode
-	constructor(name, breed){
-		this.name = name;
-		this.breed = breed;
-	}
-
-	bark(){
-		console.log('Woof!');
-	}
-	greet(){
-		console.log(`Hi! I am ${this.name} the ${this.breed}`);
-	}
-}
-
-const dog = new Dog('Tail', 'Shepard');
-dog.bark();
-dog.greet();
-
-typeof Dog; // function
-
-console.log(Dog.prototype.bark); // bark() code
-console.log(Object.getOwnPropertyNames(Dog.prototype)); // ['constructor', 'bark', 'greet']
-// methods have enumerable: false
-
-
-// class Expression
-
-const Vehicle = class{
-	fuel = 'LPG'; // class field
-	constructor(name, year){
-		this.name = name;
-		this.year = year; // uses get/set
-		this.speed = 0;
-	}
-	drive(speed){
-		this.speed = speed;
-		console.log(`Car ${this.name} is driving with speed ${this.speed} km/h`);
-	}
-	stop(){
-		this.speed = 0;
-		console.log(`Car ${this.name} stopped, speed is ${this.speed} km/h`);
-	}
-	get year(){
-		return this._year;
-	}
-	set year(y){
-		if(y < this._year ){
-			console.error('Incorrect year input');
+class GameState{
+	static state = null;
+	constructor(type){
+		if(GameState.state === null){
+			this.type = type;
+			GameState.state = this;
 		}
-		else{
-			this._year = y;
+		else {
+			return GameState.state;
 		}
 	}
 }
 
-let beatle = new Vehicle('VW', 2022);
-beatle.drive(50);
-beatle.stop();
-
-console.log(beatle.year);
-beatle.year = 2021;
-beatle.year = 2023;
-console.log(beatle.year);
-
-console.log(beatle.fuel); // 'LPG'
-//console.log(Vehicle.prototype.fuel); // undefined
+let menu = new GameState('MainMenu');
+let level = new GameState('Level 1');
+let tutorial = new GameState('Tutorial');
 
 
-class Truck extends Vehicle {
-	constructor(name, year, weight){
-		super(name, year); // parent constructor
+// Factory
+
+class Cake{
+	constructor(name, weight){
+		this.name = name;
 		this.weight = weight;
 	}
-
-	getInfo(){
-		console.log(Object.getOwnPropertyNames(this.constructor.prototype));
-	}
-
-	stop(){
-		console.log('Sloooooooowlyyyyyyy stoooooppppiiiiing');
-		super.stop();
-	}
 }
 
-let daf = new Truck('DAF', 2005, 9000);
-
-daf.drive(40);
-daf.stop();
-console.log(daf.year);
-daf.getInfo();
-
-
-// static properties and methods 
-
-class Book{
-	static count = 0; // static
-	constructor(name, author){
+class Candy{
+	constructor(name, pack, flavour){
 		this.name = name;
-		this.author = author;
-		Book.count += 1; // кожного разу, коли викликається конструктор (new) 
-	}
-
-	static compare(book1, book2){
-		if(book1.name > book2.name){
-			return 1;
-		}
-		else if(book1.name < book2.name){
-			return -1;
-		}
-		else{
-			return 0;
-		}
+		this.flavour = flavour;
+		this.pack = pack;
 	}
 }
 
-const hp = new Book('Harry Potter', 'J. Rowling');
-const css = new Book('Ideal solutions for everyday tasks', 'Lea Verou');
-const hobbit = new Book('Hobbit', 'J. Tolkien');
-console.log(Book.count);
-
-const books = [hp, css, hobbit];
-books.sort(Book.compare);
-
-
-// private and protected props and methods
-
-class Laptop{
-	_currentTemp = 20;
-	constructor(model, manufacturer, processor){
-		this.model = model;
-		this.manufacturer = manufacturer;
-		this._processor = processor; // protected property
-	}
-	get processor(){ // getter has same name as it will be public
-		console.log(`${this.model} has processor ${this._processor}`);
-	}
-
-	getCurrentTemp(){
-		console.log(`Current temperature of ${this.model} is ${this._currentTemp} C`);
-	} 
-}
-
-const mac = new Laptop('MacBook Air 13', 'Apple', 'M1');
-mac.processor;
-mac.getCurrentTemp();
-
-
-// private
-
-class Fridge {
-	#food = [];
-	#foodLimit = 10;
-	constructor(name){
+class Cookie{
+	constructor(name, filling){
 		this.name = name;
-	}
-
-	getCurrentFood(){
-		console.log(this.#food);
-	}
-
-	addFood(dish){
-		if(this.#food.length < this.#foodLimit){
-			this.#food.push(dish);
-		}
-		else{
-			console.error('Not enough place, eat something!');
-		}
-	}
-	#changeFoodLimit(newLimit){
-		this.#foodLimit = newLimit;
-	}
-	setNewCapacity(val){
-		this.#changeFoodLimit(val);
+		this.filling = filling;
 	}
 }
 
-let fr = new Fridge('Samsung');
-console.log(fr);
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-// fr.#food //  SyntaxError: Private field '#food' must be declared in an enclosing class
-fr.getCurrentFood();
-fr.setNewCapacity(16);
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-fr.addFood('Varenyky');
-fr.addFood('Borsch');
-fr.addFood('Borsch');
-fr.getCurrentFood();
 
+class SweetsFactory{
+	createSweets(options){ // fabric method
+		switch(options.type){
+			case 'cake': return new Cake(options.name, options.weight); 
+						break;
+			case 'candy': return new Candy(options.name, options.pack, options.flavour);
+						break;
+			case 'cookies': return new Cookie(options.name, options.filling);
+							break;
+			default: return new Cookie(options.name, options.filling);
+					break;
+		}
+	}
+}
+
+const sweetsFactory = new SweetsFactory();
+let sweet1 = sweetsFactory.createSweets({name: 'Red Velvet', weight: 1.5, type: 'cake'});
+let sweet2 = sweetsFactory.createSweets({name: 'Whoopie', filling: 'strawberry', type: 'cookies'});
+let sweet3 = sweetsFactory.createSweets({name: 'Shpaky', pack: 500, type: 'candy'});
+let sweet4 = sweetsFactory.createSweets({name: 'Napoleon', filling: 'none'});
 
 
 

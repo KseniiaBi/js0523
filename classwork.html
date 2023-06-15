@@ -8,6 +8,156 @@
 <body>
 
 
-<script type="module" src="common.js"></script>
+<script>
+
+// fibonacci
+
+function* fibonacci(n){
+	let [prev, curr] = [0,1];
+	yield prev;
+	yield curr;
+	for(let i = 3; i <= n; i++){
+		[prev, curr] = [curr, prev + curr];
+		yield curr;
+	}
+}
+
+console.log(...fibonacci(11));
+
+
+// a-z
+
+function* alphabet(){
+	let current = 'A';
+	while(current <= 'Z'){
+		yield current;
+		current = String.fromCharCode(current.charCodeAt(0) + 1);
+	}
+}
+
+console.log(...alphabet());
+
+
+// call/apply
+// 1
+function sayHi(){
+	console.warn(`Hi! I am ${this.name}`);
+}
+
+let u1 = {
+	name: 'John'
+}
+
+let u2 = {
+	name: 'Jane'
+}
+
+sayHi.call(u1);
+sayHi.call(u2);
+
+
+// 2
+
+let user = {
+	name: 'Anna',
+	greet(){
+		console.log(`Hi! I am ${this.name}`);
+	}
+}
+
+user.greet.call(u2) // user.greet => link to function
+
+
+// 3
+
+let sum = (a,b,c,d,e) => a+b+c+d+e;
+let arr = [...fibonacci(5)];
+console.log(sum.apply(null, arr));
+
+// 4
+
+function extendedSum(){
+	let sum = 0;
+	for(let i = 0; i < arguments.length; i++){
+		sum += arguments[i];
+	}
+	return sum;
+}
+
+console.log(extendedSum.call(null, 1,2,3,4,5,6,7,8,9));
+
+
+// recursion
+
+ // 1 sum of arr elements
+
+ function sumArr(arr){
+	if(arr.length === 0){
+		return 0;
+	}
+	return arr[0] + sumArr(arr.slice(1))
+ }
+
+ console.log(sumArr([1,2,3,4,5,6,7,8,9]));
+
+
+// 2 find in object
+
+let catalog = {
+	sizes: {
+		xs: [12345, 22345, 33345, 44445],
+		s: [98765, 88765, 77765, 66665, 55555],
+		m: [12987, 12387, 45877]
+	},
+	colors: {
+		black: [34567, 45678, 56789, 54321],
+		white: [45678, 54321, 44445, 22345],
+		blue: [12987, 88765, 33345]
+	}
+};
+
+
+function getShopItems(obj, filters){
+	let arr = [];
+
+	for(let f in obj){
+		if(obj[f].length != undefined ){
+			debugger;
+			if(filters.includes(f)){
+
+				arr.push(obj[f]);
+			}
+		}
+		else{
+		debugger;
+			return getShopItems(obj[f], filters);
+		}
+	};
+	return arr;
+}
+
+console.log(getShopItems(catalog, ['s', 'black']));
+
+// look like filters in ecommerce: manufacturer, size, color ...
+
+
+
+
+////
+let items = [
+	{
+		id: 12345,
+		name: 'Mens Shoes',
+		size: 41,
+		price: 159,
+		color: ['black', 'gray'],
+		manufacturer: 'Columbia'
+		// .... 
+	}, 
+	{
+		///
+	}
+]
+</script>
 </body>
 </html>

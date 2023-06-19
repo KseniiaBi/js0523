@@ -4,104 +4,131 @@
 	<title>JS FE</title> 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<style>
+
+		html{
+			width: 100vw;
+			overflow-x: hidden;
+		}
+		header{
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 30px;
+		}
+		nav a{
+			font-size: 20px;
+			margin-left: 24px;
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.menubtn{
+			position: absolute;
+			top: 20px;
+			right: 30px;
+			width: 24px;
+			height: 24px;
+			display: none;
+			cursor: pointer;
+			z-index: 10;
+		}
+
+		.menubtn span{
+			display: block;
+			width: 100%;
+			height: 2px;
+			background-color: black;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transition: transform 0.3s ease-in-out;
+			will-change: transform;
+		}
+
+		.menubtn span:nth-of-type(2){
+			top: 11px;
+			width: 75%;
+		}
+
+		.menubtn span:nth-of-type(3){
+			top: 22px;
+		}
+
+		.opened .menubtn span:nth-of-type(1){
+			transform: rotate(45deg) translateX(5px) translateY(9px);
+		}
+		.opened .menubtn span:nth-of-type(2){
+			transform: scaleX(0);
+		}
+
+		.opened .menubtn span:nth-of-type(3){
+			transform: rotate(-45deg) translateX(7px) translateY(-10px)
+		}
+
+
+
+		@media (max-width: 768px){
+			.menubtn{
+				display: block;
+			}
+			nav{
+				position: absolute;
+				top: 0;
+				left: 0;
+				transform: translateX(100vw);
+				transition: transform 0.6s ease-in-out;
+			}
+
+			.opened nav{
+				transform: translateX(0);
+				width: 100%;
+				background: #fff;
+				display: block;
+				width: 100%;
+				padding: 10px 30px;
+			}
+
+			nav a{
+				display: block;
+				width: 100%;
+				text-align: center;
+				margin: 0;
+				padding: 10px 0;
+			}
+
+			nav a + a{
+				border-top: 1px solid #e2e2e2;
+			}
+		}
+
+	</style>
 </head>
 <body>
 
-	<div id="box">box</div>
-
-	<div class="portfolio_item">pf item</div>
-	<div class="portfolio_item">pf item</div>
-	<div class="portfolio_item">pf item</div>
-
-	<button>click me!</button>
-	<!-- <button onclick="alert(111)">click me!</button> DON'T DO THIS!!! NO INLINE CLICK HANDLERS!!! -->
-
-	<section>section 1</section>
-	<section>section 2</section>
-
-	<div class="calc">
-		<label>Type A:</label><input id="inputA" type="number" placeholder="A" />
-		<label>Type B:</label><input id="inputB" type="number" placeholder="B" />
-		<button class="add">+</button>
-		<button class="extract">-</button>
-		<button class="multiply">*</button>
-		<button class="divide">/</button>
-		<input class="res" type="text" value="">
-	</div>
+	<header>
+		<span>LOGO</span>
+		<div class="menubtn">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<nav>
+			<a href="#">Home</a>
+			<a href="#">About</a>
+			<a href="#">Portfolio</a>
+			<a href="#">Contact</a>
+		</nav>
+	</header>
 
 <script>
 
-	const box = document.getElementById('box');
-	const portfolioItems = document.getElementsByClassName('portfolio_item'); // HTMLCollection
-	const pfItem1 = portfolioItems[0]; // document.getElementsByClassName('portfolio_item')[0];
-	const btn = document.getElementsByTagName('button')[0];
-	const sections = document.querySelectorAll('section'); // NodeList
-	const section1 = document.querySelector('section');
+	const header = document.querySelector('header');
+	const menuBtn = document.querySelector('.menubtn');
 
+	header.onclick = () => header.classList.toggle('opened');
 
-
-	//  Event handling
-
-	btn.onclick = () => console.log(2222);
-
-	pfItem1.onmouseenter = () => pfItem1.style.background = 'limegreen';
-	pfItem1.onmouseleave = () => pfItem1.style.background = 'transparent';
-
-	function makeRainbow(el){
-		const colors = ['red', 'orange', 'yellow', 'green', 'lightblue', 'blue', 'purple'];
-		let current = 0;
-
-		return function(){
-			el.style.background = colors[current];
-			current = current < colors.length - 1 ? ++current : 0;
-		}
-	}
-
-	box.onclick = makeRainbow(box);
-
-
-	function greet(){
-		console.warn('Hi!');
-	}
-
-	section1.onclick = greet;
-
-
-	
-	// Event Listener
-
-	document.addEventListener('click', function(event){
-		// console.log(event);
-		if(event.target.tagName.toLowerCase() === 'section'){
-			console.warn('Section click');
-		}
-	});
-
-
-
-	// calc
-
-	const calculator = document.getElementsByClassName('calc')[0];
-	const aInput = calculator.querySelector('#inputA');
-	const bInput = calculator.querySelector('#inputB');
-	const mulBtn = calculator.querySelector('.multiply');
-	const sumBtn = calculator.querySelector('.add');
-	const extrBtn = calculator.querySelector('.extract');
-	const divideBtn = calculator.querySelector('.divide');
-	const result = calculator.querySelector('.res');
-	
-	mulBtn.onclick = () => {
-		result.value = +aInput.value * +bInput.value;
-	}
-	sumBtn.onclick = () => {
-		result.value = +aInput.value + +bInput.value;
-	}
-	extrBtn.onclick = () => {
-		result.value = +aInput.value - +bInput.value;
-	}
-	divideBtn.onclick = () => {
-		result.value = +aInput.value / +bInput.value;
-	}
 
 </script>
 </body>

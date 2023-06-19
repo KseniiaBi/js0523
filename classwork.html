@@ -117,23 +117,19 @@ let catalog = {
 };
 
 
-function getShopItems(obj, filters){
-	let arr = [];
+function getShopItems(obj, filters,set = new Set()){
 
 	for(let f in obj){
 		if(obj[f].length != undefined ){
-			debugger;
 			if(filters.includes(f)){
-
-				arr.push(obj[f]);
+				obj[f].forEach(item => set.add(item));
 			}
 		}
 		else{
-		debugger;
-			return getShopItems(obj[f], filters);
+			 getShopItems(obj[f], filters, set);
 		}
 	};
-	return arr;
+	return set;
 }
 
 console.log(getShopItems(catalog, ['s', 'black']));

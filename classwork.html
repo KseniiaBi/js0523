@@ -11,219 +11,244 @@
 			padding: 0;
 		}
 
-		.slider{
-			width: 100%;
-			height: 300px;
-			position: relative;
-		}
-
-		.slide{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			text-align: center;
-			color: #ffffff;
-			font-size: 55px;
-			padding-top: 50px;
-			background: lightgray;
-			opacity: 0;
-			transition: opacity 0.5s ease-in-out;
-		}
-
-		.slide.active{
-			opacity: 1;
-		}
-
-		.slide:nth-of-type(2){
-			background: hotpink;
-		}
-		.slide:nth-of-type(3){
-			background: lightgreen;
-		}
-		.slide:nth-of-type(4){
-			background: lightblue;
-		}
-		.slide:nth-of-type(5){
-			background: gold;
-		}
-
-		.navs{
-			list-style: none;
+		.todo_component{
 			display: flex;
-			justify-content: center;
+			flex-direction: column;
 			align-items: center;
-			width: 100%;
-			position: absolute;
-			bottom: 20px;
-			left: 0;
+			justify-content: center;
+			padding: 50px;
+			font-family: 'Helvetica Neue',sans-serif;
 		}
 
-		.slidernav{
-			width: 14px;
-			height: 14px;
-			border-radius: 50%;
-			border: 2px solid #fff;
-			margin: 0 7px;
-			cursor: pointer;
+		.todoform{
+			margin: 30px 0;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
 		}
-
-		.slidernav.active{
-			background: #ffffff;
+		.task_input, .save_input{
+			height: 30px;
+			border-radius: 3px;
+			width: 200px;
+			outline: none;
 		}
-
-		.arr_prev, .arr_next{
-			position: absolute;
-			left: 10px;
-			top: 110px;
-			font-size: 30px;
-			transform: scaleX(0.6);
+		.task_input{
+			border: 1px solid #e2e2e2;
+		}
+		.save_input{
+			width: 60px;
 			color: #ffffff;
+			background-color: seagreen;
+			border: none;
 			cursor: pointer;
-			z-index: 10;
 		}
 
-		.arr_next{
-			left: auto;
-			right: 10px;
+		.done{
+			text-decoration: line-through;
+		}
+
+		.del_btn, .edit_btn {
+			width: 24px;
+			height: 24px;
+			margin-left: 20px;
+			display: inline-block;
+			cursor: pointer;
+		}
+
+		.edit_btn {
+			background: url('edit.png') no-repeat center;
+			background-size: contain;
+		}
+		.del_btn {
+			background: url('delete.png') no-repeat center;
+			background-size: contain;
+		}
+
+		.hidden{
+			display: none;
 		}
 
 	</style>
 </head>
 <body>
 
-	<!-- <div class="slider">
-		<div class="slide active">Slide 1</div>
-		<div class="slide">Slide 2</div>
-		<div class="slide">Slide 3</div>
-		<div class="slide">Slide 4</div>
-		<div class="slide">Slide 5</div>
-		
-		<ul class="navs">
-			<li data-slide="0" class="slidernav active"></li>
-			<li data-slide="1" class="slidernav"></li>
-			<li data-slide="2" class="slidernav"></li>
-			<li data-slide="3" class="slidernav"></li>
-			<li data-slide="4" class="slidernav"></li>
-		</ul>
-		<div class="arr_prev">&lt;</div>
-		<div class="arr_next">&gt;</div>
+	<div class="todo_component">
+
+		<h1>To Do List</h1>
+		<form class="todoform">
+			<input class="task_input" name="task" type="text" placeholder="Type your task">
+			<input class="save_input" type="submit" value="Save">
+		</form>
+
+		<h3 class="hint">Any tasks yet. Type any in input above</h3>
+		<ol class="todolist"></ol>
 	</div>
-
-	<div class="slider">
-		<div class="slide active">Slide 1</div>
-		<div class="slide">Slide 2</div>
-		<div class="slide">Slide 3</div>
-		<div class="slide">Slide 4</div>
-		<div class="slide">Slide 5</div>
-		
-		<ul class="navs">
-			<li data-slide="0" class="slidernav active"></li>
-			<li data-slide="1" class="slidernav"></li>
-			<li data-slide="2" class="slidernav"></li>
-			<li data-slide="3" class="slidernav"></li>
-			<li data-slide="4" class="slidernav"></li>
-		</ul>
-		<div class="arr_prev">&lt;</div>
-		<div class="arr_next">&gt;</div>
-	</div>
-
-	<div class="slider">
-		<div class="slide active">Slide 1</div>
-		<div class="slide">Slide 2</div>
-		<div class="slide">Slide 3</div>
-		<div class="slide">Slide 4</div>
-		<div class="slide">Slide 5</div>
-		
-		<ul class="navs">
-			<li data-slide="0" class="slidernav active"></li>
-			<li data-slide="1" class="slidernav"></li>
-			<li data-slide="2" class="slidernav"></li>
-			<li data-slide="3" class="slidernav"></li>
-			<li data-slide="4" class="slidernav"></li>
-		</ul>
-		<div class="arr_prev">&lt;</div>
-		<div class="arr_next">&gt;</div>
-	</div> -->
-
-
-	
-
 
 <script>
 
-//  slider
-// autoplay +
-// arrows change slide +
-// dots change slide +
+//  to do list
+// markup: form text+submit, list, h3 +
+// add new task +
+// mark as done +
+// delete task + 
+// edit task + 
+// save to local storage / get from local storage ***    +
+// refactoring
 
+const form = document.querySelector('.todoform');
+const input = document.querySelector('.task_input');
+const list = document.querySelector('.todolist');
+const hint = document.querySelector('.hint');
+const APP_NAME = 'ToDoList_JS0523';
+const storage = window.localStorage;
 
-class Slider{
-	constructor(slider, time){
-		this.parent = slider;
-		this.slides = this.parent.querySelectorAll('.slide');
-		this.navs = this.parent.querySelectorAll('.slidernav');
-		this.prev = this.parent.querySelector('.arr_prev');
-		this.next = this.parent.querySelector('.arr_next');
-		this.currentSlide = 0;
-		this.time = time;
-		this.interval;
+function saveToLS(){
+	storage.setItem(APP_NAME, JSON.stringify(todos));
+}
 
-		for(let nav of this.navs){
-			nav.onclick = () => {
-				this.currentSlide = +nav.dataset.slide;
-				this.resetSlide();
-			}
-		}
+function getFromLS(){
+	return storage.getItem(APP_NAME) != null ? JSON.parse(storage.getItem(APP_NAME)) : []; // get returns [] : null
+}
 
-		this.prev.onclick = () => {
-			this.currentSlide = this.currentSlide >= 1 ? --this.currentSlide : this.slides.length -1;
-			this.resetSlide();
-		}
-
-		this.next.onclick = () => {
-			this.currentSlide = this.currentSlide < this.slides.length -1 ? ++this.currentSlide : 0;
-			this.resetSlide();
-		}
-
-		this.init();
+function checkTodos(){
+	if(todos.length === 0){
+		hint.style.display = 'block';
+		list.style.display = 'none';
 	}
-
-	init(){
-		this.interval = setInterval(()=>{
-			this.currentSlide = this.currentSlide < this.slides.length -1 ? ++this.currentSlide : 0;
-			this.changeSlide(this.currentSlide);
-		}, this.time);
-	}
-
-	changeSlide(n){
-		this.slides.forEach(item=> item.classList.remove('active'));
-		this.navs.forEach(item=> item.classList.remove('active'));
-		this.slides[n].classList.add('active');
-		this.navs[n].classList.add('active');
-	}
-	
-	resetSlide(){
-		clearInterval(this.interval);
-		this.changeSlide(this.currentSlide);
-		this.init();
+	else{
+		hint.style.display = 'none';
+		list.style.display = 'block';
 	}
 }
 
-// create sliders
-
-const sliders = document.querySelectorAll('.slider');
-
-/// if we use prev version without OOP
-//if(sliders.length > 0){
- //// all code which was written for Slider - init, changeSlide, prev/next
-///}
-/// 
-for(let s of sliders){
-	new Slider(s, Math.random()*2000 + 2000);
+const todos = getFromLS();
+checkTodos();
+if(todos.length > 0){
+	for(let t of todos){
+		createTodoListItem(t);
+	}
 }
 
+function saveTask(){
+	let text = input.value;
+	if(text.length < 3){
+		console.error('Too short task');
+		return;
+	}
+	const id = Date.now();
+	const todo = {
+		task: text,
+		done: false,
+		id: id
+	}
+	todos.push(todo);
+
+	input.value = '';
+	if(todos.length === 1){
+		checkTodos();
+	}
+	createTodoListItem(todo);
+	saveToLS();
+}
+
+
+function createTodoListItem(todo){
+
+	let li = document.createElement('li');
+	li.dataset.id = todo.id;
+
+	let span = document.createElement('span');
+	span.innerText = todo.task;
+	li.append(span);
+
+	let innerInput = document.createElement('input');
+	innerInput.classList.add('hidden');
+	li.append(innerInput);
+
+
+	let del = document.createElement('span');
+	del.classList.add('del_btn');
+	li.append(del);
+
+	let edit = document.createElement('span');
+	edit.classList.add('edit_btn');
+	li.append(edit);
+
+
+	list.append(li);
+}
+
+function markAsDone(el){
+	el.classList.toggle('done');
+	let id = +el.dataset.id;
+
+	todos.forEach(item=>{
+		if(item.id === id){
+			item.done = !item.done; // if was true set false, if was false, set true
+		}
+	});
+	saveToLS();
+}
+
+function deleteTask(el){
+	let id = +el.dataset.id;
+	el.remove(); // delete from markup
+	todos.forEach((item, index) =>{
+		if(item.id === id){
+			todos.splice(index, 1); // remove todo  from array
+		}
+	});
+	if(todos.length === 0){
+		checkTodos();
+	}
+	saveToLS();
+}
+
+function editTask(el){
+	let id = +el.dataset.id;
+	let span = el.querySelector('span');
+	let input = el.querySelector('input');
+
+	input.value = span.innerText; // записати поточний текст завдання в інпут
+
+	span.classList.add('hidden');
+	input.classList.remove('hidden');
+
+	input.onkeyup = (e) => {
+		if(e.key === 'Enter'){
+			span.innerText = input.value; // записати поточний текст завдання з інпуту в спан
+			span.classList.remove('hidden');
+			input.classList.add('hidden');
+
+			todos.forEach((item) =>{
+				if(item.id === id){
+					item.task = input.value;
+				}
+			});
+		}
+	}
+	saveToLS();
+}
+
+form.onsubmit = (event) => {
+	event.preventDefault();
+	saveTask();
+}
+
+list.addEventListener('click', (e) => {
+	if(e.target.tagName.toLowerCase() === 'li'){
+		markAsDone(e.target);
+	}
+	if(e.target.tagName.toLowerCase() === 'span'){
+		markAsDone(e.target.parentNode);
+	}
+	if(e.target.classList.contains('del_btn')){
+		deleteTask(e.target.parentNode);
+	}
+	if(e.target.classList.contains('edit_btn')){
+		editTask(e.target.parentNode);
+	}
+});
 
 </script>
 </body>

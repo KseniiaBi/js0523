@@ -93,6 +93,24 @@
 </head>
 <body>
 
+	<!-- <div class="slider">
+		<div class="slide active">Slide 1</div>
+		<div class="slide">Slide 2</div>
+		<div class="slide">Slide 3</div>
+		<div class="slide">Slide 4</div>
+		<div class="slide">Slide 5</div>
+		
+		<ul class="navs">
+			<li data-slide="0" class="slidernav active"></li>
+			<li data-slide="1" class="slidernav"></li>
+			<li data-slide="2" class="slidernav"></li>
+			<li data-slide="3" class="slidernav"></li>
+			<li data-slide="4" class="slidernav"></li>
+		</ul>
+		<div class="arr_prev">&lt;</div>
+		<div class="arr_next">&gt;</div>
+	</div>
+
 	<div class="slider">
 		<div class="slide active">Slide 1</div>
 		<div class="slide">Slide 2</div>
@@ -111,6 +129,24 @@
 		<div class="arr_next">&gt;</div>
 	</div>
 
+	<div class="slider">
+		<div class="slide active">Slide 1</div>
+		<div class="slide">Slide 2</div>
+		<div class="slide">Slide 3</div>
+		<div class="slide">Slide 4</div>
+		<div class="slide">Slide 5</div>
+		
+		<ul class="navs">
+			<li data-slide="0" class="slidernav active"></li>
+			<li data-slide="1" class="slidernav"></li>
+			<li data-slide="2" class="slidernav"></li>
+			<li data-slide="3" class="slidernav"></li>
+			<li data-slide="4" class="slidernav"></li>
+		</ul>
+		<div class="arr_prev">&lt;</div>
+		<div class="arr_next">&gt;</div>
+	</div> -->
+
 
 	
 
@@ -122,53 +158,71 @@
 // arrows change slide +
 // dots change slide +
 
-	const slides = document.querySelectorAll('.slide');
-	const navs = document.querySelectorAll('.slidernav');
-	const prev = document.querySelector('.arr_prev');
-	const next = document.querySelector('.arr_next');
-	let currentSlide = 0;
 
-	let interval;
-	
-	function init(){
-		interval = setInterval(()=>{
-			currentSlide = currentSlide < slides.length -1 ? ++currentSlide : 0;
-			changeSlide(currentSlide);
-		}, 3000);
-	}
-	
+class Slider{
+	constructor(slider, time){
+		this.parent = slider;
+		this.slides = this.parent.querySelectorAll('.slide');
+		this.navs = this.parent.querySelectorAll('.slidernav');
+		this.prev = this.parent.querySelector('.arr_prev');
+		this.next = this.parent.querySelector('.arr_next');
+		this.currentSlide = 0;
+		this.time = time;
+		this.interval;
 
-	function changeSlide(n){
-		slides.forEach(item=> item.classList.remove('active'));
-		navs.forEach(item=> item.classList.remove('active'));
-		slides[n].classList.add('active');
-		navs[n].classList.add('active');
-	}
-
-	document.addEventListener('click', (event) => {
-		if(event.target.classList.contains('slidernav')){
-			currentSlide = +event.target.dataset.slide;
-			resetSlide();
+		for(let nav of this.navs){
+			nav.onclick = () => {
+				this.currentSlide = +nav.dataset.slide;
+				this.resetSlide();
+			}
 		}
-	});
 
-	prev.onclick = () => {
-		currentSlide = currentSlide >= 1 ? --currentSlide : slides.length -1;
-		resetSlide();
+		this.prev.onclick = () => {
+			this.currentSlide = this.currentSlide >= 1 ? --this.currentSlide : this.slides.length -1;
+			this.resetSlide();
+		}
+
+		this.next.onclick = () => {
+			this.currentSlide = this.currentSlide < this.slides.length -1 ? ++this.currentSlide : 0;
+			this.resetSlide();
+		}
+
+		this.init();
 	}
 
-	next.onclick = () => {
-		currentSlide = currentSlide < slides.length -1 ? ++currentSlide : 0;
-		resetSlide();
+	init(){
+		this.interval = setInterval(()=>{
+			this.currentSlide = this.currentSlide < this.slides.length -1 ? ++this.currentSlide : 0;
+			this.changeSlide(this.currentSlide);
+		}, this.time);
 	}
 
-	function resetSlide(){
-		clearInterval(interval);
-		changeSlide(currentSlide);
-		init();
+	changeSlide(n){
+		this.slides.forEach(item=> item.classList.remove('active'));
+		this.navs.forEach(item=> item.classList.remove('active'));
+		this.slides[n].classList.add('active');
+		this.navs[n].classList.add('active');
 	}
+	
+	resetSlide(){
+		clearInterval(this.interval);
+		this.changeSlide(this.currentSlide);
+		this.init();
+	}
+}
 
-	init();
+// create sliders
+
+const sliders = document.querySelectorAll('.slider');
+
+/// if we use prev version without OOP
+//if(sliders.length > 0){
+ //// all code which was written for Slider - init, changeSlide, prev/next
+///}
+/// 
+for(let s of sliders){
+	new Slider(s, Math.random()*2000 + 2000);
+}
 
 
 </script>

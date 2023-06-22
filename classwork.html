@@ -5,129 +5,170 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<style>
-
-		html{
-			width: 100vw;
-			overflow-x: hidden;
+		*{
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
 		}
-		header{
+
+		.slider{
+			width: 100%;
+			height: 300px;
 			position: relative;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 30px;
-		}
-		nav a{
-			font-size: 20px;
-			margin-left: 24px;
-			text-decoration: none;
-			color: inherit;
 		}
 
-		.menubtn{
+		.slide{
 			position: absolute;
-			top: 20px;
-			right: 30px;
-			width: 24px;
-			height: 24px;
-			display: none;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			color: #ffffff;
+			font-size: 55px;
+			padding-top: 50px;
+			background: lightgray;
+			opacity: 0;
+			transition: opacity 0.5s ease-in-out;
+		}
+
+		.slide.active{
+			opacity: 1;
+		}
+
+		.slide:nth-of-type(2){
+			background: hotpink;
+		}
+		.slide:nth-of-type(3){
+			background: lightgreen;
+		}
+		.slide:nth-of-type(4){
+			background: lightblue;
+		}
+		.slide:nth-of-type(5){
+			background: gold;
+		}
+
+		.navs{
+			list-style: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			position: absolute;
+			bottom: 20px;
+			left: 0;
+		}
+
+		.slidernav{
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			border: 2px solid #fff;
+			margin: 0 7px;
+			cursor: pointer;
+		}
+
+		.slidernav.active{
+			background: #ffffff;
+		}
+
+		.arr_prev, .arr_next{
+			position: absolute;
+			left: 10px;
+			top: 110px;
+			font-size: 30px;
+			transform: scaleX(0.6);
+			color: #ffffff;
 			cursor: pointer;
 			z-index: 10;
 		}
 
-		.menubtn span{
-			display: block;
-			width: 100%;
-			height: 2px;
-			background-color: black;
-			position: absolute;
-			top: 0;
-			left: 0;
-			transition: transform 0.3s ease-in-out;
-			will-change: transform;
-		}
-
-		.menubtn span:nth-of-type(2){
-			top: 11px;
-			width: 75%;
-		}
-
-		.menubtn span:nth-of-type(3){
-			top: 22px;
-		}
-
-		.opened .menubtn span:nth-of-type(1){
-			transform: rotate(45deg) translateX(5px) translateY(9px);
-		}
-		.opened .menubtn span:nth-of-type(2){
-			transform: scaleX(0);
-		}
-
-		.opened .menubtn span:nth-of-type(3){
-			transform: rotate(-45deg) translateX(7px) translateY(-10px)
-		}
-
-
-
-		@media (max-width: 768px){
-			.menubtn{
-				display: block;
-			}
-			nav{
-				position: absolute;
-				top: 0;
-				left: 0;
-				transform: translateX(100vw);
-				transition: transform 0.6s ease-in-out;
-			}
-
-			.opened nav{
-				transform: translateX(0);
-				width: 100%;
-				background: #fff;
-				display: block;
-				width: 100%;
-				padding: 10px 30px;
-			}
-
-			nav a{
-				display: block;
-				width: 100%;
-				text-align: center;
-				margin: 0;
-				padding: 10px 0;
-			}
-
-			nav a + a{
-				border-top: 1px solid #e2e2e2;
-			}
+		.arr_next{
+			left: auto;
+			right: 10px;
 		}
 
 	</style>
 </head>
 <body>
 
-	<header>
-		<span>LOGO</span>
-		<div class="menubtn">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-		<nav>
-			<a href="#">Home</a>
-			<a href="#">About</a>
-			<a href="#">Portfolio</a>
-			<a href="#">Contact</a>
-		</nav>
-	</header>
+	<div class="slider">
+		<div class="slide active">Slide 1</div>
+		<div class="slide">Slide 2</div>
+		<div class="slide">Slide 3</div>
+		<div class="slide">Slide 4</div>
+		<div class="slide">Slide 5</div>
+		
+		<ul class="navs">
+			<li data-slide="0" class="slidernav active"></li>
+			<li data-slide="1" class="slidernav"></li>
+			<li data-slide="2" class="slidernav"></li>
+			<li data-slide="3" class="slidernav"></li>
+			<li data-slide="4" class="slidernav"></li>
+		</ul>
+		<div class="arr_prev">&lt;</div>
+		<div class="arr_next">&gt;</div>
+	</div>
+
+
+	
+
 
 <script>
 
-	const header = document.querySelector('header');
-	const menuBtn = document.querySelector('.menubtn');
+//  slider
+// autoplay +
+// arrows change slide +
+// dots change slide +
 
-	header.onclick = () => header.classList.toggle('opened');
+	const slides = document.querySelectorAll('.slide');
+	const navs = document.querySelectorAll('.slidernav');
+	const prev = document.querySelector('.arr_prev');
+	const next = document.querySelector('.arr_next');
+	let currentSlide = 0;
+
+	let interval;
+	
+	function init(){
+		interval = setInterval(()=>{
+			currentSlide = currentSlide < slides.length -1 ? ++currentSlide : 0;
+			changeSlide(currentSlide);
+		}, 3000);
+	}
+	
+
+	function changeSlide(n){
+		slides.forEach(item=> item.classList.remove('active'));
+		navs.forEach(item=> item.classList.remove('active'));
+		slides[n].classList.add('active');
+		navs[n].classList.add('active');
+	}
+
+	document.addEventListener('click', (event) => {
+		if(event.target.classList.contains('slidernav')){
+			currentSlide = +event.target.dataset.slide;
+			resetSlide();
+		}
+	});
+
+	prev.onclick = () => {
+		currentSlide = currentSlide >= 1 ? --currentSlide : slides.length -1;
+		resetSlide();
+	}
+
+	next.onclick = () => {
+		currentSlide = currentSlide < slides.length -1 ? ++currentSlide : 0;
+		resetSlide();
+	}
+
+	function resetSlide(){
+		clearInterval(interval);
+		changeSlide(currentSlide);
+		init();
+	}
+
+	init();
 
 
 </script>

@@ -35,14 +35,34 @@
 			display: none;
 		}
 
+		#about, #portfolio, #contact{
+			height: 1200px;
+		}
+		#about{
+			background-color: pink;
+		}
+		#portfolio{
+			background-color: gold;
+		}
+		#contact{
+			background-color: aquamarine;
+		}
+
 	</style>
 </head>
 <body>
 
-
+	<nav>
+		<a class="scroll_link" href="#about">About</a>
+		<a class="scroll_link" href="#portfolio">Portfolio</a>
+		<a class="scroll_link" href="#contact">Contact</a>
+	</nav>
 	<div class="content">
 		
 	</div>
+	<div id="about"></div>
+	<div id="portfolio"></div>
+	<div id="contact"></div>
  
 	<div class="to_top hidden">🔝</div>
 	
@@ -65,6 +85,21 @@
 	}
 
 	arrow.onclick = () => window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+
+
+	/// smooth anchor links
+
+	document.addEventListener('click', (e) => {
+		if(e.target.classList.contains('scroll_link')){
+			e.preventDefault();
+			const href = e.target.href.substr(e.target.href.indexOf('#')+1);
+			let elem = document.getElementById(href);
+			const offset = elem.offsetTop;
+			setTimeout(()=>window.location.hash = href, 100);
+			// const offset = document.getElementById(e.target.href.substr(e.target.href.indexOf('#')+1)).offsetTop;
+			window.scrollTo({top: offset, left: 0, behavior: "smooth"});
+		}
+	});
 
 </script>
 </body>

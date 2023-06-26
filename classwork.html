@@ -11,42 +11,28 @@
 			padding: 0;
 		}
 
-		.tabs{
-			max-width: 600px;
-			margin: 50px auto;
+		.content {
+			height: 4000px;
+			background-color: antiquewhite;
 		}
 
-		.tab_names {
+		.to_top{
 			display: flex;
-		}
-		
-		.tab_name{
-			color: #ffffff;
-			background-color: darkolivegreen;
-			padding: 10px;
-			width: 180px;
-			margin-right: 10px;
-			border-radius: 3px 3px 0 0;
-			font-size: 20px;
+			justify-content: center;
+			align-items: center;
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background-color: #ffffff;
+			box-shadow: 2px 4px 10px #e2e2e2;
+			position: fixed;
+			bottom: 30px;
+			right: 30px;
 			cursor: pointer;
 		}
 
-		.active.tab_name{
-			font-weight: bold;
-			text-decoration: underline;
-		}
-
-		.tab{
+		.hidden{
 			display: none;
-			padding: 30px;
-		}
-		.tab.active{
-			display: block;
-		}
-
-		.tab_container{
-			border: 1px solid darkolivegreen;
-			border-radius: 0 0 3px 3px;
 		}
 
 	</style>
@@ -54,64 +40,31 @@
 <body>
 
 
-	<div class="tabs">
-		<div class="tab_names">
-			<div data-id="account" class="tab_name active">Account 🦊</div>
-			<div data-id="orders" class="tab_name">Orders 👚</div>
-			<div data-id="delivery" class="tab_name">Payment/Delivery 💼</div>
-			<div data-id="referals" class="tab_name">Referals 👨‍👩‍👧‍👦 </div>
-		</div>
-
-		<div class="tab_container">
-			<div id="account" class="tab active">
-				<h3>Account</h3>
-				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-			</div>
-			<div id="orders" class="tab">
-				<h3>Orders</h3>
-				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-			</div>
-			<div id="delivery" class="tab">
-				<h3>Payment/Delivery</h3>
-				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-			</div>
-			<div id="referals" class="tab">
-				<h3>Referals</h3>
-				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-			</div>
-		</div>
+	<div class="content">
+		
 	</div>
-
+ 
+	<div class="to_top hidden">🔝</div>
 	
 
 <script>
-const tabComponent = document.querySelector('.tabs');
-const tabNames = document.querySelectorAll('.tab_name');
-const tabs = document.querySelectorAll('.tab');
 
-if(window.location.hash.length > 0){
-	openTab(window.location.hash.substring(1));
-}
+	const arrow = document.querySelector('.to_top');
+	let arrowIsShown = false;
+	const screenHeight  = window.screen.height;
 
-for(let btn of tabNames){
-	btn.onclick = (e) => openTab(e.target.dataset.id);
-}
-
-function openTab(id){
-	let current;
-	for(let i = 0; i < tabs.length; i++){
-			tabs[i].classList.remove('active');
-			tabNames[i].classList.remove('active');
-			if(tabNames[i].dataset.id === id){
-				current = i;
-			}
+	window.onscroll = () => {
+		if(!arrowIsShown && window.scrollY >= screenHeight){
+			arrowIsShown = true;
+			arrow.classList.remove('hidden');
 		}
-		tabNames[current].classList.add('active');
-		tabs[current].classList.add('active');
-		// const tab = tabComponent.querySelector(`#${id}`);
-		// tab.classList.add('active');
-}
+		if(arrowIsShown && window.scrollY < screenHeight){
+			arrowIsShown = false;
+			arrow.classList.add('hidden');
+		}
+	}
 
+	arrow.onclick = () => window.scrollTo({top: 0, left: 0, behavior: "smooth"});
 
 </script>
 </body>

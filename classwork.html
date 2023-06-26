@@ -11,225 +11,107 @@
 			padding: 0;
 		}
 
-		.todo_component{
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 50px;
-			font-family: 'Helvetica Neue',sans-serif;
+		.tabs{
+			max-width: 600px;
+			margin: 50px auto;
 		}
 
-		.todoform{
-			margin: 30px 0;
+		.tab_names {
 			display: flex;
-			justify-content: flex-start;
-			align-items: center;
 		}
-		.task_input, .save_input{
-			height: 30px;
-			border-radius: 3px;
-			width: 200px;
-			outline: none;
-		}
-		.task_input{
-			border: 1px solid #e2e2e2;
-		}
-		.save_input{
-			width: 60px;
+		
+		.tab_name{
 			color: #ffffff;
-			background-color: seagreen;
-			border: none;
+			background-color: darkolivegreen;
+			padding: 10px;
+			width: 180px;
+			margin-right: 10px;
+			border-radius: 3px 3px 0 0;
+			font-size: 20px;
 			cursor: pointer;
 		}
 
-		.done{
-			text-decoration: line-through;
+		.active.tab_name{
+			font-weight: bold;
+			text-decoration: underline;
 		}
 
-		.del_btn, .edit_btn {
-			width: 24px;
-			height: 24px;
-			margin-left: 20px;
-			display: inline-block;
-			cursor: pointer;
-		}
-
-		.edit_btn {
-			background: url('edit.png') no-repeat center;
-			background-size: contain;
-		}
-		.del_btn {
-			background: url('delete.png') no-repeat center;
-			background-size: contain;
-		}
-
-		.hidden{
+		.tab{
 			display: none;
+			padding: 30px;
+		}
+		.tab.active{
+			display: block;
+		}
+
+		.tab_container{
+			border: 1px solid darkolivegreen;
+			border-radius: 0 0 3px 3px;
 		}
 
 	</style>
 </head>
 <body>
 
-	<div class="todo_component">
 
-		<h1>To Do List</h1>
-		<form class="todoform">
-			<input class="task_input" name="task" type="text" placeholder="Type your task">
-			<input class="save_input" type="submit" value="Save">
-		</form>
+	<div class="tabs">
+		<div class="tab_names">
+			<div data-id="account" class="tab_name active">Account 🦊</div>
+			<div data-id="orders" class="tab_name">Orders 👚</div>
+			<div data-id="delivery" class="tab_name">Payment/Delivery 💼</div>
+			<div data-id="referals" class="tab_name">Referals 👨‍👩‍👧‍👦 </div>
+		</div>
 
-		<h3 class="hint">Any tasks yet. Type any in input above</h3>
-		<ol class="todolist"></ol>
+		<div class="tab_container">
+			<div id="account" class="tab active">
+				<h3>Account</h3>
+				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+			</div>
+			<div id="orders" class="tab">
+				<h3>Orders</h3>
+				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+			</div>
+			<div id="delivery" class="tab">
+				<h3>Payment/Delivery</h3>
+				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+			</div>
+			<div id="referals" class="tab">
+				<h3>Referals</h3>
+				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+			</div>
+		</div>
 	</div>
 
+	
+
 <script>
+const tabComponent = document.querySelector('.tabs');
+const tabNames = document.querySelectorAll('.tab_name');
+const tabs = document.querySelectorAll('.tab');
 
-//  to do list
-// markup: form text+submit, list, h3 +
-// add new task +
-// mark as done +
-// delete task + 
-// edit task + 
-// save to local storage / get from local storage ***    +
-// refactoring +
-
-const form = document.querySelector('.todoform');
-const input = document.querySelector('.task_input');
-const list = document.querySelector('.todolist');
-const hint = document.querySelector('.hint');
-const APP_NAME = 'ToDoList_JS0523';
-const storage = window.localStorage;
-
-function saveToLS(){
-	storage.setItem(APP_NAME, JSON.stringify(todos));
+if(window.location.hash.length > 0){
+	openTab(window.location.hash.substring(1));
 }
 
-function getFromLS(){
-	return storage.getItem(APP_NAME) != null ? JSON.parse(storage.getItem(APP_NAME)) : []; // get returns [] : null
+for(let btn of tabNames){
+	btn.onclick = (e) => openTab(e.target.dataset.id);
 }
 
-const createNewElement = (tagname, classes, text = '') =>{
-	const el = document.createElement(tagname);
-	el.classList.add(...classes);
-	text.length > 0 ? el.innerText = text : '';
-	return el; // returns complete HTML element with classes and text
-}
-
-function checkTodos(){
-	if(todos.length === 0){
-		hint.style.display = 'block';
-		list.style.display = 'none';
-	}
-	else{
-		hint.style.display = 'none';
-		list.style.display = 'block';
-	}
-}
-
-const todos = getFromLS();
-checkTodos();
-if(todos.length > 0){
-	for(let t of todos){
-		createTodoListItem(t);
-	}
-}
-
-function saveTask(){
-	let text = input.value;
-	if(text.length < 3){
-		console.error('Too short task');
-		return;
-	}
-	const id = Date.now();
-	const todo = {
-		task: text,
-		done: false,
-		id: id
-	}
-	todos.push(todo);
-
-	input.value = '';
-	if(todos.length === 1){
-		checkTodos();
-	}
-	createTodoListItem(todo);
-	saveToLS();
-}
-
-function createTodoListItem(todo){
-
-	let li = document.createElement('li');
-	li.dataset.id = todo.id;
-	if(todo.done){
-		li.classList.add('done');
-	}
-
-	li.append(createNewElement('span', [], todo.task));
-	li.append(createNewElement('input', ['hidden']));
-	li.append(createNewElement('span', ['del_btn']));
-	li.append(createNewElement('span', ['edit_btn']));
-
-	list.append(li);
-}
-
-function modifyTodo(el, action){
-	let id = +el.dataset.id;
-	todos.forEach((item, index) =>{
-		if(item.id === id){
-			switch(action){
-				case 'markAsDone': el.classList.toggle('done');
-								   item.done = !item.done; // if was true set false, if was false, set true		
-								break;
-				case 'delete': 	el.remove(); // delete from markup
-								todos.splice(index, 1); // remove todo  from array
-								if(todos.length === 0){
-									checkTodos();
-								}
-								break;
-				case 'edit': let span = el.querySelector('span');
-							let input = el.querySelector('input');
-							input.value = span.innerText; // записати поточний текст завдання в інпут
-							span.classList.add('hidden');
-							input.classList.remove('hidden');
-							input.onkeyup = (e) => {
-								if(e.key === 'Enter'){
-									span.innerText = input.value; // записати поточний текст завдання з інпуту в спан
-									span.classList.remove('hidden');
-									input.classList.add('hidden');
-									item.task = input.value;
-									input.onkeyup = null;
-									saveToLS();
-								}
-							}
-							break;
+function openTab(id){
+	let current;
+	for(let i = 0; i < tabs.length; i++){
+			tabs[i].classList.remove('active');
+			tabNames[i].classList.remove('active');
+			if(tabNames[i].dataset.id === id){
+				current = i;
 			}
 		}
-	});
-
-	saveToLS();
+		tabNames[current].classList.add('active');
+		tabs[current].classList.add('active');
+		// const tab = tabComponent.querySelector(`#${id}`);
+		// tab.classList.add('active');
 }
 
-form.onsubmit = (event) => {
-	event.preventDefault();
-	saveTask();
-}
-
-list.addEventListener('click', (e) => {
-	if(e.target.tagName.toLowerCase() === 'li'){
-		markAsDone(e.target);
-	}
-	if(e.target.tagName.toLowerCase() === 'span'){
-		modifyTodo(e.target.parentNode, 'markAsDone');
-	}
-	if(e.target.classList.contains('del_btn')){
-		modifyTodo(e.target.parentNode, 'delete');
-	}
-	if(e.target.classList.contains('edit_btn')){
-		modifyTodo(e.target.parentNode, 'edit');
-	}
-});
 
 </script>
 </body>

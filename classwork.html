@@ -93,7 +93,7 @@
 // delete task + 
 // edit task + 
 // save to local storage / get from local storage ***    +
-// refactoring
+// refactoring +
 
 const form = document.querySelector('.todoform');
 const input = document.querySelector('.task_input');
@@ -108,6 +108,13 @@ function saveToLS(){
 
 function getFromLS(){
 	return storage.getItem(APP_NAME) != null ? JSON.parse(storage.getItem(APP_NAME)) : []; // get returns [] : null
+}
+
+const createNewElement = (tagname, classes, text = '') =>{
+	const el = document.createElement(tagname);
+	el.classList.add(...classes);
+	text.length > 0 ? el.innerText = text : '';
+	return el; // returns complete HTML element with classes and text
 }
 
 function checkTodos(){
@@ -151,82 +158,56 @@ function saveTask(){
 	saveToLS();
 }
 
-
 function createTodoListItem(todo){
 
 	let li = document.createElement('li');
 	li.dataset.id = todo.id;
+	if(todo.done){
+		li.classList.add('done');
+	}
 
-	let span = document.createElement('span');
-	span.innerText = todo.task;
-	li.append(span);
-
-	let innerInput = document.createElement('input');
-	innerInput.classList.add('hidden');
-	li.append(innerInput);
-
-
-	let del = document.createElement('span');
-	del.classList.add('del_btn');
-	li.append(del);
-
-	let edit = document.createElement('span');
-	edit.classList.add('edit_btn');
-	li.append(edit);
-
+	li.append(createNewElement('span', [], todo.task));
+	li.append(createNewElement('input', ['hidden']));
+	li.append(createNewElement('span', ['del_btn']));
+	li.append(createNewElement('span', ['edit_btn']));
 
 	list.append(li);
 }
 
-function markAsDone(el){
-	el.classList.toggle('done');
+function modifyTodo(el, action){
 	let id = +el.dataset.id;
-
-	todos.forEach(item=>{
-		if(item.id === id){
-			item.done = !item.done; // if was true set false, if was false, set true
-		}
-	});
-	saveToLS();
-}
-
-function deleteTask(el){
-	let id = +el.dataset.id;
-	el.remove(); // delete from markup
 	todos.forEach((item, index) =>{
 		if(item.id === id){
-			todos.splice(index, 1); // remove todo  from array
+			switch(action){
+				case 'markAsDone': el.classList.toggle('done');
+								   item.done = !item.done; // if was true set false, if was false, set true		
+								break;
+				case 'delete': 	el.remove(); // delete from markup
+								todos.splice(index, 1); // remove todo  from array
+								if(todos.length === 0){
+									checkTodos();
+								}
+								break;
+				case 'edit': let span = el.querySelector('span');
+							let input = el.querySelector('input');
+							input.value = span.innerText; // записати поточний текст завдання в інпут
+							span.classList.add('hidden');
+							input.classList.remove('hidden');
+							input.onkeyup = (e) => {
+								if(e.key === 'Enter'){
+									span.innerText = input.value; // записати поточний текст завдання з інпуту в спан
+									span.classList.remove('hidden');
+									input.classList.add('hidden');
+									item.task = input.value;
+									input.onkeyup = null;
+									saveToLS();
+								}
+							}
+							break;
+			}
 		}
 	});
-	if(todos.length === 0){
-		checkTodos();
-	}
-	saveToLS();
-}
 
-function editTask(el){
-	let id = +el.dataset.id;
-	let span = el.querySelector('span');
-	let input = el.querySelector('input');
-
-	input.value = span.innerText; // записати поточний текст завдання в інпут
-
-	span.classList.add('hidden');
-	input.classList.remove('hidden');
-
-	input.onkeyup = (e) => {
-		if(e.key === 'Enter'){
-			span.innerText = input.value; // записати поточний текст завдання з інпуту в спан
-			span.classList.remove('hidden');
-			input.classList.add('hidden');
-
-			todos.forEach((item) =>{
-				if(item.id === id){
-					item.task = input.value;
-				}
-			});
-		}
-	}
 	saveToLS();
 }
 
@@ -240,13 +221,13 @@ list.addEventListener('click', (e) => {
 		markAsDone(e.target);
 	}
 	if(e.target.tagName.toLowerCase() === 'span'){
-		markAsDone(e.target.parentNode);
+		modifyTodo(e.target.parentNode, 'markAsDone');
 	}
 	if(e.target.classList.contains('del_btn')){
-		deleteTask(e.target.parentNode);
+		modifyTodo(e.target.parentNode, 'delete');
 	}
 	if(e.target.classList.contains('edit_btn')){
-		editTask(e.target.parentNode);
+		modifyTodo(e.target.parentNode, 'edit');
 	}
 });
 

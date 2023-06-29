@@ -11,95 +11,169 @@
 			padding: 0;
 		}
 
-		.content {
-			height: 4000px;
-			background-color: antiquewhite;
+		.carousel{
+			width: 100%;
+			overflow: hidden;
+			position: relative;
 		}
-
-		.to_top{
+		.carousel_wrap{
 			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 30px;
-			height: 30px;
-			border-radius: 50%;
-			background-color: #ffffff;
-			box-shadow: 2px 4px 10px #e2e2e2;
-			position: fixed;
-			bottom: 30px;
-			right: 30px;
+		}
+		.animating{
+			transition: transform 0.4s ease-in-out;
+		}
+		.carousel_item{
+			flex: 0 0 auto;
+			width: 300px;
+			height: 200px;
+			margin-right: 20px;
+			font-size: 40px;
+			text-align: center;
+			padding: 30px;
+			color: #ffffff;
+			background-color: darkslategrey;
+		}
+
+		.arr_prev, .arr_next{
+			color: #ffffff;
+			font-size: 50px;
+			position: absolute;
+			top: 70px;
+			left: 10px;
 			cursor: pointer;
+			transform: scaleX(0.6);
+		}
+		.arr_next{
+			left: auto;
+			right: 10px;
 		}
 
-		.hidden{
-			display: none;
-		}
-
-		#about, #portfolio, #contact{
-			height: 1200px;
-		}
-		#about{
-			background-color: pink;
-		}
-		#portfolio{
-			background-color: gold;
-		}
-		#contact{
-			background-color: aquamarine;
+		.inactive{
+			cursor: not-allowed;
+			opacity: 0.5;
 		}
 
 	</style>
 </head>
 <body>
 
-	<nav>
-		<a class="scroll_link" href="#about">About</a>
-		<a class="scroll_link" href="#portfolio">Portfolio</a>
-		<a class="scroll_link" href="#contact">Contact</a>
-	</nav>
-	<div class="content">
-		
+	<div class="carousel">
+		<div class="carousel_wrap">
+			<div class="carousel_item">1</div>
+			<div class="carousel_item">2</div>
+			<div class="carousel_item">3</div>
+			<div class="carousel_item">4</div>
+			<div class="carousel_item">5</div>
+			<div class="carousel_item">6</div>
+			<div class="carousel_item">7</div>
+		</div>
+		<div class="arr_prev">&lt;</div>
+		<div class="arr_next">&gt;</div>
 	</div>
-	<div id="about"></div>
-	<div id="portfolio"></div>
-	<div id="contact"></div>
- 
-	<div class="to_top hidden">🔝</div>
 	
 
 <script>
 
-	const arrow = document.querySelector('.to_top');
-	let arrowIsShown = false;
-	const screenHeight  = window.screen.height;
+	// carousel with loop
 
-	window.onscroll = () => {
-		if(!arrowIsShown && window.scrollY >= screenHeight){
-			arrowIsShown = true;
-			arrow.classList.remove('hidden');
-		}
-		if(arrowIsShown && window.scrollY < screenHeight){
-			arrowIsShown = false;
-			arrow.classList.add('hidden');
+	// const carousel = document.querySelector('.carousel_wrap');
+	// const carouselItems = document.querySelectorAll('.carousel_item');
+	// const prev = document.querySelector('.arr_prev');
+	// const next = document.querySelector('.arr_next');
+	// const elWidth = carouselItems[0].offsetWidth;
+	// let elMargin = window.getComputedStyle(carouselItems[0]).marginRight; // '20px'
+	// elMargin = Number(elMargin.slice(0, -2));
+	// const targetTransform = elMargin + elWidth;
+
+	// function movePrev(){
+	// 	carousel.prepend(carousel.lastElementChild);
+	// 	carousel.style.transform = `translateX(-${targetTransform}px)`;
+
+	// 	setTimeout(()=>{
+	// 		carousel.classList.add('animating');
+	// 		carousel.style.transform = `translateX(0px)`;
+	// 	},100);
+		
+	// 	setTimeout(()=>{
+	// 		carousel.classList.remove('animating');
+	// 	}, 600);
+	// }
+
+	// function moveNext(){
+	// 	carousel.classList.add('animating');
+	// 	carousel.style.transform = `translateX(-${targetTransform}px)`;
+
+	// 	setTimeout(()=>{
+	// 		carousel.classList.remove('animating');
+	// 		carousel.append(carousel.firstElementChild);
+	// 		carousel.style.transform = `translateX(0px)`;
+	// 	}, 600);
+	// }
+
+	// prev.onclick = movePrev;
+	// next.onclick = moveNext;
+
+
+
+	// carousel wihout loop, inactive arrows first/last depend on position
+
+	const carousel = document.querySelector('.carousel_wrap');
+	const carouselItems = document.querySelectorAll('.carousel_item');
+	const prev = document.querySelector('.arr_prev');
+	const next = document.querySelector('.arr_next');
+	const elWidth = carouselItems[0].offsetWidth;
+	let elMargin = window.getComputedStyle(carouselItems[0]).marginRight; // '20px'
+	elMargin = Number(elMargin.slice(0, -2));
+	const targetTransform = elMargin + elWidth;
+	
+	let currentTransform = 0;
+	const itemsInView = Math.ceil(carousel.offsetWidth / targetTransform); // how many elements we see in carousel
+	let showingFirstItem = true;
+	let showingLastItem = false;
+
+	carousel.classList.add('animating');
+	checkArrows();
+
+	prev.onclick = () => {
+		if(!showingFirstItem){
+			move('prev');
 		}
 	}
+	next.onclick = () =>{
+		if(!showingLastItem){
+			move('next');
+		}	
+	}
 
-	arrow.onclick = () => window.scrollTo({top: 0, left: 0, behavior: "smooth"});
 
+	function move(dir){
+		currentTransform = dir === 'next' ? currentTransform - targetTransform : currentTransform + targetTransform;
+		carousel.style.transform = `translateX(${currentTransform}px)`;
 
-	/// smooth anchor links
-
-	document.addEventListener('click', (e) => {
-		if(e.target.classList.contains('scroll_link')){
-			e.preventDefault();
-			const href = e.target.href.substr(e.target.href.indexOf('#')+1);
-			let elem = document.getElementById(href);
-			const offset = elem.offsetTop;
-			setTimeout(()=>window.location.hash = href, 100);
-			// const offset = document.getElementById(e.target.href.substr(e.target.href.indexOf('#')+1)).offsetTop;
-			window.scrollTo({top: offset, left: 0, behavior: "smooth"});
+		switch(currentTransform){
+			case 0: showingFirstItem = true;
+					break;
+			case (-targetTransform*(carouselItems.length - itemsInView)): showingLastItem = true;
+					break;
+			default: showingFirstItem = false;
+					showingLastItem = false;
+					break;
 		}
-	});
+		checkArrows();
+	}
+
+	function checkArrows(){
+		if(showingFirstItem){
+			prev.classList.add('inactive');
+		}
+		if(showingLastItem){
+			next.classList.add('inactive');
+		}
+		if(!showingFirstItem && !showingLastItem){
+			prev.classList.remove('inactive');
+			next.classList.remove('inactive');
+		}
+	}
 
 </script>
 </body>

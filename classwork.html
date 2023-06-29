@@ -11,169 +11,88 @@
 			padding: 0;
 		}
 
-		.carousel{
-			width: 100%;
-			overflow: hidden;
-			position: relative;
-		}
-		.carousel_wrap{
-			display: flex;
-		}
-		.animating{
-			transition: transform 0.4s ease-in-out;
-		}
-		.carousel_item{
-			flex: 0 0 auto;
-			width: 300px;
-			height: 200px;
-			margin-right: 20px;
-			font-size: 40px;
-			text-align: center;
-			padding: 30px;
-			color: #ffffff;
-			background-color: darkslategrey;
+		canvas{
+			border: 1px solid #000;
+			margin: 50px auto;
+			display: block;
 		}
 
-		.arr_prev, .arr_next{
-			color: #ffffff;
-			font-size: 50px;
-			position: absolute;
-			top: 70px;
-			left: 10px;
-			cursor: pointer;
-			transform: scaleX(0.6);
-		}
-		.arr_next{
-			left: auto;
-			right: 10px;
-		}
-
-		.inactive{
-			cursor: not-allowed;
-			opacity: 0.5;
-		}
 
 	</style>
 </head>
 <body>
 
-	<div class="carousel">
-		<div class="carousel_wrap">
-			<div class="carousel_item">1</div>
-			<div class="carousel_item">2</div>
-			<div class="carousel_item">3</div>
-			<div class="carousel_item">4</div>
-			<div class="carousel_item">5</div>
-			<div class="carousel_item">6</div>
-			<div class="carousel_item">7</div>
-		</div>
-		<div class="arr_prev">&lt;</div>
-		<div class="arr_next">&gt;</div>
-	</div>
+	<canvas class="game" width="400" height="300"></canvas>
 	
 
 <script>
 
-	// carousel with loop
+	const canvas = document.querySelector('.game');
+	const ctx = canvas.getContext('2d');
+	const cWidth = canvas.offsetWidth;
+	const cHeight = canvas.offsetHeight;
 
-	// const carousel = document.querySelector('.carousel_wrap');
-	// const carouselItems = document.querySelectorAll('.carousel_item');
-	// const prev = document.querySelector('.arr_prev');
-	// const next = document.querySelector('.arr_next');
-	// const elWidth = carouselItems[0].offsetWidth;
-	// let elMargin = window.getComputedStyle(carouselItems[0]).marginRight; // '20px'
-	// elMargin = Number(elMargin.slice(0, -2));
-	// const targetTransform = elMargin + elWidth;
+	const balls = [];
+	const maxCount = 20;
+	const maxRadius = 20;
+	const minRadius = 6;
+	const fps = 16.67;
 
-	// function movePrev(){
-	// 	carousel.prepend(carousel.lastElementChild);
-	// 	carousel.style.transform = `translateX(-${targetTransform}px)`;
-
-	// 	setTimeout(()=>{
-	// 		carousel.classList.add('animating');
-	// 		carousel.style.transform = `translateX(0px)`;
-	// 	},100);
-		
-	// 	setTimeout(()=>{
-	// 		carousel.classList.remove('animating');
-	// 	}, 600);
-	// }
-
-	// function moveNext(){
-	// 	carousel.classList.add('animating');
-	// 	carousel.style.transform = `translateX(-${targetTransform}px)`;
-
-	// 	setTimeout(()=>{
-	// 		carousel.classList.remove('animating');
-	// 		carousel.append(carousel.firstElementChild);
-	// 		carousel.style.transform = `translateX(0px)`;
-	// 	}, 600);
-	// }
-
-	// prev.onclick = movePrev;
-	// next.onclick = moveNext;
-
-
-
-	// carousel wihout loop, inactive arrows first/last depend on position
-
-	const carousel = document.querySelector('.carousel_wrap');
-	const carouselItems = document.querySelectorAll('.carousel_item');
-	const prev = document.querySelector('.arr_prev');
-	const next = document.querySelector('.arr_next');
-	const elWidth = carouselItems[0].offsetWidth;
-	let elMargin = window.getComputedStyle(carouselItems[0]).marginRight; // '20px'
-	elMargin = Number(elMargin.slice(0, -2));
-	const targetTransform = elMargin + elWidth;
-	
-	let currentTransform = 0;
-	const itemsInView = Math.ceil(carousel.offsetWidth / targetTransform); // how many elements we see in carousel
-	let showingFirstItem = true;
-	let showingLastItem = false;
-
-	carousel.classList.add('animating');
-	checkArrows();
-
-	prev.onclick = () => {
-		if(!showingFirstItem){
-			move('prev');
+	function createBall(){
+		const rad = Math.floor(Math.random()*(maxRadius - minRadius) + minRadius);
+		const colorChannel = () => Math.floor(Math.random()*155 + 100);
+		const ball = {
+			v_x: 3,
+			v_y: 3,
+			radius: rad,
+			color: `rgb(${colorChannel()}, ${colorChannel()}, ${colorChannel()})`,
+			x: rad,
+			y: rad
 		}
-	}
-	next.onclick = () =>{
-		if(!showingLastItem){
-			move('next');
-		}	
+		balls.push(ball);
 	}
 
-
-	function move(dir){
-		currentTransform = dir === 'next' ? currentTransform - targetTransform : currentTransform + targetTransform;
-		carousel.style.transform = `translateX(${currentTransform}px)`;
-
-		switch(currentTransform){
-			case 0: showingFirstItem = true;
-					break;
-			case (-targetTransform*(carouselItems.length - itemsInView)): showingLastItem = true;
-					break;
-			default: showingFirstItem = false;
-					showingLastItem = false;
-					break;
-		}
-		checkArrows();
+	function drawBall(ball){
+		ctx.fillStyle = ball.color;
+		ctx.beginPath();
+    	ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, true);
+		ctx.fill();
 	}
 
-	function checkArrows(){
-		if(showingFirstItem){
-			prev.classList.add('inactive');
+	function moveBall(ball){
+		drawBall(ball);
+		// collision detection
+		if(ball.x > cWidth - ball.radius || ball.x < ball.radius){
+			ball.v_x = -ball.v_x;
 		}
-		if(showingLastItem){
-			next.classList.add('inactive');
+		if(ball.y > cHeight - ball.radius || ball.y < ball.radius){
+			ball.v_y = -ball.v_y;
 		}
-		if(!showingFirstItem && !showingLastItem){
-			prev.classList.remove('inactive');
-			next.classList.remove('inactive');
-		}
+		// add v_x & v_y to ball coordinates (move)
+		ball.x += ball.v_x;
+		ball.y += ball.v_y;
+
 	}
+
+	let interval = setInterval(()=>{
+		if(balls.length < maxCount){
+			createBall();
+		}
+		else{
+			clearInterval(interval);
+		}
+	},1500);
+
+
+	function clearCanvas(){
+		ctx.clearRect(0,0, cWidth, cHeight);
+	}
+
+	setInterval(()=>{
+		clearCanvas();
+		balls.forEach(ball=>moveBall(ball));
+	}, fps)
+
 
 </script>
 </body>

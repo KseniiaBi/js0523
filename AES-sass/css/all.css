@@ -1,0 +1,789 @@
+/* SCSS Compiled */ /***************************************************              GENERAL RESET STYLES             ***************************************************/
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+body {
+  line-height: 1;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+nav ul {
+  list-style: none;
+}
+
+ol, ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img {
+  border-style: none;
+  max-width: 100%;
+}
+
+form fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+input, textarea, select {
+  vertical-align: middle;
+  color: #000;
+  padding: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+input::-webkit-input-placeholder {
+  color: #000;
+}
+
+input:focus::-webkit-input-placeholder {
+  color: #000;
+}
+
+/*
+@media (min-width: 1921px){}
+@media (width: 1920px){}
+@media (min-width: 1440px) and (max-width: 1919px) {}
+@media (min-width: 1360px) and (max-width: 1439px) {}
+@media (min-width: 1280px) and (max-width: 1359px) {}
+@media (min-width: 1024px) and (max-width: 1279px) {}
+@media (min-width: 768px) and (max-width: 1023px) {}
+@media (min-width: 375px) and (max-width: 767px) {}
+@media (min-width: 320px) and (max-width: 374px) {}
+*/
+/*
+@media (max-width: 1919px) {}
+@media (max-width: 1439px) {}
+@media (max-width: 1279px) {}
+@media (max-width: 767px) {}
+*/
+#wrapper,
+main,
+#content,
+aside,
+section {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+
+.layout {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  width: 1074px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-indent: -9999px;
+}
+
+#content #link-cat a {
+  width: 219px;
+  height: 59px;
+  position: relative;
+  display: block;
+  margin: 50px 852px 100px 841px;
+}
+#content #link-cat a:before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 219px;
+  height: 59px;
+  border: 1px solid #4B6049;
+  z-index: 1;
+}
+#content #link-cat a span {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  display: block;
+  overflow: hidden;
+  width: 219px;
+  height: 59px;
+  background-color: #4B6049;
+  text-align: center;
+  line-height: 59px;
+  border: 1px solid #4B6049;
+  color: #FFFBF5;
+  position: relative;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  transition: all 200ms ease-in-out;
+}
+#content #link-cat a:hover span {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+}
+
+header {
+  height: 155px;
+}
+header .logo {
+  float: left;
+  height: 144px;
+  width: 246px;
+  margin: 11px 57px 0 0;
+}
+header .logo a {
+  display: block;
+  overflow: hidden;
+  height: 144px;
+  width: 246px;
+}
+header .logo a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+nav {
+  float: left;
+  margin: 67px 0 0 0;
+}
+nav .links {
+  float: left;
+  padding: 0 16px 0 16px;
+  border-bottom: 1px solid #4B6049;
+  /* margin: 0 57px 0 0; */
+  margin: 0 47px 0 0;
+}
+nav .links li {
+  float: left;
+  margin: 0 25px 0 0;
+}
+nav .links li a {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+}
+nav .links li:last-child {
+  margin: 0 0 0 0;
+}
+nav .icons {
+  float: right;
+  margin: -2px 0 0 0;
+}
+nav .icons li {
+  float: left;
+  margin: 0 20px 0 0;
+}
+nav .icons li a {
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+nav .icons li a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+nav .icons li:last-child {
+  margin: 0 0 0 0;
+}
+
+.first-view {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: calc(100vh - 155px);
+}
+.first-view .holder {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: calc(100vh - 155px);
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+.first-view .holder img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  width: 1123px;
+  float: right;
+}
+.first-view .txt-fv {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  padding: 75px 0 0 0;
+  z-index: 2;
+}
+.first-view .txt-fv h2 {
+  font-family: "Poiret One";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 70px;
+  color: #484847;
+  width: 600px; /*800px font*/
+  height: 210px;
+  display: block;
+  overflow: hidden;
+}
+.first-view .txt-fv p {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  width: 490px;
+  height: 192px;
+  display: block;
+  overflow: hidden;
+  margin: 92px 0 0 0;
+}
+.first-view .txt-fv a {
+  width: 219px;
+  height: 59px;
+  position: relative;
+  display: block;
+  margin: 92px 0 0 0;
+}
+.first-view .txt-fv a:before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 219px;
+  height: 59px;
+  border: 1px solid #4B6049;
+  z-index: 1;
+}
+.first-view .txt-fv a span {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  display: block;
+  overflow: hidden;
+  width: 219px;
+  height: 59px;
+  background-color: #4B6049;
+  text-align: center;
+  line-height: 59px;
+  border: 1px solid #4B6049;
+  color: #FFFBF5;
+  position: relative;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  transition: all 200ms ease-in-out;
+}
+.first-view .txt-fv a:hover span {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+}
+.first-view .arrow-pageup {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  top: 116px;
+  left: 1510px;
+  z-index: 100;
+}
+.first-view .arrow-pageup a {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.first-view .arrow-pageup a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.new {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  height: 1060px;
+}
+.new .slider {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.new .slider img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.new .txt-new .layout {
+  position: relative;
+  width: 100%;
+  padding: 78px 0 304px 216px;
+  display: block;
+  overflow: hidden;
+  z-index: 2;
+}
+.new .txt-new .layout h2 {
+  font-family: "Poiret One";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 70px;
+  color: #484847;
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  width: 688px; /*625px*/
+  height: 70px;
+  /* border-bottom: 0.5px solid #484847; */
+}
+.new .txt-new .layout h3 {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  display: block;
+  font-weight: 400;
+  overflow: hidden;
+  position: absolute;
+  top: 206px;
+  left: 423px;
+  width: 416px;
+  height: 98px;
+  font-size: 40px;
+  line-height: 49px;
+}
+
+.bloglist .layout ul {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  height: 1375px;
+}
+.bloglist .layout ul li {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  margin: 0 0 123px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.bloglist .layout ul li .holder {
+  width: 522px;
+  height: 347px;
+}
+.bloglist .layout ul li .holder img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  width: 522px;
+  height: 347px;
+  float: left;
+}
+.bloglist .layout ul li .text {
+  position: relative;
+  overflow: hidden;
+  width: 522px;
+  height: 347px;
+}
+.bloglist .layout ul li .text h3 {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  position: relative;
+  width: 522px;
+  height: 48px;
+  left: 0px;
+  top: 0px;
+  font-size: 40px;
+  color: #000000;
+}
+.bloglist .layout ul li .text p {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  position: absolute;
+  width: 522px;
+  height: 224px;
+  left: 0px;
+  top: 61px;
+}
+.bloglist .layout ul li .text .link {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  width: 200px;
+  height: 50px;
+  top: 248px;
+}
+.bloglist .layout ul li .text .link a {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  font-size: 20px;
+  line-height: 24px;
+  padding: 7px 49px;
+  position: absolute;
+  overflow: visible;
+  width: 200px;
+  height: 50px;
+  border: 2px solid #484847;
+}
+.bloglist .layout ul li .text .link a:after {
+  content: "";
+  background-image: url(../images/ico-button-arrow-right.png);
+  background-color: none;
+  background-position: 100% 50%;
+  background-size: 71px 12px;
+  background-repeat: no-repeat;
+  width: 71px;
+  height: 12px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: -38px;
+  margin: -8px 0 0 0;
+}
+.bloglist .layout .more {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  left: 445px;
+  width: 200px;
+  height: 65px;
+}
+.bloglist .layout .more a {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  overflow: visible;
+  font-size: 20px;
+  line-height: 24px;
+  padding: 7px 42px;
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  border: 2px solid #484847;
+}
+.bloglist .layout .more a:after {
+  content: "";
+  background-image: url(../images/ico-button-arrow-down.png);
+  background-color: none;
+  background-position: 100% 50%;
+  background-size: 12px 28px;
+  background-repeat: no-repeat;
+  width: 12px;
+  height: 28px;
+  display: block;
+  position: absolute;
+  top: 72%;
+  right: 93px;
+}
+.bloglist .layout .icons-bottom {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  margin: 150px 0 0 0;
+  width: 257px;
+  height: 58px;
+  float: right;
+}
+.bloglist .layout .icons-bottom ul {
+  display: block;
+  position: absolute;
+  width: 257px;
+  height: 50px;
+}
+.bloglist .layout .icons-bottom ul li {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 0 15px 8px 0;
+}
+.bloglist .layout .icons-bottom ul li a {
+  display: block;
+  width: 50px;
+  height: 50px;
+}
+.bloglist .layout .icons-bottom ul li a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.bloglist .layout .icons-bottom ul li:nth-last-child(1) {
+  margin: 0 0 8px 0;
+}
+
+footer {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  background-color: #4B6049;
+  height: 192px;
+}
+footer .layout {
+  height: 192px;
+}
+footer .layout .logo-bottom {
+  display: block;
+  position: relative;
+  margin: 29px 88px 0 0;
+  width: 232px;
+  height: 136px;
+}
+footer .layout .logo-bottom .holder {
+  display: block;
+  position: relative;
+  width: 232px;
+  height: 136px;
+}
+footer .layout .logo-bottom .holder img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+footer .layout .navigation {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  width: 169px;
+  height: 129px;
+  left: 335px;
+  top: 38px;
+}
+footer .layout .navigation ul {
+  display: block;
+  overflow: hidden;
+}
+footer .layout .navigation ul li {
+  display: block;
+  margin: 0 0 3px 0;
+}
+footer .layout .navigation ul li a {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  font-size: 20px;
+  line-height: 30px;
+  color: #FFFBF5;
+}
+footer .layout .work-hours {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  width: 169px;
+  height: 90px;
+  left: 540px;
+  top: 38px;
+}
+footer .layout .work-hours ul {
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+footer .layout .work-hours ul li {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+footer .layout .work-hours ul li p {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  font-size: 20px;
+  line-height: 30px;
+  color: #FFFBF5;
+}
+footer .layout .contacts {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  width: 232px;
+  height: 98px;
+  left: 757px;
+  top: 36px;
+}
+footer .layout .contacts a {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  font-size: 20px;
+  line-height: 30px;
+  color: #FFFBF5;
+  margin: 0 0 3px 0;
+}
+footer .layout .contacts ul {
+  display: block;
+  overflow: hidden;
+}
+footer .layout .contacts ul li {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+footer .layout .contacts ul li p {
+  font-family: "Candara";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 32px;
+  color: #484847;
+  font-size: 20px;
+  line-height: 30px;
+  color: #FFFBF5;
+}
+footer .layout .payment {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  width: 261px;
+  height: 34px;
+  left: 813px;
+  top: 147px;
+}
+footer .layout .payment ul {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+footer .layout .payment ul li {
+  position: relative;
+  overflow: hidden;
+}
+footer .layout .payment ul li a {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+footer .layout .payment ul li a img {
+  display: flex;
+  position: relative;
+}

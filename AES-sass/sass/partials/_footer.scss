@@ -1,0 +1,136 @@
+footer {
+	@include box;
+	background-color: $green;
+	height: 192px;
+	.layout{
+		// @include box;
+		height: 192px;
+		.logo-bottom{
+			display: block;
+			position: relative;
+			margin: 29px 88px 0 0;
+			width: 232px;
+			height: 136px;
+			.holder{
+				display: block;
+				position: relative;
+				width: 232px;
+				height: 136px;
+				img{
+					@include img;
+				}
+			}
+		}
+		.navigation{
+			display: block;
+			overflow: hidden;
+			position: absolute;
+			width: 169px;
+			height: 129px;
+			left: 335px;
+			top: 38px;
+			ul{
+				display: block;
+				overflow: hidden;
+				// width: 166px;
+				// height: 129px;
+				// left: 335px;
+				// top: 38px;
+				li{
+					display: block;
+					margin: 0 0 3px 0;
+					a{
+						@include candara;
+						font-size: 20px;
+						line-height: 30px;
+						color: $white;
+					}
+				}
+			}
+		}
+		.work-hours{
+			display: block;
+			overflow: hidden;
+			position: absolute;
+			width: 169px;
+			height: 90px;
+			left: 540px;
+			top: 38px;
+			ul{
+				display: block;
+				overflow: hidden;
+				position: relative;
+				li{
+					@include box;
+					p{
+						@include candara;
+						font-size: 20px;
+						line-height: 30px;
+						color: $white;
+					}
+				}
+			}
+		}
+		.contacts{
+			display: block;
+			overflow: hidden;
+			position: absolute;
+			width: 232px;
+			height: 98px;
+			left: 757px;
+			top: 36px;
+			a{
+				@include candara;
+				font-size: 20px;
+				line-height: 30px;
+				color: $white;
+				margin: 0 0 3px 0;
+			}
+			ul{
+				display: block;
+				overflow: hidden;
+				li{
+					@include box;
+					p{
+						@include candara;
+						font-size: 20px;
+						line-height: 30px;
+						color: $white;
+					}
+				}
+			}
+		}
+		.payment{
+			display: block;
+			overflow: hidden;
+			position: absolute;
+			width: 261px;
+			height: 34px;
+			left: 813px;
+			top: 147px;
+			ul{
+				@include box;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				align-items: center;
+				li{
+					position: relative;
+					overflow: hidden;
+					a{
+						display: block;
+						position: relative;
+						overflow: hidden;
+						width: 100%;
+						height: 100%;
+						img{
+							display: flex;
+							position: relative;
+						}
+					}
+				}
+			}
+		}
+	}
+}

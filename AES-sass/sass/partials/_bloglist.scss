@@ -1,0 +1,146 @@
+.bloglist{
+.layout{
+	ul{
+		@include box;
+		height: 1375px;
+		li{
+			@include box;
+			margin: 0 0 123px 0;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			.holder{
+				width: 522px;
+				height: 347px;
+				img{
+					@include img;
+					width: 522px;
+					height: 347px;
+					float: left;
+				}
+			}
+			.text{
+				position: relative;
+				overflow: hidden;
+				width: 522px;
+				height: 347px;
+
+				h3{
+					@include candara;
+					position: relative;
+					width: 522px;
+					height: 48px;
+					left: 0px;
+					top: 0px;
+					font-size: 40px;
+					color: #000000;
+				}
+				p{
+					@include candara;
+					position: absolute;
+					width: 522px;
+					height: 224px;
+					left: 0px;
+					top: 61px;
+				}
+				.link{
+					@include box;
+					overflow: visible;
+					width: 200px;
+					height: 50px;
+					top: 248px;	
+					a{
+						@include candara;
+						font-size: 20px;
+						line-height: 24px;
+						padding: 7px 49px;
+						position: absolute;
+						overflow: visible;
+						width: 200px;
+						height: 50px;
+						border: 2px solid $grey;
+						&:after{
+							content: '';
+							background-image: url(../images/ico-button-arrow-right.png);
+							background-color: none;
+							background-position: 100% 50%;
+							background-size:71px 12px;
+							background-repeat: no-repeat;
+							width: 71px;
+							height: 12px;
+							display: block;
+							position: absolute;
+							top: 50%;
+							right:-38px;
+							margin: -8px 0 0 0;
+						}
+					}
+				}
+			}
+		}
+	}
+.more{
+	display: block;
+	overflow: hidden;
+	position: absolute;
+	left: 445px;
+	width: 200px;
+	height: 65px;
+	a{
+		@include candara;
+		overflow: visible;
+		font-size: 20px;
+		line-height: 24px;
+		padding: 7px 42px;
+		position: absolute;
+		width: 200px;
+		height: 50px;
+		border: 2px solid $grey;
+		&:after{
+			content: '';
+			background-image: url(../images/ico-button-arrow-down.png);
+			background-color: none;
+			background-position: 100% 50%;
+			background-size:12px 28px;
+			background-repeat: no-repeat;
+			width: 12px;
+			height: 28px;
+			display: block;
+			position: absolute;
+			top: 72%;
+			right: 93px;
+		}
+	}
+}
+.icons-bottom{
+	@include box;
+	margin: 150px 0 0 0;
+	width: 257px;
+	height: 58px;
+	float: right;
+	ul{
+		display: block;
+		position: absolute;
+		width: 257px;
+		height: 50px;
+		li{
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			margin: 0 15px 8px 0;
+			a{
+				display: block;
+				width: 50px;
+				height: 50px;
+				img{
+					@include img
+				}
+			}
+			&:nth-last-child(1){
+				margin: 0 0 8px 0;
+			}
+		}
+	}
+}
+}
+}

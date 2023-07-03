@@ -11,88 +11,300 @@
 			padding: 0;
 		}
 
-		canvas{
-			border: 1px solid #000;
-			margin: 50px auto;
-			display: block;
+		a{
+			color: inherit;
+			text-decoration: none;
 		}
 
+		.shop{
+			padding: 30px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 30px;
+			align-items: flex-start;
+		}
+
+		.item{
+			width: 300px;
+			padding: 10px;
+			text-align: center;
+			border: 1px solid #e2e2e2;
+			box-shadow: 2px 4px 10px #e2e2e2;
+			border-radius: 3px;
+			transition: transform 0.2s ease-in-out;
+		}
+
+		.item:hover{
+			transform: scale(1.05);
+		}
+
+		.item > img{
+			width: 100%;
+			height: 350px;
+			object-fit: cover;
+			object-position: center;
+		}
+
+		h3{
+			font-size: 32px;
+			margin: 20px 0 0;
+		}
+
+		.manufacturer{
+			text-transform: uppercase;
+			font-size: 12px;
+			margin: 6px 0;
+		}
+
+		.price{
+			font-weight: bold;
+			font-size: 24px;
+			margin-bottom: 20px;
+		}
+
+		.buy{
+			outline: none;
+			border: none;
+			background: black;
+			color: #ffffff;
+			text-transform: uppercase;
+			text-align: center;
+			width: 160px;
+			padding: 10px;
+			margin-bottom: 20px;
+		}
+
+		header{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 20px 30px;
+			color: #ffffff;
+			background-color: #000000;
+		}
+
+		.sort{
+			position: relative;
+			border: 1px solid #e2e2e2;
+			border-radius: 3px;
+			padding: 10px;
+			background-color: #ffffff;
+			font-size: 18px;
+			width: 250px;
+			cursor: pointer;
+			margin: 34px 0;
+		}
+
+		.sort.opened .sort_options{
+			display: block;
+		}
+		.sort_options{
+			display: none;
+			position: absolute;
+			width: 100%;
+			left: 0;
+			top: 40px;
+			border: 1px solid #e2e2e2;
+			border-radius: 3px;
+			padding: 10px;
+			background-color: #ffffff;
+		}
+
+		.sort_option{
+			padding: 4px 10px;
+		}
+
+		.sort_option + .sort_option{
+			border-top: 1px solid #e2e2e2;
+		}
 
 	</style>
 </head>
 <body>
 
-	<canvas class="game" width="400" height="300"></canvas>
-	
+	<header>
+		<div class="logo">LOGO</div>
+		<div class="cart_info">
+			<span class="cart_count">0</span> item(s) in cart, 
+			<span class="cart_total">0</span> UAH
+		</div>
+	</header>
+
+	<div class="sort">
+		<div class="sort_selected">Default sort</div>
+		<div class="sort_options">
+			<div data-sort="name" class="sort_option">Sort by name</div>
+			<div data-sort="price" class="sort_option">Sort by price</div>
+		</div>
+	</div>
+
+	<div class="shop"></div>
+
 
 <script>
 
-	const canvas = document.querySelector('.game');
-	const ctx = canvas.getContext('2d');
-	const cWidth = canvas.offsetWidth;
-	const cHeight = canvas.offsetHeight;
+	const shop = document.querySelector('.shop');
+	const url = 'data.json';
+	let shopData;
 
-	const balls = [];
-	const maxCount = 20;
-	const maxRadius = 20;
-	const minRadius = 6;
-	const fps = 16.67;
+	// XML HTTP request
 
-	function createBall(){
-		const rad = Math.floor(Math.random()*(maxRadius - minRadius) + minRadius);
-		const colorChannel = () => Math.floor(Math.random()*155 + 100);
-		const ball = {
-			v_x: 3,
-			v_y: 3,
-			radius: rad,
-			color: `rgb(${colorChannel()}, ${colorChannel()}, ${colorChannel()})`,
-			x: rad,
-			y: rad
-		}
-		balls.push(ball);
+	// const xhr = new XMLHttpRequest(); // create request object
+	// xhr.open('GET', url); // configure request (METHOD, url, *async, *user, *password)
+	// xhr.send(); // send request
+
+	// xhr.onreadystatechange = () => {
+	// 	if(xhr.readyState === 4){
+	// 		console.log(xhr.responseText);
+	// 	}
+	// }
+
+	// xhr.onload = () => {
+	// 	if(xhr.status >= 200 && xhr.status < 300){
+	// 		shopData = JSON.parse(xhr.response);
+	// 		buildLayout(shopData);
+	// 	}
+	// 	else{ // 300's & 500's errors - server errors, 400's - access errors
+	// 		console.error(`Error was ocurred: ${xhr.status} ${xhr.statusText}`);
+	// 	}
+	// }
+
+	// Promise 
+
+	// let promise = new Promise((resolve, reject) => {
+	// 	const xhr = new XMLHttpRequest(); 
+	// 	xhr.open('GET', url);
+	// 	xhr.send();
+
+	// 	xhr.onload = () => {
+	// 		if(xhr.status >= 200 && xhr.status < 300){
+	// 			resolve(xhr.response);
+	// 		}
+	// 		else{ 
+	// 			reject(`Error was ocurred: ${xhr.status} ${xhr.statusText}`);
+	// 		}
+	// 	}
+	// });
+
+	// promise.then(result => {
+	// 			shopData = JSON.parse(result);
+	// 			buildLayout(shopData);	
+	// 		})
+	// 		.catch(err => console.error(err));
+
+	// fetch()
+
+	let promise = fetch(url);
+	promise.then(res => res.text())
+			.then(res => {
+				shopData = JSON.parse(res);
+				buildLayout(shopData);	
+			});
+
+
+	function buildLayout(data){
+		data.forEach(item => {
+			const el = document.createElement('div');
+			el.classList.add('item');
+
+			const img = new Image();
+			img.src = item.img;
+
+			const name = document.createElement('h3');
+			const link = document.createElement('a');
+			link.textContent = item.name;
+			link.href = `http://mysite/product_${item.id}`;
+			name.append(link);
+
+			const man = document.createElement('div');
+			man.classList.add('manufacturer');
+			man.textContent = item.manufacturer;
+
+			const price = document.createElement('div');
+			price.classList.add('price');
+			price.textContent = item.price;
+
+			const btn = document.createElement('button');
+			btn.classList.add('buy');
+			btn.dataset.product = item.id;
+			btn.textContent = 'Add to cart';
+
+			el.append(img, name, man, price, btn);
+
+			shop.append(el);
+		});
 	}
 
-	function drawBall(ball){
-		ctx.fillStyle = ball.color;
-		ctx.beginPath();
-    	ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, true);
-		ctx.fill();
+
+	// function removeItem(name){
+	// 	console.log(`${name} was deleted from cart`);
+	// }
+	// function leaveItem(name){
+	// 	console.log(`${name} was not deleted`);
+	// }
+
+	// let promise = new Promise((resolve, reject) =>{
+	// 	confirm('Delete item from cart?')? resolve('Product') : reject('Product');
+	// });
+
+	// promise.then(name =>removeItem(name), name => leaveItem(name));
+
+
+	// let promise = new Promise((resolve, reject) =>{
+	// 	throw new Error('Unknown error');
+	// 	setTimeout(()=>resolve('Success!'), 1000);
+	// });
+	// console.log(promise);
+	// promise.then(result =>{
+	// 	console.log(result);
+	// 	console.log(promise);
+	// }).catch(err => console.warn(err));
+
+
+	// sort
+
+		const selectbox = document.querySelector('.sort');
+		const selected = document.querySelector('.sort_selected');
+		const options = document.querySelectorAll('.sort_option');
+
+		selectbox.onclick = () => selectbox.classList.toggle('opened');
+
+		for(let o of options){
+			o.onclick = () =>{
+				selected.textContent = o.textContent;
+				let selector;
+				switch (o.dataset.sort){
+					case 'name':  selector = 'h3 a';
+									break;
+					case 'name':  selector = '.price';
+									break;
+				}
+				sortProducts(selector);
+			}
+		}
+
+	function sortProducts(selector){
+		let products = document.querySelectorAll(`${selector}`);
+		products = [].slice.call(products);
+		products.sort((a,b) => {
+			if(a.innerText > b.innerText){
+				return 1;
+			}
+			else if(a.innerText < b.innerText){
+				return -1;
+			}
+			else{
+				return 0;
+			}
+		});
+
+		products.forEach((item, index) => item.parentNode.parentNode.style.order = index);
+
 	}
 
-	function moveBall(ball){
-		drawBall(ball);
-		// collision detection
-		if(ball.x > cWidth - ball.radius || ball.x < ball.radius){
-			ball.v_x = -ball.v_x;
-		}
-		if(ball.y > cHeight - ball.radius || ball.y < ball.radius){
-			ball.v_y = -ball.v_y;
-		}
-		// add v_x & v_y to ball coordinates (move)
-		ball.x += ball.v_x;
-		ball.y += ball.v_y;
-
-	}
-
-	let interval = setInterval(()=>{
-		if(balls.length < maxCount){
-			createBall();
-		}
-		else{
-			clearInterval(interval);
-		}
-	},1500);
-
-
-	function clearCanvas(){
-		ctx.clearRect(0,0, cWidth, cHeight);
-	}
-
-	setInterval(()=>{
-		clearCanvas();
-		balls.forEach(ball=>moveBall(ball));
-	}, fps)
-
+	// cart
+	
 
 </script>
 </body>

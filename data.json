@@ -1,0 +1,44 @@
+[
+    {
+        "id": 12345,
+        "name": "Little black dress",
+        "price": 2990,
+        "img": "https://www.instyle.com/thmb/tnvi5B_5VtOEiGn-bW7_f72xexM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/BlackDressOutfits-5-666d26fe3cf94cac935d9ef5ce125cd3.jpg",
+        "manufacturer": "Zara"
+    },
+    {
+        "id": 22345,
+        "name": "Coctail dress",
+        "price": 3990,
+        "img": "https://d2tce2xojuu25e.cloudfront.net/2022/10/7J2O2_MARFIL_BARCELONA_1.jpg",
+        "manufacturer": "H&M"
+    },
+    {
+        "id": 32345,
+        "name": "Skirt",
+        "price": 1490,
+        "img": "https://assets.ajio.com/medias/sys_master/root/20210403/mJ12/60686b0e7cdb8c1f147562bb/-473Wx593H-461152134-green-MODEL.jpg",
+        "manufacturer": "Reserved"
+    },
+    {
+        "id": 42345,
+        "name": "Shoes",
+        "price": 2490,
+        "img": "https://marvel-b1-cdn.bc0a.com/f00000000114841/www.florsheim.com/shop/index/SS23-FL-SecondRefresh-MainHamptons-Desktop.jpg",
+        "manufacturer": "Zara"
+    },
+    {
+        "id": 52345,
+        "name": "Sneakers",
+        "price": 3290,
+        "img": "https://us.ecco.com/on/demandware.static/-/Sites-US-Library/en_US/dwebd62af3/Images/Homepage-content/Hero/SS23/hp-hero-mobile-nmd-wk23.jpg",
+        "manufacturer": "H&M"
+    },
+    {
+        "id": 62345,
+        "name": "T-shirt",
+        "price": 1290,
+        "img": "https://gant.com/dw/image/v2/BFLN_PRD/on/demandware.static/-/Sites-gant-master/default/dwf2e5d003/pim/202204/234100/110/202204-234100-110-flat-fv-1.jpg?sw=650",
+        "manufacturer": "Reserved"
+    }
+]

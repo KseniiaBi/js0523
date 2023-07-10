@@ -85,7 +85,7 @@ let promise = fetch(url);
 
 const cart = storage.getItem(APP_NAME) != null ? JSON.parse(storage.getItem(APP_NAME)) : [];
 
-function addToCart(id){
+function addToCart(id, count = 1){
     let adding;
     shopData.forEach(product => {
         if(product.id === +id){
@@ -96,7 +96,7 @@ function addToCart(id){
     cart.forEach(itemInCart => {
         if(itemInCart.id === +id){
             wasInCart = true;
-            itemInCart.count += 1;
+            itemInCart.count += count;
         }
     });
     if(!wasInCart){
@@ -105,6 +105,7 @@ function addToCart(id){
 
     saveCartToLS();
 }
+
 
 function saveCartToLS(){
     storage.setItem(APP_NAME, JSON.stringify(cart));
@@ -128,13 +129,32 @@ function buildCart(){
 
         const count = document.createElement('input');
         count.type = 'number';
+        count.classList.add('counter');
         count.value = item.count;
+        count.onchange = () => {
+            let newcount = count.value;
+            cart.forEach(prod => {
+                if(prod.id === item.id){
+                    prod.count = newcount;
+                    saveCartToLS();
+                }
+            })
+        }
 
         const price = document.createElement('div');
         price.classList.add('price');
 
         const delBtn = document.createElement('div')
         delBtn.classList.add('del');
+        delBtn.onclick = () => {
+            cart.forEach((prod, index) => {
+                if(prod.id === item.id){
+                    delBtn.parentNode.remove();
+                    cart.splice(index, 1);
+                    saveCartToLS();
+                }
+            })
+        }
 
 
         cartItem.append(cartPreview, name, count, delBtn);
@@ -144,4 +164,45 @@ function buildCart(){
 
 if(window.location.href.includes('cart')){
     buildCart();
+}
+
+
+//  contact form
+
+const form = document.querySelector('form.bottom-group');
+const nameInput = document.querySelector('input#name');
+const phoneInput = document.querySelector('input#telephone');
+const formEndpoint = 'mail.php';
+
+form.onsubmit = (e) => {
+    e.preventDefault();
+
+    if(phoneInput.value.match(/^\+38 \(\d{3}\) [0-9]{3} [0-9]{2} [0-9]{2}/)){
+        // send form
+        
+        let formData = new FormData();
+        formData.append('name', nameInput.value);
+        formData.append('telephone', phoneInput.value);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', formEndpoint);
+        xhr.send(formData);
+        xhr.onload = () =>{
+            if(xhr.status === 200){
+                console.log('Success!');
+                nameInput.value = '';
+                phoneInput.value = '';
+                // show modal window with confirmation
+            }
+            else{
+                console.error(xhr.status); 
+                // show popup or error inside form
+            }
+        };
+    }
+    else{
+        phoneInput.style.border = '1px solid red';
+        alert('Fill your phone in format +38 (000) 000 00 00');
+    }
+    
 }

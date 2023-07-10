@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width; initial-scale=1" />
 	<link rel="stylesheet" href="css/all.css" type="text/css" />
 	<link rel="stylesheet" href="css/fonts.css" type="text/css" />
-	<script type="text/javascript" src="js/main.js"></script>
 	<title>Aethetics</title>
 </head>
 
@@ -66,7 +65,6 @@
 							<img src="./images/image-contacts-hero.png" alt="cosmetics tea leaf table">
 						</div>
 						<div class="wrapper">
-							<form action="#" method="post">
 								<div class="calling hide">
 									<h2>Дякуємо!</h2>
 									<h3>Ми вже телефонуємо вам</h3>
@@ -82,16 +80,15 @@
 										<p>+38 (095) 678 99 00</p>
 									</div>
 								</div>
-								<div class="bottom-group">
+								<form class="bottom-group">
 									<div class="column">
-										<input type="text" name="name" id="name" placeholder="Ваше ім’я">
-										<input type="tel" name="telephone" id="telephone" placeholder="Номер телефону">
+										<input type="text" required minlength="3" name="name" id="name" placeholder="Ваше ім’я">
+										<input type="tel" required name="telephone" id="telephone" placeholder="Номер телефону">
 									</div>
 									<div class="column button-wrapper">
 										<button type="submit" class="btn"><span>Передзвоніть</span></button>
 									</div>
-								</div>
-							</form>
+								</form>
 						</div>
 					</div>
 				</section>
@@ -165,6 +162,7 @@
 
 			</div>
 		</footer>
+		<script type="text/javascript" src="js/main.js"></script>
 	</div>
 </body>
 

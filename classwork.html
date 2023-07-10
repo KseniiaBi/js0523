@@ -11,48 +11,59 @@
 			padding: 0;
 		}
 
-		body{
-			text-align: center;
+		.carousel{
+			overflow: hidden;
 		}
-		#app {
+		.carousel_wrap{
 			display: flex;
 			align-items: flex-start;
-			flex-flow: row wrap;
-			width: 300px;
-			margin: 100px auto;
-		}
-
-		.square{
-			border: 1px solid black;
-			height: 100px;
-			width: 100px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-size: 55px;
 			position: relative;
 		}
 
-		.line:after{
-			content: '';
-			display: block;
-			position: absolute;
-			width: 100%;
-			height: 2px;
-			background-color: darkred;
-			z-index: 4;
+		.carousel_item{
+			flex: 0 0 auto;
+			width: 200px;
+			height: 100px;
+			margin-right: 20px;
+			background-color: lightblue;
+			color: #ffffff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 40px;
 		}
-		
+
+		.arr_prev, .arr_next{
+			position: absolute;
+			top: 40px;
+			font-size: 40px;
+			color: #ffffff;
+			left: 0;
+			cursor: pointer;
+		}
+		.arr_next{
+			left: auto;
+			right: 0;
+		}
 
 	</style>
 </head>
 <body>
-	<h1>Tic Tac Toe</h1>
-	<div class="info">Current Player is: <span>X</span></div>
-	<div id="app">
+	
+	
+	<div class="carousel">
+		<div class="carousel_wrap">
+			<div class="carousel_item">1</div>
+			<div class="carousel_item">2</div>
+			<div class="carousel_item">3</div>
+			<div class="carousel_item">4</div>
+			<div class="carousel_item">5</div>
+			<div class="carousel_item">6</div>
+		</div>
 		
+		<div class="arr_prev">&lt;</div>
+		<div class="arr_next">&gt;</div>
 	</div>
-
 
 	<script
   src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -60,69 +71,26 @@
   crossorigin="anonymous"></script>
 <script>
 
-	const app = $('#app');
-	const info = $('.info');
-	const player = $('.info span');
-	let activeX = true;
-	let gameOver = false;
-	let squares = ['', '', '', '', '', '', '', '', ''];
+// let items = $('.carousel_item');
+// items.click((e)=>console.log($(e.target).text()));
 
-	function createGameField() {
-		squares.forEach((square, index) => {
-			app.append(`<div data-id="${index}" class="square">${square}</div>`);
-			// square.click(()=>setSquare(index)); // onclick handler
-		});
-	}
+$('.arr_prev').click(() => {
+	$('.carousel_wrap').css({'left': `-${$('.carousel_item').first().outerWidth(true)}px`});
+	$('.carousel_item').first().before($('.carousel_item').last());
+	$('.carousel_wrap').animate({
+		left: 0
+	}, 600);
+});
 
-	createGameField();
 
-	$(document).on('click', (e) => {
-		if($(e.target).hasClass('square')){
-			if(!gameOver){
-				setSquare(e.target);
-			}
-		}
-		if($(e.target).hasClass('reset')){
-			resetGame();
-		}
-	}); // addEventListener alias
-
-	function setSquare(el){
-		let id = +($(el).attr('data-id'));
-		if(squares[id] === ''){
-			let current = activeX ? 'X' : '0';
-			$(el).text(current);
-			player.text(current);
-			squares[id] = current;
-			checkGameOver();
-			activeX = !activeX;
-		}
-	}
-
-	function checkGameOver(){
-		if(squares[0] === squares[1] && squares[1] === squares[2] && squares[0] !== '' ||
-		squares[3] === squares[4] && squares[4] === squares[5] && squares[3] !== '' || 
-		squares[6] === squares[7] && squares[7] === squares[8] && squares[6] !== '' ||
-		squares[0] === squares[3] && squares[3] === squares[6] && squares[0] !== '' ||
-		squares[1] === squares[4] && squares[4] === squares[7] && squares[1] !== '' ||
-		squares[2] === squares[5] && squares[5] === squares[8] && squares[8] !== '' ||
-		squares[0] === squares[4] && squares[4] === squares[8] && squares[8] !== '' ||
-		squares[2] === squares[4] && squares[4] === squares[6] && squares[6] !== ''){
-			info.html(`${activeX ? 'X' : '0'} won!`);
-			info.after('<button class="reset">Retry</button>');
-			gameOver = true;
-		}
-	}
-
-	function resetGame(){
-		squares.fill('');
-		info.html('Current Player is: <span>X</span>');
-		activeX = true;
-		gameOver = false;
-		$('.reset').remove();
-		app.html('');
-		createGameField();
-	}
+$('.arr_next').click(() => {
+	$('.carousel_wrap').animate({
+		left: `-${$('.carousel_item').first().outerWidth(true)}px`
+	}, 600, () => {
+		$('.carousel_item').last().after($('.carousel_item').first());
+		$('.carousel_wrap').css({'left': 0});
+	});
+});
 
 
 </script>

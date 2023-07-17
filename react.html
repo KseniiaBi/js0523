@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+		
+      function MyApp() {
+		return(
+		<>
+			<h1>To Do APP</h1>
+			<Todoapp />
+			</>
+		)
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<MyApp />);
+
+	  class Todoapp extends React.Component {
+		state = {
+				todos: []
+			}
+
+		saveTask(e){
+			e.preventDefault();
+			let inp = document.querySelector('.todoinp');
+			let todos = this.state.todos.slice();
+			const newtask = inp.value;
+			this.setState({
+				todos: [...todos, newtask]
+			});
+		}
+
+		render(){
+			return(
+				<>
+				<form onSubmit={(e)=>this.saveTask(e)}>
+					<input className="todoinp" type="text" placeholder="Type yor task" />
+					<input type="submit" value="Save" />
+				</form>
+
+				{
+					this.state.todos.length === 0 ? <h3>Any tasks yet</h3>
+												:
+													<ol>
+														{
+															this.state.todos.map((todo, index) => <li key={index}>{todo}</li>)
+														}
+													</ol>
+												
+				}
+				
+				</>
+			)
+		}
+	  }
+	
+	  
+    </script>
+  </body>
+</html>

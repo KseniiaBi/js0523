@@ -1,0 +1,131 @@
+header {
+  @include box;
+  margin-top: 11px;
+  @media (max-width: 767px) {
+    margin-top: 0;
+  }
+  .layout {
+    .wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .logo {
+        width: 246px;
+        max-height: 144px;
+        @media (max-width: 1074px) {
+          width: 19%;
+        }
+        @media (max-width: 767px) {
+          width: 150px;
+        }
+        a {
+          display: block;
+        }
+        h1 {
+          text-indent: -1111px;
+          position: absolute;
+          display: none;
+        }
+      }
+      nav {
+        padding: 1px 18px;
+        border-bottom: solid 1px var(--accent);
+        margin: 0 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        @media (max-width: 1140px) {
+          padding: 1px 10px;
+        }
+        @media (max-width: 767px) {
+          display: none;
+        }
+        ul {
+          display: flex;
+          gap: 25px;
+          @media (max-width: 1140px) {
+            gap: max(14px, 1.9vw);
+          }
+          li {
+            a {
+              display: block;
+              cursor: pointer;
+              font-family: "Candara";
+              font-size: 26px;
+              line-height: 110%;
+              font-weight: 200;
+              color: var(--text);
+              @media (max-width: 1140px) {
+                font-size: clamp(19px, 2.05vw, 26px);
+              }
+              &:hover {
+                color: var(--accent);
+                transform: translate(0, -2px);
+              }
+            }
+          }
+        }
+      }
+      .interface {
+        width: 150px;
+        @media (max-width: 767px) {
+          margin-top: 0;
+        }
+        ul {
+          display: flex;
+          justify-content: space-between;
+          @media (max-width: 767px) {
+            gap: 21px;
+            justify-content: flex-end;
+          }
+          li a {
+            display: block;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            @media (max-width: 767px) {
+              width: 24px;
+              height: 24px;
+            }
+          }
+          li.burger {
+            display: none;
+            @media (max-width: 767px) {
+              display: block;
+            }
+            a {
+              background-image: url(../images/icon-burger.png);
+            }
+          }
+          li.to-cabinet a {
+            background-image: url(../images/icon-cabinet-default.png);
+            &:hover {
+              background-image: url(../images/icon-cabinet-hover.png);
+            }
+          }
+          li.favourite {
+            @media (max-width: 767px) {
+              display: none;
+            }
+            a {
+              background-image: url(../images/icon-fav-default.png);
+              &:hover {
+                background-image: url(../images/icon-fav-hover.png);
+              }
+            }
+          }
+          li.basket a {
+            background-image: url(../images/icon-basket-default.png);
+            &:hover {
+              background-image: url(../images/icon-basket-hover.png);
+            }
+          }
+        }
+      }
+    }
+  }
+}

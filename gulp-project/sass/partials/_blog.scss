@@ -1,0 +1,90 @@
+.blog {
+  margin-bottom: 68px;
+  @media (max-width: 1140px) {
+    margin-bottom: 5px;
+  }
+  .layout {
+    .top-controls {
+      .go-back {
+        margin: 18px 0 -9px;
+      }
+    }
+    article {
+      max-width: 1074px;
+      h2 {
+        margin-left: 66px;
+        margin-bottom: 35px;
+        font-family: "Candara";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 120%;
+        @media (max-width: 1140px) {
+          font-size: clamp(24px, 3.5vw, 38px);
+          margin-bottom: 20px;
+          margin-left: 33px;
+        }
+        @media (max-width: 767px) {
+          font-size: clamp(18px, 3.3vw, 24px);
+          margin-bottom: 10px;
+          margin-left: 0;
+          font-weight: 400;
+        }
+      }
+      p {
+        line-height: 120%;
+        margin-bottom: 75px;
+        @media (max-width: 1140px) {
+          font-size: clamp(15px, 2vw, 20px);
+          margin-bottom: clamp(15px, 2vw, 20px);
+        }
+        @media (max-width: 767px) {
+          font-size: clamp(14px, 2.9vw, 18px);
+          margin-bottom: clamp(15px, 2vw, 20px);
+        }
+      }
+      .text-with-image {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        @media (max-width: 767px) {
+          flex-direction: column-reverse;
+          gap: 10px;
+        }
+        &.left {
+          flex-direction: row-reverse;
+          @media (max-width: 767px) {
+            flex-direction: column;
+          }
+        }
+        .text {
+          width: 51.4%;
+          margin: 48px 0 0;
+          @media (max-width: 1140px) {
+            margin: 24px 0 0;
+          }
+          @media (max-width: 767px) {
+            width: 100%;
+            margin: 0;
+          }
+          p {
+            margin-bottom: 24px;
+            @media (max-width: 1140px) {
+              margin-bottom: clamp(15px, 2vw, 20px);
+            }
+            @media (max-width: 767px) {
+              margin-bottom: clamp(15px, 2vw, 20px);
+            }
+          }
+        }
+        .image-holder {
+          width: 46.6%;
+          @media (max-width: 767px) {
+            width: auto;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}

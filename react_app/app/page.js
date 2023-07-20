@@ -1,18 +1,30 @@
-import Image from 'next/image'
+import Link from 'next/link'
 import styles from './page.module.css'
-import {Button} from './components/button.js'
-import {greet, showArray} from './components/helper.js'
-
-const data = [1,2,3,4,5];
+import Counter from './counter';
+import CountersSection  from './sectionWithCounters';
+import CoolCounter from './coolCounter';
 const message = 'Hello! This is homepage';
 
 export default function Home() {
   return (
     <>
+      <header>
+        <div className='logo'>LOGO</div>
+        <nav>
+          <Link href="/shop">Shop</Link>
+          <Link href="/dashboard">Account</Link>
+        </nav>
+      </header>
       <h1>{message}</h1>
       <p>This is React App</p>
-      <Button click={greet} text="Click me" />
-      <Button click={showArray} text={data.join('/')} />
+    <section>
+      <h2>Section with Counters</h2>
+      <Counter />
+      <Counter />
+    </section>
+      <CountersSection />
+      <hr />
+      <CoolCounter />
     </>
   )
 }

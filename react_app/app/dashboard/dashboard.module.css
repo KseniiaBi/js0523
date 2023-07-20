@@ -1,0 +1,9 @@
+.aside{
+    display: inline-flex;
+    width: 300px;
+}
+
+.dashboard_content {
+    display: inline-flex;
+    width: calc(100vw - 300px);
+}

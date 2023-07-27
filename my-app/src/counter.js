@@ -9,8 +9,9 @@ export default function Counter(){
     return(
         <div className="counter">
             <button onClick={()=>dispatch(decrement())}>-</button>
-            <input type="number" onChange={()=>dispatch(incrementByAmount())} value={count} />
+            <span>{count}</span>
             <button onClick={()=>dispatch(increment())}>+</button>
+            <button onClick={()=>dispatch(incrementByAmount(2))}>Add 2</button>
         </div>
     )
 }
